@@ -120,7 +120,7 @@ namespace TimeSlow
 
         }
 
-        void Events_TimeChanged(Int32 time)
+        void Events_TimeChanged(Int32 time)      
         {
             if (!FreezeTimeInstalled) 
             {
@@ -131,20 +131,20 @@ namespace TimeSlow
             else
             {
                 StardewValley.GameLocation location = StardewValley.Game1.currentLocation;
-                if (!location.isOutdoors && (!((location is StardewValley.Locations.MineShaft) || (location is StardewValley.Locations.FarmCave)) || FreezeTimeInMines))
+                if ((location != null) && (location.isOutdoors || (((location is StardewValley.Locations.MineShaft) || (location is StardewValley.Locations.FarmCave)) && FreezeTimeInMines)))
                 {
                     //Console.WriteLine("FreezeInside sees that you are inside");
                     //Command.CallCommand("world_freezetime 1");
-                }
-                else
-                {
-                    //Console.WriteLine("FreezeInside sees that you are outside");
                     Command.CallCommand("world_freezetime 1");
-                    Thread.Sleep(DayLength * 1000);
+                    //Thread.Sleep(DayLength * 1000);
                     Command.CallCommand("world_freezetime 0");
                 }
             }
-            
+
         }
+            
+            
+        
+
     }
 }
