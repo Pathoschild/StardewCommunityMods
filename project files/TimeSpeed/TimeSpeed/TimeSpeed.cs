@@ -22,7 +22,7 @@ namespace TimeSpeed
     {
         public override string Name
         {
-            get { return "Time Slow Mod"; }
+            get { return "TimeSpeed Mod"; }
         }
 
         public override string Authour
@@ -32,7 +32,7 @@ namespace TimeSpeed
 
         public override string Version
         {
-            get { return "1.1"; }
+            get { return "1.2"; }
         }
 
         public override string Description
@@ -77,8 +77,8 @@ namespace TimeSpeed
             catch
             {
                 DayLength = 7;
-                Console.WriteLine("WARNING:  Could not find INI, defaulting DayLength to 7.  Writing new INI in %appdata%\\StardewValley\\Mods");
-                System.IO.File.AppendAllLines(FilePathAppData, new[] { "DayLength=7" });
+                Console.WriteLine("WARNING:  Could not find INI, defaulting TenMinuteTickLength to 7.  Writing new INI in %appdata%\\StardewValley\\Mods");
+                System.IO.File.AppendAllLines(FilePathAppData, new[] { "TenMinuteTickLength=7" });
             }
 
             
@@ -86,7 +86,7 @@ namespace TimeSpeed
             if (DayLength < 0)
             {
                 DayLength = 7;
-                Console.WriteLine("WARNING:  DayLength set shorter than 0 seconds.  TimeSpeed cannot travel back in time, unfortunately, defaulting DayLength to 7");
+                Console.WriteLine("WARNING:  DayLength set shorter than 0 seconds.  TimeSpeed cannot travel back in time, unfortunately, defaulting TenMinuteTickLength to 7");
             }
 
 
