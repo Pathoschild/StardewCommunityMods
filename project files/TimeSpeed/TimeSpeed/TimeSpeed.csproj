@@ -7,8 +7,8 @@
     <ProjectGuid>{49914CEC-FF9E-4D6F-9E8F-D40466B5D9C7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TimeSlow</RootNamespace>
-    <AssemblyName>TimeSlow</AssemblyName>
+    <RootNamespace>TimeSpeed</RootNamespace>
+    <AssemblyName>TimeSpeed</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -50,11 +50,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TimeSlow.cs" />
+    <Compile Include="TimeSpeed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="TimeSlowConfig.ini" />
+    <None Include="TimeSpeedConfig.ini" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
