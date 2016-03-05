@@ -45,9 +45,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TrainerMod">
-      <HintPath>..\..\..\..\..\..\..\..\..\Users\David\AppData\Roaming\StardewValley\Mods\TrainerMod.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TimeSpeed.cs" />

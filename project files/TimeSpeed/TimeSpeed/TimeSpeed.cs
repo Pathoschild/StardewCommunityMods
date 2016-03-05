@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
+using StardewModdingAPI.Events;
 using System.Threading;
 //using System.Configuration;
 //using System.Web.Script.Serialization;
@@ -32,7 +33,7 @@ namespace TimeSpeed
 
         public override string Version
         {
-            get { return "1.2"; }
+            get { return "1.3"; }
         }
 
         public override string Description
@@ -40,13 +41,13 @@ namespace TimeSpeed
             get { return "Allows for a configurable day length."; }
         }
 
-        public int DayLength;
+        public int TenMinuteTickLength;
 
-        public override void Entry()
+        public override void Entry(params object[] objects)
         {
             runConfig();
             Console.WriteLine("TimeSpeed Mod Has Loaded");
-            Events.TimeOfDayChanged += Events_TimeChanged;
+            TimeEvents.TimeOfDayChanged += Events_TimeChanged;
 
         }
 
@@ -71,30 +72,30 @@ namespace TimeSpeed
                 char[] delimiterChars = { '=' };
                 Console.WriteLine(line);
                 string[] words = line.Split(delimiterChars);
-                int.TryParse(words[1], out DayLength);
+                int.TryParse(words[1], out TenMinuteTickLength);
                 
             }
             catch
             {
-                DayLength = 7;
+                TenMinuteTickLength = 7;
                 Console.WriteLine("WARNING:  Could not find INI, defaulting TenMinuteTickLength to 7.  Writing new INI in %appdata%\\StardewValley\\Mods");
                 System.IO.File.AppendAllLines(FilePathAppData, new[] { "TenMinuteTickLength=7" });
             }
 
             
 
-            if (DayLength < 0)
+            if (TenMinuteTickLength < 0)
             {
-                DayLength = 7;
-                Console.WriteLine("WARNING:  DayLength set shorter than 0 seconds.  TimeSpeed cannot travel back in time, unfortunately, defaulting TenMinuteTickLength to 7");
+                TenMinuteTickLength = 7;
+                Console.WriteLine("WARNING:  TenMinuteTickLength set shorter than 0 seconds.  TimeSpeed cannot travel back in time, unfortunately, defaulting TenMinuteTickLength to 7");
             }
 
 
         }
 
-        void Events_TimeChanged(Int32 time)      
+        void Events_TimeChanged(object sender, EventArgs e)     
         {
-            StardewValley.Game1.gameTimeInterval = (7 - DayLength) * 1000;
+            StardewValley.Game1.gameTimeInterval = (7 - TenMinuteTickLength) * 1000;
         }
             
             
