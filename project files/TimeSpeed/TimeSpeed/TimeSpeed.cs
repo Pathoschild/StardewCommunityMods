@@ -33,7 +33,7 @@ namespace TimeSpeed
 
         public override string Version
         {
-            get { return "1.3"; }
+            get { return "1.4"; }
         }
 
         public override string Description
@@ -42,6 +42,7 @@ namespace TimeSpeed
         }
 
         public int TenMinuteTickLength;
+        public bool ChangeTimeSpeedOnFestivalDays;
 
         public override void Entry(params object[] objects)
         {
@@ -55,8 +56,44 @@ namespace TimeSpeed
         {
             string FilePathAppData = Environment.ExpandEnvironmentVariables("%AppData%\\StardewValley\\Mods\\TimeSpeedConfig.ini");
             string FilePathSVMods = "Mods\\TimeSpeedConfig.ini";
+            string path = "";
+            char[] delimiterChars = { '=' };
+            if (System.IO.File.Exists(FilePathAppData))
+            {
+                Console.WriteLine("found INI in %appdata%");
+                path = FilePathAppData;
+            }
+            else if (System.IO.File.Exists(FilePathSVMods))
+            {
+                Console.WriteLine("found INI in Stardew Valley-Mods");
+                path = FilePathAppData;
+            }
+            else
+            {
+                TenMinuteTickLength = 14;
+                ChangeTimeSpeedOnFestivalDays = false;
+                Console.WriteLine("WARNING:  Could not find INI, defaulting TenMinuteTickLength to 14 and ChangeTimeSpeedOnFestivalDays to false.  Writing new INI in %appdata%\\StardewValley\\Mods");
+                System.IO.File.AppendAllLines(FilePathAppData, new[] { "TenMinuteTickLength=14", "ChangeTimeSpeedOnFestivalDays=false" });
+            }
+
+            if (path != "")
+            {
+                var fileData = System.IO.File.ReadAllLines(path);
+                if (fileData.Length > 1)
+                {                  
+                    Console.WriteLine(fileData[0]);
+                    string[] words = fileData[0].Split(delimiterChars);
+                    int.TryParse(words[1], out TenMinuteTickLength);
+
+                    Console.WriteLine(fileData[1]);
+                    words = fileData[1].Split(delimiterChars);
+                    bool.TryParse(words[1], out ChangeTimeSpeedOnFestivalDays);
+                }
+            }
+            /*
             try
             {
+
                 System.IO.StreamReader reader;
                 try
                 {
@@ -73,14 +110,15 @@ namespace TimeSpeed
                 Console.WriteLine(line);
                 string[] words = line.Split(delimiterChars);
                 int.TryParse(words[1], out TenMinuteTickLength);
+
+                string line2 = reader.ReadLine();
+                Console.WriteLine(line);
+                string[] words2 = line.Split(delimiterChars);
+                bool.TryParse(words2[1], out ChangeTimeSpeedOnFestivalDays);
                 
             }
-            catch
-            {
-                TenMinuteTickLength = 7;
-                Console.WriteLine("WARNING:  Could not find INI, defaulting TenMinuteTickLength to 7.  Writing new INI in %appdata%\\StardewValley\\Mods");
-                System.IO.File.AppendAllLines(FilePathAppData, new[] { "TenMinuteTickLength=7" });
-            }
+            */
+
 
             
 
@@ -95,7 +133,12 @@ namespace TimeSpeed
 
         void Events_TimeChanged(object sender, EventArgs e)     
         {
-            StardewValley.Game1.gameTimeInterval = (7 - TenMinuteTickLength) * 1000;
+            if ((!StardewValley.Utility.isFestivalDay(StardewValley.Game1.dayOfMonth, StardewValley.Game1.currentSeason)) || ChangeTimeSpeedOnFestivalDays)
+            {
+                StardewValley.Game1.gameTimeInterval = (7 - TenMinuteTickLength) * 1000;
+                Console.WriteLine("fired!");
+            }
+            
         }
             
             
