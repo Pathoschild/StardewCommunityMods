@@ -41,8 +41,8 @@ namespace TimeSpeed
             get { return "Allows for a configurable day length."; }
         }
 
-        public int TenMinuteTickLength;
-        public bool ChangeTimeSpeedOnFestivalDays;
+        public int TenMinuteTickLength = 14;
+        public bool ChangeTimeSpeedOnFestivalDays = false;
 
         public override void Entry(params object[] objects)
         {
@@ -70,8 +70,8 @@ namespace TimeSpeed
             }
             else
             {
-                TenMinuteTickLength = 14;
-                ChangeTimeSpeedOnFestivalDays = false;
+                //TenMinuteTickLength = 14;
+                //ChangeTimeSpeedOnFestivalDays = false;
                 Console.WriteLine("WARNING:  Could not find INI, defaulting TenMinuteTickLength to 14 and ChangeTimeSpeedOnFestivalDays to false.  Writing new INI in %appdata%\\StardewValley\\Mods");
                 System.IO.File.AppendAllLines(FilePathAppData, new[] { "TenMinuteTickLength=14", "ChangeTimeSpeedOnFestivalDays=false" });
             }
@@ -88,6 +88,13 @@ namespace TimeSpeed
                     Console.WriteLine(fileData[1]);
                     words = fileData[1].Split(delimiterChars);
                     bool.TryParse(words[1], out ChangeTimeSpeedOnFestivalDays);
+                }
+                else if (fileData.Length > 0) 
+                {
+                    Console.WriteLine(fileData[0]);
+                    string[] words = fileData[0].Split(delimiterChars);
+                    int.TryParse(words[1], out TenMinuteTickLength);
+                    System.IO.File.AppendAllLines(FilePathAppData, new[] { "ChangeTimeSpeedOnFestivalDays=false" });
                 }
             }
             /*
@@ -122,7 +129,7 @@ namespace TimeSpeed
 
             
 
-            if (TenMinuteTickLength < 0)
+            if (TenMinuteTickLength <= 0)
             {
                 TenMinuteTickLength = 7;
                 Console.WriteLine("WARNING:  TenMinuteTickLength set shorter than 0 seconds.  TimeSpeed cannot travel back in time, unfortunately, defaulting TenMinuteTickLength to 7");
