@@ -6,6 +6,9 @@ Place dll in %appdata%\Stardew Valley\Mods.  REQUIRES BOTH SMAPI AND TrainerMod.
 
 By cantorsdust with technical help from Zoryn.
 
+v1.4.2
+Fixed bug if user upgraded dll from 1.2 without upgrading INI
+
 v1.4.1
 Fixed incorrect file path breaking function if INI is in Stardew Valley\Mods rather than %appdata%.
 
