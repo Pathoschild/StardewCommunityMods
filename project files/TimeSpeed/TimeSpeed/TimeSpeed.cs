@@ -66,7 +66,7 @@ namespace TimeSpeed
             else if (System.IO.File.Exists(FilePathSVMods))
             {
                 Console.WriteLine("found INI in Stardew Valley-Mods");
-                path = FilePathAppData;
+                path = FilePathSVMods;
             }
             else
             {
