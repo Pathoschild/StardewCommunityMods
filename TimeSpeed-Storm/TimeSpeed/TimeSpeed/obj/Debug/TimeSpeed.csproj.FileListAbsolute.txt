@@ -45,3 +45,4 @@ C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-Storm\Tim
 C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-Storm\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.csprojResolveAssemblyReference.cache
 C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-Storm\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.dll
 C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-Storm\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.pdb
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-Storm\TimeSpeed\TimeSpeed\bin\Debug\Newtonsoft.Json.xml
