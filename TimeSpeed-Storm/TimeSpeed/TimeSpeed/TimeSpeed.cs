@@ -30,7 +30,7 @@ using Storm.StardewValley.Wrapper;
 
 namespace TimeSpeed
 {
-    [Mod(Author = "cantorsdust", Name = "TimeSpeed", Version = 1.5)]
+    [Mod]
     public class TimeSpeed : DiskResource
     {
         public Config ModConfig { get; private set; }
@@ -39,7 +39,7 @@ namespace TimeSpeed
         [Subscribe]
         public void InitializeCallback(InitializeEvent @event)
         {
-            var configLocation = Path.Combine(ParentPathOnDisk, "Config.json");
+            var configLocation = Path.Combine(PathOnDisk, "Config.json");
             if (!File.Exists(configLocation))
             {
                 Console.WriteLine("The config file for TimeSpeed was not found, attempting creation...");
@@ -61,7 +61,7 @@ namespace TimeSpeed
         }
 
         [Subscribe]
-        public void PerformClockUpdateCallback(BeforeClockUpdateEvent @event)
+        public void PerformClockUpdateCallback(Before10MinuteClockUpdateEvent @event)
         {
             Console.WriteLine("Firing PerformClockUpdateCallback");
             notUpdatedThisTick = true;

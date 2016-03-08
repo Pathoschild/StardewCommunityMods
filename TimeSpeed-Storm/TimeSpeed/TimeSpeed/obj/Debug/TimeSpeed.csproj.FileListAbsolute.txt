@@ -46,3 +46,5 @@ C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-Storm\Tim
 C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-Storm\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.dll
 C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-Storm\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.pdb
 C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-Storm\TimeSpeed\TimeSpeed\bin\Debug\Newtonsoft.Json.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-Storm\TimeSpeed\TimeSpeed\bin\Debug\StormLoader.pdb
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-Storm\TimeSpeed\TimeSpeed\bin\Debug\Castle.Core.xml
