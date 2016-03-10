@@ -37,6 +37,7 @@ namespace TimeSpeed
         public bool notUpdatedThisTick = true;
         public int timeCounter = 0;
         public int lastGameTimeInterval = 0;
+        public int counter = 0;
 
         [Subscribe]
         public void InitializeCallback(InitializeEvent @event)
@@ -67,6 +68,8 @@ namespace TimeSpeed
         {
             Console.WriteLine("Firing Pre10MinuteClockUpdateCallback");
             timeCounter = 0;
+            lastGameTimeInterval = 0;
+            counter = 0;
         }
 
         [Subscribe]
@@ -93,8 +96,14 @@ namespace TimeSpeed
                         */
 
                         timeCounter += (@event.Root.GameTimeInterval - lastGameTimeInterval); //time that has passed since last check
-                        @event.Root.GameTimeInterval = (7000 * timeCounter / (1000 * ModConfig.TenMinuteTickLength));
+                        double proportion = (7000 * timeCounter / (1000 * ModConfig.TenMinuteTickLength));
+                        @event.Root.GameTimeInterval = (int)Math.Round(proportion);
                         lastGameTimeInterval = @event.Root.GameTimeInterval;
+                        
+                        if (counter % 10 == 0)
+                        {
+                            Console.WriteLine(@event.Root.GameTimeInterval.ToString());
+                        }
                     }  
                 }                         
             }
