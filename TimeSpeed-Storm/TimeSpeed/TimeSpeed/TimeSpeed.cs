@@ -35,6 +35,8 @@ namespace TimeSpeed
     {
         public Config ModConfig { get; private set; }
         public bool notUpdatedThisTick = true;
+        public int timeCounter = 0;
+        public int lastGameTimeInterval = 0;
 
         [Subscribe]
         public void InitializeCallback(InitializeEvent @event)
@@ -61,10 +63,10 @@ namespace TimeSpeed
         }
 
         [Subscribe]
-        public void PerformClockUpdateCallback(Before10MinuteClockUpdateEvent @event)
+        public void Pre10MinuteClockUpdateCallback(Pre10MinuteClockUpdateEvent @event)
         {
-            Console.WriteLine("Firing PerformClockUpdateCallback");
-            notUpdatedThisTick = true;
+            Console.WriteLine("Firing Pre10MinuteClockUpdateCallback");
+            timeCounter = 0;
         }
 
         [Subscribe]
@@ -78,8 +80,21 @@ namespace TimeSpeed
                     //!@event.Root.IsFestivalDay(@event.Root.DayOfMonth, @event.Root.CurrentSeason)
                     //((!StardewValley.Utility.isFestivalDay(@event.Root.DayOfMonth, @event.Root.CurrentSeason)) || ModConfig.ChangeTimeSpeedOnFestivalDays)
                     {
-                        @event.Root.GameTimeInterval += (7 - ModConfig.TenMinuteTickLength) * 1000;
-                        notUpdatedThisTick = false;
+                        /*
+                            new idea for smooth timer:
+
+                            10 minute tick begins, gameTimeInterval 0.
+                            New update--gameTimeInterval is now some value.
+                            We have a seperate variable, myGameTimeInterval, that we add that value to.
+                            Then we adjust gameTimeInterval to be proportional to the actual 10minuteticklength
+                            so, like, if the length is 14, that's 2x slower, so we halve gameTimeInterval
+                            That should make things like lighting and the clock smooth.
+                            Hope it doesn't break animations or anything that would rely on it not going backwards.
+                        */
+
+                        timeCounter += (@event.Root.GameTimeInterval - lastGameTimeInterval); //time that has passed since last check
+                        @event.Root.GameTimeInterval = (7000 * timeCounter / (1000 * ModConfig.TenMinuteTickLength));
+                        lastGameTimeInterval = @event.Root.GameTimeInterval;
                     }  
                 }                         
             }
