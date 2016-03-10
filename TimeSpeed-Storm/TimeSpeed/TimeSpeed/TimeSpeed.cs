@@ -23,8 +23,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Storm;
 using Storm.ExternalEvent;
 using Storm.StardewValley;
+using Storm.StardewValley.Accessor;
 using Storm.StardewValley.Event;
 using Storm.StardewValley.Wrapper;
 
@@ -33,15 +35,22 @@ namespace TimeSpeed
     [Mod]
     public class TimeSpeed : DiskResource
     {
-        public Config ModConfig { get; private set; }
+        public static ModConfig TimeSpeedConfig { get; private set; }
         public bool notUpdatedThisTick = true;
         public int timeCounter = 0;
         public int lastGameTimeInterval = 0;
-        public int counter = 0;
+        //public int counter = 0;
 
         [Subscribe]
         public void InitializeCallback(InitializeEvent @event)
         {
+            TimeSpeedConfig = new ModConfig();
+            TimeSpeedConfig = (ModConfig)Config.InitializeConfig(PathOnDisk + "\\Config.json", TimeSpeedConfig);
+
+
+            /*
+            Old config code
+
             var configLocation = Path.Combine(PathOnDisk, "Config.json");
             if (!File.Exists(configLocation))
             {
@@ -61,6 +70,7 @@ namespace TimeSpeed
             }
 
             Console.WriteLine("TimeSpeed Initialization Completed");
+            */
         }
 
         [Subscribe]
@@ -69,7 +79,7 @@ namespace TimeSpeed
             Console.WriteLine("Firing Pre10MinuteClockUpdateCallback");
             timeCounter = 0;
             lastGameTimeInterval = 0;
-            counter = 0;
+            //counter = 0;
         }
 
         [Subscribe]
@@ -79,7 +89,7 @@ namespace TimeSpeed
             {
                 if (@event.Root.DayOfMonth != null && @event.Root.CurrentSeason != null)
                 {
-                    if (!@event.Root.IsFestivalDay(@event.Root.DayOfMonth, @event.Root.CurrentSeason) || ModConfig.ChangeTimeSpeedOnFestivalDays)
+                    if (!@event.Root.IsFestivalDay(@event.Root.DayOfMonth, @event.Root.CurrentSeason) || TimeSpeedConfig.ChangeTimeSpeedOnFestivalDays)
                     //!@event.Root.IsFestivalDay(@event.Root.DayOfMonth, @event.Root.CurrentSeason)
                     //((!StardewValley.Utility.isFestivalDay(@event.Root.DayOfMonth, @event.Root.CurrentSeason)) || ModConfig.ChangeTimeSpeedOnFestivalDays)
                     {
@@ -96,23 +106,33 @@ namespace TimeSpeed
                         */
 
                         timeCounter += (@event.Root.GameTimeInterval - lastGameTimeInterval); //time that has passed since last check
-                        double proportion = (7000 * timeCounter / (1000 * ModConfig.TenMinuteTickLength));
+                        double proportion = (7000 * timeCounter / (1000 * TimeSpeedConfig.TenMinuteTickLength));
                         @event.Root.GameTimeInterval = (int)Math.Round(proportion);
                         lastGameTimeInterval = @event.Root.GameTimeInterval;
-                        
+                        /*
                         if (counter % 10 == 0)
                         {
                             Console.WriteLine(@event.Root.GameTimeInterval.ToString());
                         }
+                        */
+                        //counter here for watching what was happening to gameTimeInterval during testing
                     }  
                 }                         
             }
         }
     }
 
-    public class Config
+    public class ModConfig : Config
     {
         public int TenMinuteTickLength { get; set; }
         public bool ChangeTimeSpeedOnFestivalDays { get; set; }
+
+        public override Config GenerateBaseConfig(Config baseConfig)
+        {
+            TenMinuteTickLength = 14;
+            ChangeTimeSpeedOnFestivalDays = false;
+
+            return this;
+        }
     }
 }

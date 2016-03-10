@@ -5,7 +5,7 @@ By cantorsdust with technical help from Zoryn.
 INSTALLATION
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-There is one folder in this .zip containing thee files, TimeSpeed.dll, Config.json, and manifest.json.  This folder may ONLY be placed in %appdata%\StardewValley\Mods.
+There is one folder in this .zip containing three files, TimeSpeed.dll, Config.json, and manifest.json.  This folder may ONLY be placed in %appdata%\StardewValley\Mods.
 
 Thus, the total path for the three files required for this mod to function are:
 %appdata%\StardewValley\Mods\TimeSpeed\TimeSpeed.dll
