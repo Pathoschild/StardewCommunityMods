@@ -37,9 +37,9 @@ namespace TimeSpeed
     {
         public static ModConfig TimeSpeedConfig { get; private set; }
         public bool notUpdatedThisTick = true;
-        public int timeCounter = 0;
-        public int lastGameTimeInterval = 0;
-        //public int counter = 0;
+        public double timeCounter = 0;
+        public double lastGameTimeInterval = 0;
+        //public double counter = 0;
 
         [Subscribe]
         public void InitializeCallback(InitializeEvent @event)
@@ -71,6 +71,9 @@ namespace TimeSpeed
 
             Console.WriteLine("TimeSpeed Initialization Completed");
             */
+            Console.WriteLine("The config file for TimeSpeed has been loaded. \n\tTenMinuteTickLength: {0}, ChangeTimeSpeedOnFestivalDays: {1}",
+                    TimeSpeedConfig.TenMinuteTickLength, TimeSpeedConfig.ChangeTimeSpeedOnFestivalDays);
+            Console.WriteLine("TimeSpeed Initialization Completed");
         }
 
         [Subscribe]
@@ -105,14 +108,18 @@ namespace TimeSpeed
                             Hope it doesn't break animations or anything that would rely on it not going backwards.
                         */
 
-                        timeCounter += (@event.Root.GameTimeInterval - lastGameTimeInterval); //time that has passed since last check
-                        double proportion = (7000 * timeCounter / (1000 * TimeSpeedConfig.TenMinuteTickLength));
-                        @event.Root.GameTimeInterval = (int)Math.Round(proportion);
+                        //timeCounter += Math.Abs((@event.Root.GameTimeInterval - lastGameTimeInterval)); //time that has passed since last check
+                        timeCounter += Math.Abs((@event.Root.GameTimeInterval - lastGameTimeInterval));
+                        double proportion = Math.Abs(7 * timeCounter / (TimeSpeedConfig.TenMinuteTickLength));
+                        @event.Root.GameTimeInterval = Convert.ToInt32(proportion);
                         lastGameTimeInterval = @event.Root.GameTimeInterval;
                         /*
                         if (counter % 10 == 0)
                         {
-                            Console.WriteLine(@event.Root.GameTimeInterval.ToString());
+                            Console.WriteLine("gameTimeInterval: " + @event.Root.GameTimeInterval.ToString());
+                            Console.WriteLine("timeCounter: " + timeCounter.ToString());
+                            Console.WriteLine("proportion: " + proportion.ToString());
+                            Console.WriteLine("lastGameTimeInterval: " + lastGameTimeInterval.ToString());
                         }
                         */
                         //counter here for watching what was happening to gameTimeInterval during testing
@@ -131,8 +138,21 @@ namespace TimeSpeed
         {
             TenMinuteTickLength = 14;
             ChangeTimeSpeedOnFestivalDays = false;
-
+            
             return this;
         }
     }
 }
+
+/*
+7:25 PM <•Zoryn> whoever wanted to be able to read/write configs easily, you can call <YourConfigClass>.WriteConfig() to output it
+7:25 PM <•cantorsdust> yay!
+7:25 PM <•cantorsdust> that will write the current variables to the config?
+7:25 PM <•Zoryn> yes
+7:25 PM <•cantorsdust> sweet, thanks
+7:26 PM <•Zoryn> to reload it back in do <YourConfigInstance> = <YourConfigInstance>.ReloadConfig()
+
+    As<HoeDirtAccessor, HoeDirt>
+*/
+
+//var dirt = feature.As<HoeDirt, HoeDirtAccessor>()
