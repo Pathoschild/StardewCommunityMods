@@ -51,14 +51,13 @@ namespace RecatchLegendaryFish
         [Subscribe]
         public void PostCatchFishCallback(PostFarmerCaughtFishEvent @event)
         {
-            {
-                @event.Farmer.FishCaught.Remove(@event.Index);
-                Console.WriteLine("Removed caught legendary fish");
-            }
+            Console.WriteLine("Firing PostCatchFishCallback");
+            //foreach (var fish in bossFishList)
             foreach (var fish in bossFishList)
             {
                 if (@event.Farmer.FishCaught.Keys.Contains(fish))
                 {
+                    Console.WriteLine("Fish caught include: " + fish.ToString("G"));
                     @event.Farmer.FishCaught.Remove(fish);
                     Console.WriteLine("Removed caught legendary fish");
                 }
@@ -84,6 +83,7 @@ namespace RecatchLegendaryFish
             
         }
         */
+        
 
 
 
