@@ -1,34 +1,24 @@
 ﻿/*
-    Copyright 2016 cantorsdust
+    Copyright 2016 cantorsdust and Syndlig
 
-    Storm is free software: you can redistribute it and/or modify
+    TimeSpeed is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Storm is distributed in the hope that it will be useful,
+    TimeSpeed is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Storm.  If not, see <http://www.gnu.org/licenses/>.
+    along with TimeSpeed.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Storm;
 using Storm.ExternalEvent;
-using Storm.StardewValley;
-using Storm.StardewValley.Accessor;
 using Storm.StardewValley.Event;
-using Storm.StardewValley.Wrapper;
 
 namespace TimeSpeed
 {
@@ -36,10 +26,10 @@ namespace TimeSpeed
     public class TimeSpeed : DiskResource
     {
         public static ModConfig TimeSpeedConfig { get; private set; }
-        public bool notUpdatedThisTick = true;
         public double timeCounter = 0;
         public double lastGameTimeInterval = 0;
-        //public double counter = 0;
+        public int lasttime = 600;
+        public bool firsttick = true;
 
         [Subscribe]
         public void InitializeCallback(InitializeEvent @event)
@@ -47,98 +37,128 @@ namespace TimeSpeed
             TimeSpeedConfig = new ModConfig();
             TimeSpeedConfig = (ModConfig)Config.InitializeConfig(PathOnDisk + "\\Config.json", TimeSpeedConfig);
 
+            Console.WriteLine("The config file for TimeSpeed + FreezeInside has been loaded." +
+                              "\n\tOutdoorTickLength:             {0}" +
+                              "\n\tIndoorTickLength:              {1}" +
+                              "\n\tMineTickLength:                {2}" +
+                              "\n\tChangeTimeSpeedOnFestivalDays: {3}" +
+                              "\n\tFreezeTimeOutdoors:            {4}" +
+                              "\n\tFreezeTimeIndoors:             {5}" +
+                              "\n\tFreezeTimeInMines:             {6}" +
+                              "\n\tLetMachineRunsWhileTimeFrozen: {7}" +
+                              "\n\tFreezeTimeAt1230AM:            {8}",
+                              TimeSpeedConfig.OutdoorTickLength, TimeSpeedConfig.IndoorTickLength, TimeSpeedConfig.MineTickLength, TimeSpeedConfig.ChangeTimeSpeedOnFestivalDays,
+                              TimeSpeedConfig.FreezeTimeOutdoors, TimeSpeedConfig.FreezeTimeIndoors, TimeSpeedConfig.FreezeTimeInMines, TimeSpeedConfig.LetMachinesRunWhileTimeFrozen,
+                              TimeSpeedConfig.FreezeTimeAt1230AM);
+            Console.WriteLine("TimeSpeed + FreezeInside Initialization Completed");
+        }
 
-            /*
-            Old config code
-
-            var configLocation = Path.Combine(PathOnDisk, "Config.json");
-            if (!File.Exists(configLocation))
-            {
-                Console.WriteLine("The config file for TimeSpeed was not found, attempting creation...");
-                ModConfig = new Config();
-                ModConfig.TenMinuteTickLength = 14;
-                ModConfig.ChangeTimeSpeedOnFestivalDays = false;
-                File.WriteAllBytes(configLocation, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ModConfig, Formatting.Indented)));
-                Console.WriteLine("The config file for TimeSpeed has been loaded. \n\tTenMinuteTickLength: {0}, ChangeTimeSpeedOnFestivalDays: {1}",
-                    ModConfig.TenMinuteTickLength, ModConfig.ChangeTimeSpeedOnFestivalDays);
-            }
-            else
-            {
-                ModConfig = JsonConvert.DeserializeObject<Config>(Encoding.UTF8.GetString(File.ReadAllBytes(configLocation)));
-                Console.WriteLine("The config file for TimeSpeed has been loaded.\n\tTenMinuteTickLength: {0}, ChangeTimeSpeedOnFestivalDays: {1}",
-                    ModConfig.TenMinuteTickLength, ModConfig.ChangeTimeSpeedOnFestivalDays);
-            }
-
-            Console.WriteLine("TimeSpeed Initialization Completed");
-            */
-            Console.WriteLine("The config file for TimeSpeed has been loaded. \n\tTenMinuteTickLength: {0}, ChangeTimeSpeedOnFestivalDays: {1}",
-                    TimeSpeedConfig.TenMinuteTickLength, TimeSpeedConfig.ChangeTimeSpeedOnFestivalDays);
-            Console.WriteLine("TimeSpeed Initialization Completed");
+        [Subscribe]
+        public void PostNewDayCallback(PostNewDayEvent @event)
+        {
+            lasttime = 600;
+            @event.Root.GameTimeInterval = 0;
+            timeCounter = 0;
+            lastGameTimeInterval = 0;
         }
 
         [Subscribe]
         public void Pre10MinuteClockUpdateCallback(Pre10MinuteClockUpdateEvent @event)
         {
             Console.WriteLine("Firing Pre10MinuteClockUpdateCallback");
+            var location = @event.Root.CurrentLocation;
             timeCounter = 0;
             lastGameTimeInterval = 0;
-            //counter = 0;
+            int time = @event.Root.TimeOfDay;
+
+            if (location != null)
+            {
+                Console.WriteLine("Location name is: " + location.Name);
+                Console.WriteLine("Location is outdoors is: " + location.IsOutdoors.ToString());
+            }
+            Console.WriteLine("time is " + time.ToString("G"));
+            /*  REQUIREMENTS FOR FREEZING TIME
+                IF (location is not null), AND,
+                IF the difference between time and lasttime is not more than 10 minutes, 
+                AND one of the following is true:
+                    IF location is outdoors and FreezeTimeOutdoors == true, OR
+                    IF location is not outdoors, not named "UndergroundMine", and FreezeTimeIndoors == true, OR
+                    IF location is not outdoors, named "UndergroundMine", and FreezeTimeInMines == true, OR
+                    IF the time is 12:30 AM and FreezeTimeAt1230AM == true
+            */
+            if (location != null &&
+                (Math.Abs(time - lasttime) <= 10) &&
+                ((location.IsOutdoors && TimeSpeedConfig.FreezeTimeOutdoors) ||
+                (!location.IsOutdoors && !location.Name.Equals("UndergroundMine") && TimeSpeedConfig.FreezeTimeIndoors) ||
+                (!location.IsOutdoors && location.Name.Equals("UndergroundMine") && TimeSpeedConfig.FreezeTimeInMines) ||
+                (time >= 2430 && TimeSpeedConfig.FreezeTimeAt1230AM)))
+            {
+                firsttick = false;
+                Console.WriteLine("location requirements met, resetting time");
+                if (TimeSpeedConfig.LetMachinesRunWhileTimeFrozen)
+                {
+                    @event.Root.TimeOfDay -= (time % 100 == 0) ? 50 : 10;
+                    Console.WriteLine("resetting time to: " + time.ToString("G"));
+                }
+                else
+                {
+                    @event.ReturnEarly = true;
+                    @event.Root.GameTimeInterval = 0;
+                    Console.WriteLine("returning early");
+                }
+            }
+            else
+            {
+                lasttime = time;
+                Console.WriteLine("location requirements not met, time advancing normally");
+            }
         }
 
         [Subscribe]
         public void UpdateGameClockCallback(UpdateGameClockEvent @event)
         {
-            if (notUpdatedThisTick)
+            if (@event.Root.CurrentSeason != null && (!@event.Root.IsFestivalDay(@event.Root.DayOfMonth, @event.Root.CurrentSeason) || TimeSpeedConfig.ChangeTimeSpeedOnFestivalDays))
             {
-                if (@event.Root.DayOfMonth != null && @event.Root.CurrentSeason != null)
-                {
-                    if (!@event.Root.IsFestivalDay(@event.Root.DayOfMonth, @event.Root.CurrentSeason) || TimeSpeedConfig.ChangeTimeSpeedOnFestivalDays)
-                    //!@event.Root.IsFestivalDay(@event.Root.DayOfMonth, @event.Root.CurrentSeason)
-                    //((!StardewValley.Utility.isFestivalDay(@event.Root.DayOfMonth, @event.Root.CurrentSeason)) || ModConfig.ChangeTimeSpeedOnFestivalDays)
-                    {
-                        /*
-                            new idea for smooth timer:
+                timeCounter += Math.Abs((@event.Root.GameTimeInterval - lastGameTimeInterval));
+                double proportion;
 
-                            10 minute tick begins, gameTimeInterval 0.
-                            New update--gameTimeInterval is now some value.
-                            We have a seperate variable, myGameTimeInterval, that we add that value to.
-                            Then we adjust gameTimeInterval to be proportional to the actual 10minuteticklength
-                            so, like, if the length is 14, that's 2x slower, so we halve gameTimeInterval
-                            That should make things like lighting and the clock smooth.
-                            Hope it doesn't break animations or anything that would rely on it not going backwards.
-                        */
+                if (@event.Root.CurrentLocation.IsOutdoors)
+                    proportion = Math.Abs(7 * timeCounter / TimeSpeedConfig.OutdoorTickLength);
+                else if (@event.Root.CurrentLocation.Name == "UndergroundMine")
+                    proportion = Math.Abs(7 * timeCounter / TimeSpeedConfig.MineTickLength);
+                else
+                    proportion = Math.Abs(7 * timeCounter / TimeSpeedConfig.IndoorTickLength);
 
-                        //timeCounter += Math.Abs((@event.Root.GameTimeInterval - lastGameTimeInterval)); //time that has passed since last check
-                        timeCounter += Math.Abs((@event.Root.GameTimeInterval - lastGameTimeInterval));
-                        double proportion = Math.Abs(7 * timeCounter / (TimeSpeedConfig.TenMinuteTickLength));
-                        @event.Root.GameTimeInterval = Convert.ToInt32(proportion);
-                        lastGameTimeInterval = @event.Root.GameTimeInterval;
-                        /*
-                        if (counter % 10 == 0)
-                        {
-                            Console.WriteLine("gameTimeInterval: " + @event.Root.GameTimeInterval.ToString());
-                            Console.WriteLine("timeCounter: " + timeCounter.ToString());
-                            Console.WriteLine("proportion: " + proportion.ToString());
-                            Console.WriteLine("lastGameTimeInterval: " + lastGameTimeInterval.ToString());
-                        }
-                        */
-                        //counter here for watching what was happening to gameTimeInterval during testing
-                    }  
-                }                         
+                @event.Root.GameTimeInterval = Convert.ToInt32(proportion);
+                lastGameTimeInterval = @event.Root.GameTimeInterval;
             }
         }
     }
 
     public class ModConfig : Config
     {
-        public int TenMinuteTickLength { get; set; }
+        public float OutdoorTickLength { get; set; }
+        public float IndoorTickLength { get; set; }
+        public float MineTickLength { get; set; }
         public bool ChangeTimeSpeedOnFestivalDays { get; set; }
+        public bool FreezeTimeOutdoors { get; set; }
+        public bool FreezeTimeIndoors { get; set; }
+        public bool FreezeTimeInMines { get; set; }
+        public bool LetMachinesRunWhileTimeFrozen { get; set; }
+        public bool FreezeTimeAt1230AM { get; set; }
 
         public override Config GenerateBaseConfig(Config baseConfig)
         {
-            TenMinuteTickLength = 14;
+            OutdoorTickLength = 14;
+            IndoorTickLength = 14;
+            MineTickLength = 14;
             ChangeTimeSpeedOnFestivalDays = false;
-            
+            FreezeTimeOutdoors = false;
+            FreezeTimeIndoors = false;
+            FreezeTimeInMines = false;
+            LetMachinesRunWhileTimeFrozen = false;
+            FreezeTimeAt1230AM = false;
+
             return this;
         }
     }
