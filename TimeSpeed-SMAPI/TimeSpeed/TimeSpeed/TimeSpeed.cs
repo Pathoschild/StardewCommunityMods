@@ -32,6 +32,8 @@ using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using System.Threading;
+using System.IO;
+using StardewValley;
 //using System.Configuration;
 //using System.Web.Script.Serialization;
 
@@ -59,115 +61,282 @@ namespace TimeSpeed
             get { return "Allows for a configurable day length."; }
         }
 
-        public int TenMinuteTickLength = 14;
+        public float OutdoorTickLength = 14;
+        public float IndoorTickLength = 14;
+        public float MineTickLength = 14;
         public bool ChangeTimeSpeedOnFestivalDays = false;
+        
+        public bool FreezeTimeOutdoors = false;
+        public bool FreezeTimeIndoors = false;
+        public bool FreezeTimeInMines = false;
+        public bool LetMachinesRunWhileTimeFrozen = false;
+        public bool FreezeTimeAt1230AM = false;
+        
+
+        public double timeCounter = 0;
+        public double lastGameTimeInterval = 0;
+        public int lasttime = 600;
+        //public bool firsttick = true;
 
         public override void Entry(params object[] objects)
         {
             runConfig();
-            Console.WriteLine("TimeSpeed Mod Has Loaded");
+            Console.WriteLine("TimeSpeed Has Loaded");
+            TimeEvents.DayOfMonthChanged += Events_NewDay;
             TimeEvents.TimeOfDayChanged += Events_TimeChanged;
+            GameEvents.UpdateTick += Events_UpdateTick;
+
 
         }
-
+        
         void runConfig()
-        {
-            string FilePathAppData = Environment.ExpandEnvironmentVariables("%AppData%\\StardewValley\\Mods\\TimeSpeedConfig.ini");
-            string FilePathSVMods = "Mods\\TimeSpeedConfig.ini";
-            string path = "";
+        {            
+            string ConfigPathAppData = Environment.ExpandEnvironmentVariables("%AppData%\\StardewValley\\Mods\\TimeSpeedConfig.ini");
+            string ConfigPathSVMods = "Mods\\TimeSpeedConfig.ini";
+            string DLLPathAppData = Environment.ExpandEnvironmentVariables("%AppData%\\StardewValley\\Mods\\TimeSpeed.dll");
+            string DLLPathSVMods = "Mods\\TimeSpeed.dll";
+            string path = null;
             char[] delimiterChars = { '=' };
-            if (System.IO.File.Exists(FilePathAppData))
+            if (File.Exists(ConfigPathAppData))
             {
                 Console.WriteLine("found INI in %appdata%");
-                path = FilePathAppData;
+                path = ConfigPathAppData;
             }
-            else if (System.IO.File.Exists(FilePathSVMods))
+            else if (File.Exists(ConfigPathSVMods))
             {
                 Console.WriteLine("found INI in Stardew Valley-Mods");
-                path = FilePathSVMods;
+                path = ConfigPathSVMods;
             }
             else
             {
-                //TenMinuteTickLength = 14;
-                //ChangeTimeSpeedOnFestivalDays = false;
-                Console.WriteLine("WARNING:  Could not find INI, defaulting TenMinuteTickLength to 14 and ChangeTimeSpeedOnFestivalDays to false.  Writing new INI in %appdata%\\StardewValley\\Mods");
-                System.IO.File.AppendAllLines(FilePathAppData, new[] { "TenMinuteTickLength=14", "ChangeTimeSpeedOnFestivalDays=false" });
-            }
-
-            if (path != "")
-            {
-                var fileData = System.IO.File.ReadAllLines(path);
-                if (fileData.Length > 1)
-                {                  
-                    Console.WriteLine(fileData[0]);
-                    string[] words = fileData[0].Split(delimiterChars);
-                    int.TryParse(words[1], out TenMinuteTickLength);
-
-                    Console.WriteLine(fileData[1]);
-                    words = fileData[1].Split(delimiterChars);
-                    bool.TryParse(words[1], out ChangeTimeSpeedOnFestivalDays);
-                }
-                else if (fileData.Length > 0) 
+                Console.WriteLine("WARNING:  Could not find INI.  Writing new INI with default values next to DLL");
+                if (File.Exists(DLLPathAppData))
                 {
-                    Console.WriteLine(fileData[0]);
-                    string[] words = fileData[0].Split(delimiterChars);
-                    int.TryParse(words[1], out TenMinuteTickLength);
-                    System.IO.File.AppendAllLines(FilePathAppData, new[] { "ChangeTimeSpeedOnFestivalDays=false" });
+                    File.AppendAllLines(ConfigPathAppData, new[] { "OutdoorTickLength=14", "IndoorTickLength=14", "MineTickLength=14", "ChangeTimeSpeedOnFestivalDays=false",
+                    "FreezeTimeOutdoors=false", "FreezeTimeIndoors=false", "FreezeTimeInMines=false", "LetMachinesRunWhileTimeFrozen=false", "FreezeTimeAt1230AM=false" });
+                    
                 }
-            }
-            /*
-            try
-            {
-
-                System.IO.StreamReader reader;
-                try
+                else if (File.Exists(DLLPathSVMods))
                 {
-                    reader = System.IO.File.OpenText(FilePathAppData);
-                    Console.WriteLine("found INI in %appdata%");
+                    File.AppendAllLines(ConfigPathSVMods, new[] { "OutdoorTickLength=14", "IndoorTickLength=14", "MineTickLength=14", "ChangeTimeSpeedOnFestivalDays=false",
+                    "FreezeTimeOutdoors=false", "FreezeTimeIndoors=false", "FreezeTimeInMines=false", "LetMachinesRunWhileTimeFrozen=false", "FreezeTimeAt1230AM=false" });
                 }
-                catch
-                {
-                    reader = System.IO.File.OpenText(FilePathSVMods);
-                    Console.WriteLine("found INI in Stardew Valley-Mods");
-                }
-                string line = reader.ReadLine();
-                char[] delimiterChars = { '=' };
-                Console.WriteLine(line);
-                string[] words = line.Split(delimiterChars);
-                int.TryParse(words[1], out TenMinuteTickLength);
 
-                string line2 = reader.ReadLine();
-                Console.WriteLine(line);
-                string[] words2 = line.Split(delimiterChars);
-                bool.TryParse(words2[1], out ChangeTimeSpeedOnFestivalDays);
-                
             }
-            */
 
-
-            
-
-            if (TenMinuteTickLength <= 0)
+            if (path != null)
             {
-                TenMinuteTickLength = 7;
-                Console.WriteLine("WARNING:  TenMinuteTickLength set shorter than 0 seconds.  TimeSpeed cannot travel back in time, unfortunately, defaulting TenMinuteTickLength to 7");
+                List<string> fileData = File.ReadAllLines(path).ToList();
+                //each fileData[index] is a line
+                //we'll check to see what each line holds and parse that line's data
+                //if we see old values (TenMinuteTickLength), we will replace that line with new ones
+                bool rewriteini = false;
+                //int index = 0;
+                foreach (string line in fileData)
+                {
+                    //Console.WriteLine("Parsing INI line " + index.ToString("g"));
+                    string[] words = line.Split(delimiterChars);
+                    //make sure you've fixed old INIs
+                    if (words[0].Contains("TenMinuteTickLength"))
+                    {
+                        int TenMinuteTickLength = 14;
+                        int.TryParse(words[1], out TenMinuteTickLength);
+                        OutdoorTickLength = TenMinuteTickLength;
+                        IndoorTickLength = TenMinuteTickLength;
+                        MineTickLength = TenMinuteTickLength;
+                        fileData.Remove(line);
+                        fileData.Insert(0, ("MineTickLength=" + TenMinuteTickLength.ToString("g")));
+                        fileData.Insert(0, ("IndoorTickLength=" + TenMinuteTickLength.ToString("g")));
+                        fileData.Insert(0, ("OutdoorTickLength=" + TenMinuteTickLength.ToString("g")));
+                        fileData.Add("ChangeTimeSpeedOnFestivalDays=" + ChangeTimeSpeedOnFestivalDays.ToString());
+                        
+                        fileData.Add("FreezeTimeOutdoors=" + FreezeTimeOutdoors.ToString());
+                        fileData.Add("FreezeTimeIndoors=" + FreezeTimeIndoors.ToString());
+                        fileData.Add("FreezeTimeInMines=" + FreezeTimeInMines.ToString());
+                        fileData.Add("LetMachinesRunWhileTimeFrozen=" + LetMachinesRunWhileTimeFrozen.ToString());
+                        fileData.Add("FreezeTimeAt1230AM=" + FreezeTimeAt1230AM.ToString());
+                        
+                        rewriteini = true;
+                    }
+                    if (words[0].Contains("OutdoorTickLength"))
+                    {
+                        float.TryParse(words[1], out OutdoorTickLength);
+                        if (OutdoorTickLength <= 0)
+                        {
+                            Console.WriteLine("WARNING:  Cannot set OutdoorTickLength to 0 or less.  Resetting to default 14.");
+                            OutdoorTickLength = 14;
+                        }
+                        Console.WriteLine("OutdoorTickLength is " + OutdoorTickLength.ToString("g"));
+                    }
+                    else if (words[0].Contains("IndoorTickLength"))
+                    {
+                        float.TryParse(words[1], out IndoorTickLength);
+                        if (IndoorTickLength <= 0)
+                        {
+                            Console.WriteLine("WARNING:  Cannot set IndoorTickLength to 0 or less.  Resetting to default 14.");
+                            IndoorTickLength = 14;
+                        }
+                        Console.WriteLine("IndoorTickLength is " + IndoorTickLength.ToString("g"));
+                    }
+                    else if (words[0].Contains("MineTickLength"))
+                    {
+                        float.TryParse(words[1], out MineTickLength);
+                        if (MineTickLength <= 0)
+                        {
+                            Console.WriteLine("WARNING:  Cannot set MineTickLength to 0 or less.  Resetting to default 14.");
+                            MineTickLength = 14;
+                        }
+                        Console.WriteLine("MineTickLength is " + MineTickLength.ToString("g"));
+                    }
+                    else if (words[0].Contains("ChangeTimeSpeedOnFestivalDays"))
+                    {
+                        bool.TryParse(words[1], out ChangeTimeSpeedOnFestivalDays);
+                        Console.WriteLine("ChangeTimeSpeedOnFestivalDays is " + ChangeTimeSpeedOnFestivalDays.ToString());
+                    }
+
+                    else if (words[0].Contains("FreezeTimeOutdoors"))
+                    {
+                        bool.TryParse(words[1], out FreezeTimeOutdoors);
+                        Console.WriteLine("FreezeTimeOutdoors is " + FreezeTimeOutdoors.ToString());
+                    }
+                    else if (words[0].Contains("FreezeTimeIndoors"))
+                    {
+                        bool.TryParse(words[1], out FreezeTimeIndoors);
+                        Console.WriteLine("FreezeTimeIndoors is " + FreezeTimeIndoors.ToString());
+                    }
+                    else if (words[0].Contains("FreezeTimeInMines"))
+                    {
+                        bool.TryParse(words[1], out FreezeTimeInMines);
+                        Console.WriteLine("FreezeTimeInMines is " + FreezeTimeInMines.ToString());
+                    }
+                    else if (words[0].Contains("LetMachinesRunWhileTimeFrozen"))
+                    {
+                        bool.TryParse(words[1], out LetMachinesRunWhileTimeFrozen);
+                        Console.WriteLine("LetMachinesRunWhileTimeFrozen is " + LetMachinesRunWhileTimeFrozen.ToString());
+                    }
+                    else if (words[0].Contains("FreezeTimeAt1230AM"))
+                    {
+                        bool.TryParse(words[1], out FreezeTimeAt1230AM);
+                        Console.WriteLine("FreezeTimeAt1230AM is " + FreezeTimeAt1230AM.ToString());
+                    }
+                    
+                }
+                if (rewriteini)
+                {
+                    File.Delete(path);
+                    if (path == ConfigPathAppData)
+                    {
+                        File.AppendAllLines(ConfigPathAppData, fileData);
+                    }
+                    else if (path == ConfigPathSVMods)
+                    {
+                        File.AppendAllLines(ConfigPathSVMods, fileData);
+                    }   
+                }
             }
-
-
         }
 
-        void Events_TimeChanged(object sender, EventArgs e)     
+        public void Events_NewDay(object sender, EventArgs e)
         {
-            if ((!StardewValley.Utility.isFestivalDay(StardewValley.Game1.dayOfMonth, StardewValley.Game1.currentSeason)) || ChangeTimeSpeedOnFestivalDays)
-            {
-                StardewValley.Game1.gameTimeInterval = (7 - TenMinuteTickLength) * 1000;
-                Console.WriteLine("fired!");
-            }
-            
+            Game1.gameTimeInterval = 0;
+            timeCounter = 0;
+            lastGameTimeInterval = 0;
         }
-            
-            
-        
 
+        void Events_UpdateTick(object sender, EventArgs e)
+        {
+            
+            if (Game1.currentSeason != null && 
+                Game1.currentLocation != null &&
+                (!Utility.isFestivalDay(Game1.dayOfMonth, Game1.currentSeason) || ChangeTimeSpeedOnFestivalDays))
+            {
+                GameLocation location = Game1.currentLocation;
+                int time = Game1.timeOfDay;
+                
+                if (!LetMachinesRunWhileTimeFrozen &&
+                (location != null) &&
+                ((location.isOutdoors && FreezeTimeOutdoors) ||
+                (!location.isOutdoors && !location.name.Equals("UndergroundMine") && FreezeTimeIndoors) ||
+                (!location.isOutdoors && location.name.Equals("UndergroundMine") && FreezeTimeInMines) ||
+                (time >= 2430 && FreezeTimeAt1230AM)))
+                {
+                    Game1.gameTimeInterval = 0;
+                    Console.WriteLine("Freeze Time without machines requirements met");
+                }
+                else
+                {
+                    Console.WriteLine("Freeze Time without machines requirements NOT met");
+                    timeCounter += Math.Abs((Game1.gameTimeInterval - lastGameTimeInterval));
+                    double proportion;
+
+                    if (Game1.currentLocation.isOutdoors)
+                    {
+                        proportion = Math.Abs(7 * timeCounter / OutdoorTickLength);
+                    }
+                    else if (Game1.currentLocation.name == "UndergroundMine")
+                    {
+                        proportion = Math.Abs(7 * timeCounter / MineTickLength);
+                    }
+                    else
+                    {
+                        proportion = Math.Abs(7 * timeCounter / IndoorTickLength);
+                    }
+
+
+                    Game1.gameTimeInterval = Convert.ToInt32(proportion);
+                    lastGameTimeInterval = Game1.gameTimeInterval;
+                    /*
+                    Console.WriteLine(Game1.gameTimeInterval.ToString("g"));
+                    Console.WriteLine(lastGameTimeInterval.ToString("g"));
+                    Console.WriteLine(timeCounter.ToString("g"));
+                    Console.WriteLine(proportion.ToString("g"));
+                    */
+                }
+            }            
+        }
+
+        void Events_TimeChanged(object sender, EventArgsIntChanged e)     
+        {
+            Console.WriteLine("Firing Pre10MinuteClockUpdateCallback");
+            var location = Game1.currentLocation;
+            timeCounter = 0;
+            lastGameTimeInterval = 0;
+            Game1.gameTimeInterval = 0;
+            int time = Game1.timeOfDay;
+
+            if (location != null)
+            {
+                Console.WriteLine("Location name is: " + location.name);
+                Console.WriteLine("Location is outdoors is: " + location.isOutdoors.ToString());
+            }
+            Console.WriteLine("time is " + time.ToString("G"));
+            /*  REQUIREMENTS FOR FREEZING TIME
+                IF (location is not null), AND,
+                IF the difference between time and lasttime is not more than 10 minutes, 
+                AND one of the following is true:
+                    IF location is outdoors and FreezeTimeOutdoors == true, OR
+                    IF location is not outdoors, not named "UndergroundMine", and FreezeTimeIndoors == true, OR
+                    IF location is not outdoors, named "UndergroundMine", and FreezeTimeInMines == true, OR
+                    IF the time is 12:30 AM and FreezeTimeAt1230AM == true
+            */
+            if (LetMachinesRunWhileTimeFrozen &&
+                (location != null) &&
+                (Math.Abs(time - lasttime) <= 10) &&
+                ((location.isOutdoors && FreezeTimeOutdoors) ||
+                (!location.isOutdoors && !location.name.Equals("UndergroundMine") && FreezeTimeIndoors) ||
+                (!location.isOutdoors && location.name.Equals("UndergroundMine") && FreezeTimeInMines) ||
+                (time >= 2430 && FreezeTimeAt1230AM)))
+            {
+                Console.WriteLine("location requirements met, resetting time");
+                Game1.timeOfDay -= (time % 100 == 0) ? 50 : 10;
+                Console.WriteLine("resetting time to: " + time.ToString("G"));
+            }
+            else
+            {
+                lasttime = time;
+                Console.WriteLine("location requirements not met, time advancing normally");
+                //Thread.Sleep(5000);
+            }
+        }                                
     }
 }

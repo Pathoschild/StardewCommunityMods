@@ -1,4 +1,4 @@
-Adjusts the game clock speed by a configurable amount.  Speed up or slow down time.  Now includes all FreezeInside functionality--it is recommended not to run the two mods together.
+Adjusts the game clock speed by a configurable amount.  Speed up, slow down, or completely freeze time.  Now includes all FreezeInside functionality--it is recommended not to run the two mods together.
 By cantorsdust and Syndlig with technical help from Zoryn.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ Please note that this game comes with a Config.json file with nine options:
 
 1.  OutdoorTickLength, which defaults to 14.0.  Controls the length of the 10 minute tick outdoors.  Set to your desired ten minute tick length in seconds.  The base day is 7 seconds.  Setting TenMinuteTickLength to 0 seconds or lower will not make time run backwards ;)
 2.  IndoorTickLength, which defaults to 14.0.  Controls the length of the 10 minute tick indoors.  Set to your desired ten minute tick length in seconds.  The base day is 7 seconds.  Setting TenMinuteTickLength to 0 seconds or lower will not make time run backwards ;)
-3.  IndoorTickLength, which defaults to 14.0.  Controls the length of the 10 minute tick while in the mine.  Set to your desired ten minute tick length in seconds.  The base day is 7 seconds.  Setting TenMinuteTickLength to 0 seconds or lower will not make time run backwards ;)
+3.  MineTickLength, which defaults to 14.0.  Controls the length of the 10 minute tick while in the mine.  Set to your desired ten minute tick length in seconds.  The base day is 7 seconds.  Setting TenMinuteTickLength to 0 seconds or lower will not make time run backwards ;)
 4.  ChangeTimeSpeedOnFestivalDays, which defaults to false.  Set to true to enable time changing on festival days.  This option is here because some users have reported problems with festival days if time is changed.
 5.  FreezeTimeOutdoors, which defaults to false.  Set to true to freeze time outdoors.
 6.  FreezeTimeIndoors, which defaults to false.  Set to true to freeze time indoors, except for the mines.
