@@ -261,11 +261,11 @@ namespace TimeSpeed
                 (time >= 2430 && FreezeTimeAt1230AM)))
                 {
                     Game1.gameTimeInterval = 0;
-                    Console.WriteLine("Freeze Time without machines requirements met");
+                    //Console.WriteLine("Freeze Time without machines requirements met");
                 }
                 else
                 {
-                    Console.WriteLine("Freeze Time without machines requirements NOT met");
+                    //Console.WriteLine("Freeze Time without machines requirements NOT met");
                     timeCounter += Math.Abs((Game1.gameTimeInterval - lastGameTimeInterval));
                     double proportion;
 
@@ -297,7 +297,7 @@ namespace TimeSpeed
 
         void Events_TimeChanged(object sender, EventArgsIntChanged e)     
         {
-            Console.WriteLine("Firing Pre10MinuteClockUpdateCallback");
+            //Console.WriteLine("Firing Pre10MinuteClockUpdateCallback");
             var location = Game1.currentLocation;
             timeCounter = 0;
             lastGameTimeInterval = 0;
@@ -306,8 +306,8 @@ namespace TimeSpeed
 
             if (location != null)
             {
-                Console.WriteLine("Location name is: " + location.name);
-                Console.WriteLine("Location is outdoors is: " + location.isOutdoors.ToString());
+                //Console.WriteLine("Location name is: " + location.name);
+                //Console.WriteLine("Location is outdoors is: " + location.isOutdoors.ToString());
             }
             Console.WriteLine("time is " + time.ToString("G"));
             /*  REQUIREMENTS FOR FREEZING TIME
@@ -327,14 +327,14 @@ namespace TimeSpeed
                 (!location.isOutdoors && location.name.Equals("UndergroundMine") && FreezeTimeInMines) ||
                 (time >= 2430 && FreezeTimeAt1230AM)))
             {
-                Console.WriteLine("location requirements met, resetting time");
+                //Console.WriteLine("location requirements met, resetting time");
                 Game1.timeOfDay -= (time % 100 == 0) ? 50 : 10;
-                Console.WriteLine("resetting time to: " + time.ToString("G"));
+                //Console.WriteLine("resetting time to: " + time.ToString("G"));
             }
             else
             {
                 lasttime = time;
-                Console.WriteLine("location requirements not met, time advancing normally");
+                //Console.WriteLine("location requirements not met, time advancing normally");
                 //Thread.Sleep(5000);
             }
         }                                
