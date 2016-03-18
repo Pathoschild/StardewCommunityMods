@@ -30,6 +30,11 @@ namespace TimeSpeed
         public double lastGameTimeInterval = 0;
         public int lasttime = 600;
         public bool firsttick = true;
+        public bool TimeFreezeOverride = false;
+
+        public bool oldFreezeTimeIndoors = false;
+        public bool oldFreezeTimeInMines = false;
+        public bool oldFreezeTimeOutdoors = false;
 
         [Subscribe]
         public void InitializeCallback(InitializeEvent @event)
@@ -87,25 +92,16 @@ namespace TimeSpeed
                     IF the time is 12:30 AM and FreezeTimeAt1230AM == true
             */
             if (location != null &&
+                (TimeSpeedConfig.LetMachinesRunWhileTimeFrozen) &&
                 (Math.Abs(time - lasttime) <= 10) &&
                 ((location.IsOutdoors && TimeSpeedConfig.FreezeTimeOutdoors) ||
                 (!location.IsOutdoors && !location.Name.Equals("UndergroundMine") && TimeSpeedConfig.FreezeTimeIndoors) ||
                 (!location.IsOutdoors && location.Name.Equals("UndergroundMine") && TimeSpeedConfig.FreezeTimeInMines) ||
                 (time >= 2430 && TimeSpeedConfig.FreezeTimeAt1230AM)))
             {
-                firsttick = false;
                 Console.WriteLine("location requirements met, resetting time");
-                if (TimeSpeedConfig.LetMachinesRunWhileTimeFrozen)
-                {
-                    @event.Root.TimeOfDay -= (time % 100 == 0) ? 50 : 10;
-                    Console.WriteLine("resetting time to: " + time.ToString("G"));
-                }
-                else
-                {
-                    @event.ReturnEarly = true;
-                    @event.Root.GameTimeInterval = 0;
-                    Console.WriteLine("returning early");
-                }
+                @event.Root.TimeOfDay -= (time % 100 == 0) ? 50 : 10;
+                Console.WriteLine("resetting time to: " + time.ToString("G"));
             }
             else
             {
@@ -117,7 +113,19 @@ namespace TimeSpeed
         [Subscribe]
         public void UpdateGameClockCallback(UpdateGameClockEvent @event)
         {
-            if (@event.Root.CurrentSeason != null && (!@event.Root.IsFestivalDay(@event.Root.DayOfMonth, @event.Root.CurrentSeason) || TimeSpeedConfig.ChangeTimeSpeedOnFestivalDays))
+            var location = @event.Root.CurrentLocation;
+            int time = @event.Root.TimeOfDay;
+            if (location != null &&
+                (!TimeSpeedConfig.LetMachinesRunWhileTimeFrozen) &&
+                (Math.Abs(time - lasttime) <= 10) &&
+                ((location.IsOutdoors && TimeSpeedConfig.FreezeTimeOutdoors) ||
+                (!location.IsOutdoors && !location.Name.Equals("UndergroundMine") && TimeSpeedConfig.FreezeTimeIndoors) ||
+                (!location.IsOutdoors && location.Name.Equals("UndergroundMine") && TimeSpeedConfig.FreezeTimeInMines) ||
+                (time >= 2430 && TimeSpeedConfig.FreezeTimeAt1230AM)))
+            {
+                @event.Root.GameTimeInterval = 0;
+            }
+            else if (@event.Root.CurrentSeason != null && (!@event.Root.IsFestivalDay(@event.Root.DayOfMonth, @event.Root.CurrentSeason) || TimeSpeedConfig.ChangeTimeSpeedOnFestivalDays))
             {
                 timeCounter += Math.Abs((@event.Root.GameTimeInterval - lastGameTimeInterval));
                 double proportion;
@@ -131,6 +139,54 @@ namespace TimeSpeed
 
                 @event.Root.GameTimeInterval = Convert.ToInt32(proportion);
                 lastGameTimeInterval = @event.Root.GameTimeInterval;
+            }
+        }
+
+        [Subscribe]
+        public void KeyPressedCallback(KeyPressedEvent @event)
+        {
+            var key = @event.Key;
+            Console.WriteLine("Key Pressed: " + key.ToString());
+
+            // N toggles freeze time override, freezing time everywhere.  hitting it again restores old values.
+            if (key.ToString().Equals("N"))
+            {
+                if (!TimeFreezeOverride)
+                {
+                    TimeFreezeOverride = true;
+                    oldFreezeTimeIndoors = TimeSpeedConfig.FreezeTimeIndoors;
+                    oldFreezeTimeInMines = TimeSpeedConfig.FreezeTimeInMines;
+                    oldFreezeTimeOutdoors = TimeSpeedConfig.FreezeTimeOutdoors;
+                    TimeSpeedConfig.FreezeTimeOutdoors = true;
+                    TimeSpeedConfig.FreezeTimeIndoors = true;
+                    TimeSpeedConfig.FreezeTimeInMines = true;
+                }
+                else
+                {
+                    TimeFreezeOverride = false;
+                    TimeSpeedConfig.FreezeTimeOutdoors = oldFreezeTimeOutdoors;
+                    TimeSpeedConfig.FreezeTimeIndoors = oldFreezeTimeIndoors;
+                    TimeSpeedConfig.FreezeTimeInMines = oldFreezeTimeInMines;
+                }
+            }
+            // , halves current tick lengths
+            else if (key.ToString().Equals("OemComma"))
+            {
+                TimeSpeedConfig.OutdoorTickLength = (TimeSpeedConfig.OutdoorTickLength / 2);
+                TimeSpeedConfig.IndoorTickLength = (TimeSpeedConfig.IndoorTickLength / 2);
+                TimeSpeedConfig.MineTickLength = (TimeSpeedConfig.MineTickLength / 2);
+            }
+            // . doubles current tick lengths
+            else if (key.ToString().Equals("OemPeriod"))
+            {
+                TimeSpeedConfig.OutdoorTickLength = (TimeSpeedConfig.OutdoorTickLength * 2);
+                TimeSpeedConfig.IndoorTickLength = (TimeSpeedConfig.IndoorTickLength * 2);
+                TimeSpeedConfig.MineTickLength = (TimeSpeedConfig.MineTickLength * 2);
+            }
+            // / restores tick lengths to the original ini values
+            else if (key.ToString().Equals("B"))
+            {
+                TimeSpeedConfig = (ModConfig)Config.InitializeConfig(PathOnDisk + "\\Config.json", TimeSpeedConfig);
             }
         }
     }
