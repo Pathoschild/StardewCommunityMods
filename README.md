@@ -73,15 +73,36 @@ Please note that this game comes with a TimeSpeedConfig.ini file with nine optio
 "LetMachinesRunWhileTimeFrozen": false,
 "FreezeTimeAt1230AM": false
 
-OutdoorTickLength, which defaults to 14. Controls the length of the 10 minute tick outdoors. Set to your desired ten minute tick length in seconds. The base day is 7 seconds. Setting TenMinuteTickLength to 0 seconds or lower will not make time run backwards ;)
-IndoorTickLength, which defaults to 14. Controls the length of the 10 minute tick indoors. Set to your desired ten minute tick length in seconds. The base day is 7 seconds. Setting TenMinuteTickLength to 0 seconds or lower will not make time run backwards ;)
-IndoorTickLength, which defaults to 14. Controls the length of the 10 minute tick while in the mine. Set to your desired ten minute tick length in seconds. The base day is 7 seconds. Setting TenMinuteTickLength to 0 seconds or lower will not make time run backwards ;)
-ChangeTimeSpeedOnFestivalDays, which defaults to false. Set to true to enable time changing on festival days. This option is here because some users have reported problems with festival days if time is changed.
-FreezeTimeOutdoors, which defaults to false. Set to true to freeze time outdoors.
-FreezeTimeIndoors, which defaults to false. Set to true to freeze time indoors, except for the mines.
-FreezeTimeInMines, which defaults to false. Set to true to freeze time in the mines.
-LetMachinesRunWhileTimeFrozen, which defaults to false. If set to true, machines continue to run while you are inside and time is frozen. Some consider this "cheaty". Setting it to false will prevent machines from running while you are inside. As a general rule, I recommend this be set to false unless you desire the gameplay change. This option is more likely to break things than any other--although most obvious bugs have been removed.
-FreezeTimeAt1230AM, which defaults to false. Set to true to freeze time when the day reaches 12:30 AM (24:30 military time). This occurs no matter where you are.
+OutdoorTickLength, which defaults to 14. 
+Controls the length of the 10 minute tick outdoors. Set to your desired ten minute tick length in seconds. 
+The base day is 7 seconds. Setting TenMinuteTickLength to 0 seconds or lower will not make time run backwards ;)
+
+IndoorTickLength, which defaults to 14. 
+Controls the length of the 10 minute tick indoors. Set to your desired ten minute tick length in seconds. 
+The base day is 7 seconds. Setting TenMinuteTickLength to 0 seconds or lower will not make time run backwards ;)
+
+IndoorTickLength, which defaults to 14. 
+Controls the length of the 10 minute tick while in the mine. Set to your desired ten minute tick length in seconds. 
+The base day is 7 seconds. Setting TenMinuteTickLength to 0 seconds or lower will not make time run backwards ;)
+
+ChangeTimeSpeedOnFestivalDays, which defaults to false. 
+Set to true to enable time changing on festival days. This option is here because some users have reported problems with festival days if time is changed.
+
+FreezeTimeOutdoors, which defaults to false. 
+Set to true to freeze time outdoors.
+
+FreezeTimeIndoors, which defaults to false. 
+Set to true to freeze time indoors, except for the mines.
+
+FreezeTimeInMines, which defaults to false. 
+Set to true to freeze time in the mines.
+
+LetMachinesRunWhileTimeFrozen, which defaults to false. 
+If set to true, machines continue to run while you are inside and time is frozen. 
+Some consider this "cheaty". Setting it to false will prevent machines from running while you are inside. As a general rule, I recommend this be set to false unless you desire the gameplay change. This option is more likely to break things than any other--although most obvious bugs have been removed.
+
+FreezeTimeAt1230AM, which defaults to false. 
+Set to true to freeze time when the day reaches 12:30 AM (24:30 military time). This occurs no matter where you are.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 LICENSE
