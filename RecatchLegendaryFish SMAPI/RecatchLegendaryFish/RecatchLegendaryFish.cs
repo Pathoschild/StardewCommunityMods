@@ -44,26 +44,6 @@ namespace RecatchLegendaryFish
 {
     public class RecatchLegendaryFish : Mod
     {
-        public override string Name
-        {
-            get { return "RecatchLegendaryFish"; }
-        }
-
-        public override string Authour
-        {
-            get { return "cantorsdust"; }
-        }
-
-        public override string Version
-        {
-            get { return "1.0.0.0.SMAPI"; }
-        }
-
-        public override string Description
-        {
-            get { return "Allows legendary fish to be caught again and again."; }
-        }
-
         public int FishCaughtCount = 0;
         public List<int> bossFishList = new List<int> { 159, 160, 163, 682, 775 };
 
@@ -99,7 +79,7 @@ namespace RecatchLegendaryFish
         {
             if (Game1.player.fishCaught != null)
             {
-                Console.WriteLine("fishCaught not null!");
+                //Console.WriteLine("fishCaught not null!");
                 foreach (var fish in bossFishList)
                 {
                     if (Game1.player.fishCaught.ContainsKey(fish))
