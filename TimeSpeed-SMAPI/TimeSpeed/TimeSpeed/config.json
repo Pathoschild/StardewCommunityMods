@@ -1,0 +1,11 @@
+{
+  "OutdoorTickLength": 14.0,
+  "IndoorTickLength": 14.0,
+  "MineTickLength": 14.0,
+  "ChangeTimeSpeedOnFestivalDays": false,
+  "FreezeTimeOutdoors": false,
+  "FreezeTimeIndoors": false,
+  "FreezeTimeInMines": false,
+  "LetMachinesRunWhileTimeFrozen": false,
+  "FreezeTimeAt1230AM": false
+}

@@ -146,7 +146,7 @@ namespace TimeSpeed
         public void KeyPressedCallback(KeyPressedEvent @event)
         {
             var key = @event.Key;
-            Console.WriteLine("Key Pressed: " + key.ToString());
+            //Console.WriteLine("Key Pressed: " + key.ToString());
 
             // N toggles freeze time override, freezing time everywhere.  hitting it again restores old values.
             if (key.ToString().Equals("N"))

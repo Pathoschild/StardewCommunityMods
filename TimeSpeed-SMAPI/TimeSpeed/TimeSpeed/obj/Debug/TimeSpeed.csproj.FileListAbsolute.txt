@@ -53,3 +53,9 @@ C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\Tim
 C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.csprojResolveAssemblyReference.cache
 C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.dll
 C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.pdb
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.GamerServices.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Input.Touch.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.GamerServices.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Input.Touch.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Newtonsoft.Json.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Newtonsoft.Json.xml
