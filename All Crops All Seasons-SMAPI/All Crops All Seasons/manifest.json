@@ -1,0 +1,7 @@
+﻿{
+  "Name": "All Crops All Seasons Mod",
+  "Authour": "cantorsdust",
+  "Version": "1.1.0.0.SMAPI",
+  "Description": "Allows all crops to be planted and grown during all seasons.",
+  "EntryDll":  "All Crops All Seasons.dll"
+}

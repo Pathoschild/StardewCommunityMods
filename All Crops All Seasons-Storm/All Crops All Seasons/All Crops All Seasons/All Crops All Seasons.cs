@@ -206,13 +206,18 @@ namespace AllCropsAllSeasons
             //@event.ItemsForSale.Add((Wrapper<ObjectItem>)new CustomSeeds(487, int.MaxValue));
             
         }
-        
+        */
         [Subscribe]
         public void SetUpShopOwnerCallback(SetUpShopOwnerEvent @event)
         {
             Console.WriteLine("Firing SetUpShopOwnerCallback");
+            List<string> listConstructorOnlyShops = new List<string>{ "Pierre", "Sandy", "Gus", "Robin" };
+            if (listConstructorOnlyShops.Contains(@event.Who))
+            {
+
+            }
         }
-        */
+        
 
 
     }

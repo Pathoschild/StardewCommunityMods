@@ -26,25 +26,6 @@ namespace All_Crops_All_Seasons
 {
     public class AllCropsAllSeasons : Mod
     {
-        public override string Name
-        {
-            get { return "All Crops All Seasons Mod"; }
-        }
-
-        public override string Authour
-        {
-            get { return "cantorsdust"; }
-        }
-
-        public override string Version
-        {
-            get { return "1.0"; }
-        }
-
-        public override string Description
-        {
-            get { return "Allows all crops to be planted and grown during all seasons."; }
-        }
 
         public Dictionary<Microsoft.Xna.Framework.Vector2, StardewValley.TerrainFeatures.HoeDirt> savedhoedirts = new Dictionary<Microsoft.Xna.Framework.Vector2, StardewValley.TerrainFeatures.HoeDirt>();
         public Dictionary<Microsoft.Xna.Framework.Vector2, StardewValley.Crop> savedcrops = new Dictionary<Microsoft.Xna.Framework.Vector2, StardewValley.Crop>();
@@ -70,7 +51,7 @@ namespace All_Crops_All_Seasons
             {
                 location = StardewValley.Game1.getLocationFromName("FarmHouse");
             }
-            Console.WriteLine(location);
+            //Console.WriteLine(location);
             if ((StardewValley.Game1.dayOfMonth != null) && (StardewValley.Game1.currentSeason != null) && (StardewValley.Game1.currentSeason != null) && (StardewValley.Game1.dayOfMonth != null))
             {
                 //Console.WriteLine("not all null");
