@@ -8,11 +8,11 @@ INSTALLATION
 The zip contains one folder, RecatchLegendaryFish, with two files RecatchLegendaryFish.dll and manifest.json. The folder must be placed in %appdata%\StardewValley\Mods.
 
 Thus, the total path for all 3 of the files required for this mod to function are:
-%appdata%\StardewValley\Mods\NPCLocations\RecatchLegendaryFish.dll
+%appdata%\StardewValley\Mods\RecatchLegendaryFish\RecatchLegendaryFish.dll
 
 AND
 
-%appdata%\StardewValley\Mods\NPCLocations\manifest.json
+%appdata%\StardewValley\Mods\RecatchLegendaryFish\manifest.json
 
 
 REQUIRES SMAPI 0.38+ to be installed!  Version 1.0.0.0.SMAPI is for SMAPI 0.37
