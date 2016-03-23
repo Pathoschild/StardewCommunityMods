@@ -35,7 +35,8 @@
     <Reference Include="Stardew Valley">
       <HintPath>..\..\..\..\..\Stardew Valley.exe</HintPath>
     </Reference>
-    <Reference Include="StardewModdingAPI">
+    <Reference Include="StardewModdingAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\StardewModdingAPI.exe</HintPath>
     </Reference>
     <Reference Include="System" />

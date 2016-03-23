@@ -67,8 +67,7 @@ namespace TimeSpeed
 
         void runConfig()
         {
-            TimeSpeedConfig = new ModConfig();
-            TimeSpeedConfig = (ModConfig)Config.InitializeConfig(Config.GetBasePath(this), TimeSpeedConfig);
+            TimeSpeedConfig = new ModConfig().InitializeConfig(BaseConfigPath);
         }
 
         public void Events_NewDay(object sender, EventArgs e)
@@ -212,7 +211,7 @@ namespace TimeSpeed
             // / restores tick lengths to the original ini values
             else if (e.KeyPressed.ToString().Equals("B"))
             {
-                TimeSpeedConfig = (ModConfig)Config.InitializeConfig(Config.GetBasePath(this), TimeSpeedConfig);
+                TimeSpeedConfig = TimeSpeedConfig.ReloadConfig();
             }
         }
     }
@@ -229,7 +228,7 @@ namespace TimeSpeed
         public bool LetMachinesRunWhileTimeFrozen { get; set; }
         public bool FreezeTimeAt1230AM { get; set; }
 
-        public override Config GenerateBaseConfig(Config baseConfig)
+        public override T GenerateDefaultConfig<T>()
         {
             OutdoorTickLength = 14;
             IndoorTickLength = 14;
@@ -241,7 +240,7 @@ namespace TimeSpeed
             LetMachinesRunWhileTimeFrozen = false;
             FreezeTimeAt1230AM = false;
 
-            return this;
+            return this as T;
         }
     }
 }
