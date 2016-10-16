@@ -59,6 +59,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="LocationExtensions.cs" />
     <Compile Include="ModConfig.cs" />
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json">
@@ -86,7 +87,10 @@
     <Error Condition="!Exists('..\packages\MSBuild.Extension.Pack.1.8.0\build\net40\MSBuild.Extension.Pack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.Extension.Pack.1.8.0\build\net40\MSBuild.Extension.Pack.targets'))" />
   </Target>
   <Target Name="AfterBuild">
-    <Zip TaskAction="Create" RemoveRoot="$(OutDir)" CompressPath="$(OutDir)" ZipFileName="$(OutDir)$(ProjectName).zip" />
+    <GetAssemblyIdentity AssemblyFiles="$(OutDir)$(TargetFileName)">
+      <Output TaskParameter="Assemblies" ItemName="Assembly" />
+    </GetAssemblyIdentity>
+    <Zip TaskAction="Create" RemoveRoot="$(OutDir)" CompressPath="$(OutDir)" ZipFileName="$(OutDir)$(ProjectName) %(Assembly.Version).zip" />
     <RoboCopy Source="$(OutDir)" Destination="$(AppData)\StardewValley\Mods\$(ProjectName)\" Files="*.*" Options="/r:0 /MIR /XF *.zip">
       <Output TaskParameter="ExitCode" PropertyName="Exit" />
       <Output TaskParameter="ReturnCode" PropertyName="Return" />
