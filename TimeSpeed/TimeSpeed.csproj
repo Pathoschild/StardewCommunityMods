@@ -41,14 +41,8 @@
   <ItemGroup>
     <Compile Include="TimeSpeedMod.cs" />
     <Reference Include="Microsoft.Xna.Framework" />
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="LocationExtensions.cs" />
-    <Compile Include="ModConfig.cs" />
-    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework.Game\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Game.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
@@ -61,6 +55,9 @@
       <HintPath>External\StardewModdingAPI.exe</HintPath>
       <Private>False</Private>
     </Reference>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="LocationExtensions.cs" />
+    <Compile Include="ModConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json">
@@ -88,12 +85,12 @@
     <Error Condition="!Exists('..\packages\MSBuild.Extension.Pack.1.8.0\build\net40\MSBuild.Extension.Pack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.Extension.Pack.1.8.0\build\net40\MSBuild.Extension.Pack.targets'))" />
   </Target>
   <Target Name="AfterBuild">
-    <Zip TaskAction="Create" RemoveRoot="$(OutDir)" CompressPath="$(OutDir)" ZipFileName="$(OutDir)$(ProjectName).zip"/>
+    <Zip TaskAction="Create" RemoveRoot="$(OutDir)" CompressPath="$(OutDir)" ZipFileName="$(OutDir)$(ProjectName).zip" />
     <RoboCopy Source="$(OutDir)" Destination="$(AppData)\StardewValley\Mods\$(ProjectName)\" Files="*.*" Options="/r:0 /MIR /XF *.zip">
       <Output TaskParameter="ExitCode" PropertyName="Exit" />
       <Output TaskParameter="ReturnCode" PropertyName="Return" />
     </RoboCopy>
-    <Message Text="ExitCode = $(Exit)"/>
-    <Message Text="ReturnCode = $(Return)"/>
+    <Message Text="ExitCode = $(Exit)" />
+    <Message Text="ReturnCode = $(Return)" />
   </Target>
 </Project>
