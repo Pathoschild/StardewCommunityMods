@@ -17,18 +17,35 @@ namespace TimeSpeed
 
             ControlEvents.KeyPressed += (sender, pressed) => HandleKey(pressed.KeyPressed);
 
-            TimeEvents.TimeOfDayChanged += (sender, changed) =>
-            {
-                if (Game1.timeOfDay == Config.FreezeTimeAt)
-                    FreezeTime = true;
-            };
-            TimeEvents.DayOfMonthChanged += (sender, changed) =>
-            {
-                _clockTickInterval = 0;
-            };
-            GameEvents.UpdateTick += (sender, args) => UpdateCounter();
+            TimeEvents.TimeOfDayChanged += (sender, changed) => HandleFreeTimeAt();
 
+            GameEvents.UpdateTick += (sender, args) => UpdateCounter();
+            TimeEvents.DayOfMonthChanged += (sender, changed) => ResetCounter();
+
+            GameEvents.FirstUpdateTick += (sender, args) => AddTimeStatusDisplayHack();
+            
             Log.Info("TimeSpeed has loaded");
+        }
+
+        private void HandleFreeTimeAt()
+        {
+            if (Game1.timeOfDay == Config.FreezeTimeAt)
+                FreezeTime = true;
+        }
+
+        private void AddTimeStatusDisplayHack()
+        {
+            bool prevPaused = false;
+
+            var timeBox = Game1.dayTimeMoneyBox;
+            
+            timeBox.BeforeDraw(b =>
+            {
+                prevPaused = Game1.paused;
+                if (FreezeTime) Game1.paused = true;
+            });
+
+            timeBox.AfterDraw(b => Game1.paused = prevPaused);
         }
 
         private void NotifyPlayer(string message)
@@ -102,6 +119,11 @@ namespace TimeSpeed
         }
 
         private int _clockTickInterval;
+
+        private void ResetCounter()
+        {
+            _clockTickInterval = 0;
+        }
 
         private void UpdateCounter()
         {
