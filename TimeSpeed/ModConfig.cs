@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Threading;
 using Microsoft.Xna.Framework.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -8,9 +6,9 @@ using StardewModdingAPI;
 
 namespace TimeSpeed
 {
-    public class ModConfig : Config
+    public class ModConfig : ConfigWithDefaultJsonContractResolver
     {
-        public ModConfig()
+        public override T GenerateDefaultConfig<T>()
         {
             _outdoorTickLength = 14000;
             _indoorTickLength = 14000;
@@ -22,20 +20,17 @@ namespace TimeSpeed
             FreezeTimeKey = Keys.N;
             IncreaseTickLengthKey = Keys.OemPeriod;
             DecreaseTickLengthKey = Keys.OemComma;
-        }
 
-        public override T GenerateDefaultConfig<T>()
-        {
             return this as T;
         }
 
-        public int? FreezeTimeAt { get; private set; }
+        public int? FreezeTimeAt { get; set; }
+        
+        public bool FreezeTimeIndoors { get; set; }
 
-        public bool FreezeTimeIndoors { get; private set; }
+        public bool FreezeTimeInMines { get; set; }
 
-        public bool FreezeTimeInMines { get; private set; }
-
-        public bool FreezeTimeOutdoors { get; private set; }
+        public bool FreezeTimeOutdoors { get; set; }
 
         private int _outdoorTickLength;
 
@@ -74,12 +69,12 @@ namespace TimeSpeed
         }
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public Keys FreezeTimeKey { get; private set; }
+        public Keys FreezeTimeKey { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public Keys IncreaseTickLengthKey { get; private set; }
+        public Keys IncreaseTickLengthKey { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public Keys DecreaseTickLengthKey { get; private set; }
+        public Keys DecreaseTickLengthKey { get; set; }
     }
 }
