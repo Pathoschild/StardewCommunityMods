@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using System.Diagnostics;
+using System.Threading;
+using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -7,6 +9,13 @@ namespace TimeSpeed
 {
     public sealed class TimeSpeedMod : Mod
     {
+#if DEBUG
+        static TimeSpeedMod()
+        {
+            while(!Debugger.IsAttached) Thread.Sleep(1000);
+        }
+#endif
+
         private const int DefaultClockTickLength = 7000;
 
         private ModConfig Config { get; set; }
