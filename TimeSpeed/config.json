@@ -28,7 +28,7 @@
     "FreezeTimeKey": "N",
 
     /* These keys will increase/decrease tick length for current location by 1 second (10/0.1 if left Shift/Alt is pressed).
-    Minimum allowed value:  */
+    Minimum allowed value: 0.1 second. */
     "IncreaseTickLengthKey": "OemPeriod",
     "DecreaseTickLengthKey": "OemComma"
 }
