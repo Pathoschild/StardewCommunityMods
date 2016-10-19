@@ -68,6 +68,8 @@ namespace TimeSpeed
             }
         }
 
+        public bool ChangeTimeSpeedOnFestivalDays { get; set; }
+
         [JsonConverter(typeof(StringEnumConverter))]
         public Keys FreezeTimeKey { get; set; }
 

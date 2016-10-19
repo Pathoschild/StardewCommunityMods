@@ -28,7 +28,11 @@ namespace TimeSpeed
 
             TimeEvents.TimeOfDayChanged += (sender, changed) => HandleFreeTimeAt();
 
-            GameEvents.UpdateTick += (sender, args) => UpdateCounter();
+            GameEvents.UpdateTick += (sender, args) =>
+            {
+                if (!Config.ChangeTimeSpeedOnFestivalDays && Utility.isFestivalDay(Game1.dayOfMonth, Game1.currentSeason)) return;
+                UpdateCounter();
+            };
             TimeEvents.DayOfMonthChanged += (sender, changed) => ResetCounter();
 
             GameEvents.FirstUpdateTick += (sender, args) => AddTimeStatusDisplayHack();
@@ -142,7 +146,7 @@ namespace TimeSpeed
             if (_clockTickInterval > ClockTickLength)
             {
                 Game1.gameTimeInterval = DefaultClockTickLength;
-                _clockTickInterval = 0;
+                _clockTickInterval -= ClockTickLength;
             }
         }
     }
