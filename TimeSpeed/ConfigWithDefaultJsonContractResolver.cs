@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StardewModdingAPI;
 
@@ -11,9 +10,9 @@ namespace TimeSpeed
         public override T UpdateConfig<T>()
         {
             var @default = JObject.FromObject(GenerateDefaultConfig<T>());
-            var updated = JsonConvert.DeserializeObject<T>(File.ReadAllText(ConfigLocation));
+            var updated = JObject.Parse(File.ReadAllText(ConfigLocation));
 
-            @default.Merge(JObject.FromObject(updated));
+            @default.Merge(updated);
             var merged = @default.ToObject<T>();
             ((ConfigWithDefaultJsonContractResolver)(object)merged).ConfigLocation = ConfigLocation;
 
