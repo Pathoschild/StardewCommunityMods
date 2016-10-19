@@ -10,7 +10,7 @@ namespace TimeSpeed
 #if DEBUG
         static TimeSpeedMod()
         {
-            while(!Debugger.IsAttached) Thread.Sleep(1000);
+            while(!System.Diagnostics.Debugger.IsAttached) System.Threading.Thread.Sleep(1000);
         }
 #endif
 
