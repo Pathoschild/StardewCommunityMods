@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -28,12 +26,17 @@ namespace TimeSpeed
 
             TimeEvents.TimeOfDayChanged += (sender, changed) => HandleFreeTimeAt();
 
+            var isFestivalDay = false;
             GameEvents.UpdateTick += (sender, args) =>
             {
-                if (!Config.ChangeTimeSpeedOnFestivalDays && Utility.isFestivalDay(Game1.dayOfMonth, Game1.currentSeason)) return;
+                if (!Config.ChangeTimeSpeedOnFestivalDays && isFestivalDay) return;
                 UpdateCounter();
             };
-            TimeEvents.DayOfMonthChanged += (sender, changed) => ResetCounter();
+            TimeEvents.DayOfMonthChanged += (sender, changed) =>
+            {
+                isFestivalDay = Utility.isFestivalDay(Game1.dayOfMonth, Game1.currentSeason);
+                ResetCounter();
+            };
 
             GameEvents.FirstUpdateTick += (sender, args) => AddTimeStatusDisplayHack();
             
