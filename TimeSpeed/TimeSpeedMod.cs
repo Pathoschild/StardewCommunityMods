@@ -10,7 +10,7 @@ namespace TimeSpeed
 #if DEBUG
         static TimeSpeedMod()
         {
-            while(!System.Diagnostics.Debugger.IsAttached) System.Threading.Thread.Sleep(1000);
+            while (!System.Diagnostics.Debugger.IsAttached) System.Threading.Thread.Sleep(1000);
         }
 #endif
 
@@ -39,7 +39,7 @@ namespace TimeSpeed
             };
 
             GameEvents.FirstUpdateTick += (sender, args) => AddTimeStatusDisplayHack();
-            
+
             Log.Info("TimeSpeed has loaded");
         }
 
@@ -54,7 +54,7 @@ namespace TimeSpeed
             bool prevPaused = false;
 
             var timeBox = Game1.dayTimeMoneyBox;
-            
+
             timeBox.BeforeDraw(b =>
             {
                 prevPaused = Game1.paused;
@@ -71,22 +71,22 @@ namespace TimeSpeed
 
         private void HandleKey(Keys key)
         {
-            if (key == Config.DecreaseTickLengthKey)
-            {
-                ClockTickLength -= Keyboard.GetState().IsKeyDown(Keys.LeftShift) ? 1000 : 100;
-                NotifyPlayer($"Tick length set to {ClockTickLength / 1000f:0.###} sec.");
-            }
-
-            else if (key == Config.IncreaseTickLengthKey)
-            {
-                ClockTickLength += Keyboard.GetState().IsKeyDown(Keys.LeftShift) ? 1000 : 100;
-                NotifyPlayer($"Tick length set to {ClockTickLength / 1000f:0.###} sec.");
-            }
-
-            else if (key == Config.FreezeTimeKey)
+            if (key == Config.FreezeTimeKey)
             {
                 FreezeTime = !FreezeTime;
                 NotifyPlayer(FreezeTime ? "Time is frozen." : "Time is unfrozen.");
+            }
+
+            else if (key == Config.IncreaseTickLengthKey || key == Config.DecreaseTickLengthKey)
+            {
+                var state = Keyboard.GetState();
+                int modifier = 1000;
+                if (key == Config.DecreaseTickLengthKey) modifier *= -1;
+                if (state.IsKeyDown(Keys.LeftAlt)) modifier /= 10;
+                if (state.IsKeyDown(Keys.LeftShift)) modifier *= 10;
+
+                ClockTickLength += modifier;
+                NotifyPlayer($"Tick length set to {ClockTickLength / 1000f:0.###} sec.");
             }
         }
 
