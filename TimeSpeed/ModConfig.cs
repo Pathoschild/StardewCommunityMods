@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -6,6 +7,7 @@ using StardewModdingAPI;
 
 namespace TimeSpeed
 {
+    [PublicAPI("Mod")]
     public class ModConfig : ConfigWithDefaultJsonContractResolver
     {
         public override T GenerateDefaultConfig<T>()
@@ -20,7 +22,7 @@ namespace TimeSpeed
             FreezeTimeKey = Keys.N;
             IncreaseTickLengthKey = Keys.OemPeriod;
             DecreaseTickLengthKey = Keys.OemComma;
-
+            
             return this as T;
         }
 

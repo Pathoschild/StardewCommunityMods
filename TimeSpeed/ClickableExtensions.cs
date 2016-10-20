@@ -9,6 +9,7 @@ using StardewValley.Menus;
 
 namespace TimeSpeed
 {
+    // Todo: refactor
     public static class ClickableExtensions
     {
         private abstract class DrawEventHack: IClickableMenu
