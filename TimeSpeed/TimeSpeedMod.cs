@@ -35,7 +35,6 @@ namespace TimeSpeed
             TimeEvents.DayOfMonthChanged += (sender, changed) =>
             {
                 isFestivalDay = Utility.isFestivalDay(Game1.dayOfMonth, Game1.currentSeason);
-                ResetCounter();
             };
 
             GameEvents.FirstUpdateTick += (sender, args) => AddTimeStatusDisplayHack();
@@ -79,11 +78,10 @@ namespace TimeSpeed
 
             else if (key == Config.IncreaseTickLengthKey || key == Config.DecreaseTickLengthKey)
             {
-                var state = Keyboard.GetState();
                 int modifier = 1000;
                 if (key == Config.DecreaseTickLengthKey) modifier *= -1;
-                if (state.IsKeyDown(Keys.LeftAlt)) modifier /= 10;
-                if (state.IsKeyDown(Keys.LeftShift)) modifier *= 10;
+                if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt)) modifier /= 10;
+                if (Keyboard.GetState().IsKeyDown(Keys.LeftShift)) modifier *= 10;
 
                 ClockTickLength += modifier;
                 NotifyPlayer($"Tick length set to {ClockTickLength / 1000f:0.###} sec.");
@@ -134,23 +132,26 @@ namespace TimeSpeed
             }
         }
 
-        private int _clockTickInterval;
-
-        private void ResetCounter()
+        private double TickProgress
         {
-            _clockTickInterval = 0;
+            get { return ((double)Game1.gameTimeInterval) / DefaultClockTickLength; }
+            set { Game1.gameTimeInterval = (int)(value * DefaultClockTickLength); }
         }
+
+        private double _previousTickProgress;
+
+        private double Scale(double progress) => progress * DefaultClockTickLength / ClockTickLength;
 
         private void UpdateCounter()
         {
-            if (!FreezeTime) _clockTickInterval += Game1.gameTimeInterval;
-            Game1.gameTimeInterval = 0;
+            var progressDiff = TickProgress - _previousTickProgress;
 
-            if (_clockTickInterval > ClockTickLength)
-            {
-                Game1.gameTimeInterval = DefaultClockTickLength;
-                _clockTickInterval -= ClockTickLength;
-            }
+            if (FreezeTime) progressDiff = 0;
+
+            if (progressDiff < 0) TickProgress = Scale(TickProgress);
+            else TickProgress = _previousTickProgress + Scale(progressDiff);
+
+            _previousTickProgress = TickProgress;
         }
     }
 }
