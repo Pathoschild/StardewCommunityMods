@@ -22,7 +22,7 @@
     /* This key will freeze/unfreeze time.
     If set to frozen if it will stay so untill key is pressed again.
     If set to unfrozen 'FreezeTimeIn...' option will overwrite this when location is changed.
-    Allowed keys can be found here:
+    Setting to "None" will disable hotkey. All allowed keys can be found here:
     https://msdn.microsoft.com/en-us/library/microsoft.xna.framework.input.keys.aspx
     */
     "FreezeTimeKey": "N",
