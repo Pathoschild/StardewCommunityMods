@@ -15,8 +15,8 @@ namespace TimeSpeed
         {
             while (!System.Diagnostics.Debugger.IsAttached) System.Threading.Thread.Sleep(1000);
         }
-
 #endif
+
         private const int DefaultClockTickLength = 7000;
 
         private ModConfig Config { get; set; }
@@ -35,8 +35,10 @@ namespace TimeSpeed
                 if (!Config.ChangeTimeSpeedOnFestivalDays && isFestivalDay) return;
                 UpdateCounter();
             };
-            TimeEvents.DayOfMonthChanged +=
-                (sender, changed) => { isFestivalDay = Utility.isFestivalDay(Game1.dayOfMonth, Game1.currentSeason); };
+            TimeEvents.DayOfMonthChanged += (sender, changed) =>
+            {
+                isFestivalDay = Utility.isFestivalDay(Game1.dayOfMonth, Game1.currentSeason);
+            };
 
             GameEvents.FirstUpdateTick += (sender, args) => AddTimeStatusDisplayHack();
 
@@ -84,9 +86,9 @@ namespace TimeSpeed
                 if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt)) modifier /= 10;
                 if (Keyboard.GetState().IsKeyDown(Keys.LeftShift)) modifier *= 10;
 
-                var minAllowed = Math.Min(TickLength, Math.Abs(modifier));
-                TickLength = Math.Max(minAllowed, TickLength + modifier);
-                NotifyPlayer($"Tick length set to {TickLength / 1000f:0.###} sec.");
+                var minAllowed = Math.Min(ClockTickLength, Math.Abs(modifier));
+                ClockTickLength = Math.Max(minAllowed, ClockTickLength + modifier);
+                NotifyPlayer($"Tick length set to {ClockTickLength / 1000f:0.###} sec.");
             }
         }
 
@@ -112,7 +114,27 @@ namespace TimeSpeed
             }
         }
 
-        private int TickLength { get; set; }
+        private int ClockTickLength
+        {
+            get
+            {
+                var location = Game1.currentLocation;
+                if (location == null) return DefaultClockTickLength;
+
+                if (location.isOutdoors) return Config.OutdoorTickLength;
+                if (location.IsMine()) return Config.MineTickLength;
+                return Config.IndoorTickLength;
+            }
+            set
+            {
+                var location = Game1.currentLocation;
+                if (location == null) return;
+
+                if (location.isOutdoors) Config.OutdoorTickLength = value;
+                else if (location.IsMine()) Config.MineTickLength = value;
+                else Config.IndoorTickLength = value;
+            }
+        }
 
         private double TickProgress
         {
@@ -122,7 +144,7 @@ namespace TimeSpeed
 
         private double _previousTickProgress;
 
-        private double Scale(double progress) => progress * DefaultClockTickLength / TickLength;
+        private double Scale(double progress) => progress * DefaultClockTickLength / ClockTickLength;
 
         private void UpdateCounter()
         {
