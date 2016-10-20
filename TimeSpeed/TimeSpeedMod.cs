@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using System;
+using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -83,7 +84,8 @@ namespace TimeSpeed
                 if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt)) modifier /= 10;
                 if (Keyboard.GetState().IsKeyDown(Keys.LeftShift)) modifier *= 10;
 
-                ClockTickLength += modifier;
+                var minAllowed = Math.Min(ClockTickLength, Math.Abs(modifier));
+                ClockTickLength = Math.Max(minAllowed, ClockTickLength + modifier);
                 NotifyPlayer($"Tick length set to {ClockTickLength / 1000f:0.###} sec.");
             }
         }
