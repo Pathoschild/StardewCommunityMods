@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StardewModdingAPI;
 
@@ -16,6 +17,11 @@ namespace TimeSpeed
             ((ModConfig)(object)merged).ConfigLocation = ConfigLocation;
 
             return merged;
+        }
+
+        public void Reload()
+        {
+            JsonConvert.PopulateObject(File.ReadAllText(ConfigLocation), this);
         }
     }
 }

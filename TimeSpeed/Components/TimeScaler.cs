@@ -11,9 +11,9 @@ namespace TimeSpeed.Components
     {
         private ITimeScalerConfig Config { get; }
 
-        private InGameNotifier Notifier { get; }
+        private Notifier Notifier { get; }
 
-        public TimeScaler(ITimeScalerConfig config, InGameNotifier notifier)
+        public TimeScaler(ITimeScalerConfig config, Notifier notifier)
         {
             Config = config;
             Notifier = notifier;

@@ -7,13 +7,13 @@ namespace TimeSpeed.Components
 {
     public sealed class TimeFreezer
     {
-        private readonly InGameNotifier _notifier;
+        private readonly Notifier _notifier;
 
         private readonly ITimeFreezerConfig _config;
 
         private readonly Logger _logger;
 
-        public TimeFreezer(ITimeFreezerConfig config, InGameNotifier notifier, Logger logger)
+        public TimeFreezer(ITimeFreezerConfig config, Notifier notifier, Logger logger)
         {
             _logger = logger;
             _notifier = notifier;

@@ -2,11 +2,11 @@
 
 namespace TimeSpeed.Services
 {
-    public class InGameNotifier
+    public class Notifier
     {
         private readonly string _name;
 
-        public InGameNotifier(string name)
+        public Notifier(string name)
         {
             _name = name;
         }

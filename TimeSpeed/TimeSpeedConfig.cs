@@ -23,12 +23,12 @@ namespace TimeSpeed
             FreezeTimeKey = Keys.N;
             IncreaseTickLengthKey = Keys.OemPeriod;
             DecreaseTickLengthKey = Keys.OemComma;
-            
+
             return this as T;
         }
 
         public int? FreezeTimeAt { get; set; }
-        
+
         public bool FreezeTimeIndoors { get; set; }
 
         public bool FreezeTimeInMines { get; set; }
@@ -43,7 +43,7 @@ namespace TimeSpeed
             set
             {
                 _outdoorTickLength = Math.Max(100, value);
-                Log.Info($"Outdoor tick length set to {_outdoorTickLength/1000f:0.###} sec.");
+                Log.Info($"Outdoor tick length set to {_outdoorTickLength / 1000f:0.###} sec.");
             }
         }
 
@@ -55,7 +55,7 @@ namespace TimeSpeed
             set
             {
                 _indoorTickLength = Math.Max(100, value);
-                Log.Info($"Indoor tick length set to {_indoorTickLength/1000f:0.###} sec.");
+                Log.Info($"Indoor tick length set to {_indoorTickLength / 1000f:0.###} sec.");
             }
         }
 
@@ -67,7 +67,7 @@ namespace TimeSpeed
             set
             {
                 _mineTickLength = Math.Max(100, value);
-                Log.Info($"Mine tick length set to {_indoorTickLength/1000f:0.###} sec.");
+                Log.Info($"Mine tick length set to {_indoorTickLength / 1000f:0.###} sec.");
             }
         }
 
@@ -81,5 +81,8 @@ namespace TimeSpeed
 
         [JsonConverter(typeof(StringEnumConverter))]
         public Keys DecreaseTickLengthKey { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Keys ReloadConfigKey { get; set; }
     }
 }
