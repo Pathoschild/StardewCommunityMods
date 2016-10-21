@@ -1,4 +1,6 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using System.Runtime.InteropServices;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using TimeSpeed.Components;
@@ -35,8 +37,15 @@ namespace TimeSpeed
             {
                 if (pressed.KeyPressed == _config.ReloadConfigKey)
                 {
-                    _config.Reload();
-                    _notifier.QuickNotify("Configuration reloaded.");
+                    try
+                    {
+                        _config.Reload();
+                        _notifier.QuickNotify("Configuration reloaded.");
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error(e);
+                    }
                 }
             };
         }

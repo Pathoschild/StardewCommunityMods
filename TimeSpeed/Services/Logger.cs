@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 
@@ -31,6 +32,11 @@ namespace TimeSpeed.Services
             Log.Error(FormatMessage(message));
         }
 
+        public void Error(Exception exception)
+        {
+            Log.Error(FormatMessage($"[{exception.GetType().Name}] {exception.Message}"));
+        }
+
         [Conditional("DEBUG")]
         public void DebugInfo(string message)
         {
@@ -47,6 +53,12 @@ namespace TimeSpeed.Services
         public void DebugError(string message)
         {
             Log.Info(FormatMessage(message));
+        }
+
+        [Conditional("DEBUG")]
+        public void DebugError(Exception exception)
+        {
+            Log.Error(FormatMessage($"[{exception.GetType().Name}] {exception.Message}"));
         }
     }
 }
