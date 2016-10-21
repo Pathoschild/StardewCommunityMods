@@ -23,6 +23,7 @@ namespace TimeSpeed
             FreezeTimeKey = Keys.N;
             IncreaseTickLengthKey = Keys.OemPeriod;
             DecreaseTickLengthKey = Keys.OemComma;
+            ReloadConfigKey = Keys.B;
 
             return this as T;
         }
