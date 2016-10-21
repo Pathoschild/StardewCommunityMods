@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -29,6 +28,8 @@ namespace TimeSpeed
 
             new TimeFreezer(_config, _notifier, _logger).Enable();
             new TimeScaler(_config, _notifier).Enable();
+
+            EnableConfigurationReload();
         }
 
         private void EnableConfigurationReload()
