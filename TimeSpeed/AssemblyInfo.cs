@@ -18,7 +18,7 @@ using System.Runtime.Versioning;
 [assembly: AssemblyTrademark("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("d617dc5d-0495-4aa3-98ce-8c80baf66c33")]
-[assembly: AssemblyFileVersion("1.9.3.0")]
-[assembly: AssemblyVersion("1.9.3.0")]
+[assembly: AssemblyFileVersion("1.9.4.0")]
+[assembly: AssemblyVersion("1.9.4.0")]
 [assembly: TargetFramework(".NETFramework,Version=v4.5", FrameworkDisplayName=".NET Framework 4.5")]
 

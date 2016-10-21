@@ -61,11 +61,14 @@ namespace TimeSpeed.Components
 
         private void EnableTimeScaling()
         {
-            var scaleOnThisDay = false;
+            var scaleOnThisDay = true;
 
             TimeEvents.DayOfMonthChanged += (sender, changed) =>
             {
-                scaleOnThisDay = Config.ChangeTimeSpeedOnFestivalDays || !Utility.isFestivalDay(Game1.dayOfMonth, Game1.currentSeason);
+                if (Utility.isFestivalDay(Game1.dayOfMonth, Game1.currentSeason))
+                {
+                    scaleOnThisDay = Config.ChangeTimeSpeedOnFestivalDays;
+                }
             };
 
             GameEvents.UpdateTick += (sender, args) =>
