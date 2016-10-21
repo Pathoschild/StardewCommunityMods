@@ -1,18 +1,20 @@
 ﻿using System.Diagnostics;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 
 namespace TimeSpeed.Services
 {
+    [PublicAPI]
     public class Logger
     {
-        private readonly string _name;
+        protected readonly string Name;
 
         public Logger(string name)
         {
-            _name = name;
+            Name = name;
         }
 
-        private string FormatMessage(string message) => $"[{_name}] {message}";
+        private string FormatMessage(string message) => $"[{Name}] {message}";
 
         public void Info(string message)
         {

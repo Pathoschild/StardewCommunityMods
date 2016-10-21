@@ -1,17 +1,19 @@
-﻿using StardewValley;
+﻿using JetBrains.Annotations;
+using StardewValley;
 
 namespace TimeSpeed.Services
 {
+    [PublicAPI]
     public class Notifier
     {
-        private readonly string _name;
+        protected readonly string Name;
 
         public Notifier(string name)
         {
-            _name = name;
+            Name = name;
         }
 
-        private string FormatMessage(string message) => $"{_name}: {message}";
+        private string FormatMessage(string message) => $"{Name}: {message}";
 
         public void QuickNotify(string message)
         {
