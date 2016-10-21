@@ -25,7 +25,7 @@ namespace TimeSpeed.Components
             EnableScaleControlHotkeys();
         }
 
-        private const int DefaultClockTickLength = 7000;
+        private int DefaultClockTickLength => 7000 + (Game1.currentLocation?.getExtraMillisecondsPerInGameMinuteForThisLocation() ?? 0);
 
         private int LocationTickLength
         {
