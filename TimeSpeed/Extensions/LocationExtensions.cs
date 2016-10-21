@@ -1,7 +1,7 @@
 ﻿using StardewValley;
 using StardewValley.Locations;
 
-namespace TimeSpeed
+namespace TimeSpeed.Extensions
 {
     public static class LocationExtensions
     {
