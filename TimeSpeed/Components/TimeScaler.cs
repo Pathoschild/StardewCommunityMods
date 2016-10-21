@@ -65,10 +65,7 @@ namespace TimeSpeed.Components
 
             TimeEvents.DayOfMonthChanged += (sender, changed) =>
             {
-                if (Utility.isFestivalDay(Game1.dayOfMonth, Game1.currentSeason))
-                {
-                    scaleOnThisDay = Config.ChangeTimeSpeedOnFestivalDays;
-                }
+                scaleOnThisDay = !Utility.isFestivalDay(Game1.dayOfMonth, Game1.currentSeason) || Config.ChangeTimeSpeedOnFestivalDays;
             };
 
             GameEvents.UpdateTick += (sender, args) =>
