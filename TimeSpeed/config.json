@@ -1,37 +1,16 @@
 {
-  /* Specifies moment when the time should freeze. Set to null to ignore this option.
-    Examples: 1230 (12:30PM), 2000 (8:00PM)
-    Default: null */
+  "DefaultTickLength": 14.0,
+  "TickLengthByLocation": {
+    "Indoors": 14.0,
+    "Outdoors": 14.0
+  },
+  "EnableOnFestivalDays": false,
   "FreezeTimeAt": null,
-
-  /* Whether to freeze time when location changed to indoors/outdoors/mine.
-    Default: false */
-  "FreezeTimeIndoors": false,
-  "FreezeTimeOutdoors": false,
-  "FreezeTimeInMines": false,
-
-  /* 10-minute tick length when indoors/outdoors/ in mine.
-    Specified in milliseconds (1000 = 1 second). */
-  "OutdoorTickLength": 14000,
-  "IndoorTickLength": 14000,
-  "MineTickLength": 14000,
-
-  /* Whether to apply time speed change on festival days. */
-  "ChangeTimeSpeedOnFestivalDays": false,
-
-  /* This key will freeze/unfreeze time.
-    If set to frozen it will stay so untill key is pressed again.
-    If set to unfrozen 'FreezeTimeIn...' option will overwrite this when location is changed.
-    Setting to "None" will disable hotkey. All allowed keys can be found here:
-    https://msdn.microsoft.com/en-us/library/microsoft.xna.framework.input.keys.aspx
-    */
-  "FreezeTimeKey": "N",
-
-  /* These keys will increase/decrease tick length for current location by 1 second (10/0.1 if left Shift/Alt is pressed).
-    Minimum allowed value: 0.1 second. */
-  "IncreaseTickLengthKey": "OemPeriod",
-  "DecreaseTickLengthKey": "OemComma",
-
-  /* Reloads configuration */
-  "ReloadConfigKey": "B"
+  "LocationNotify": false,
+  "Keys": {
+    "FreezeTime": "N",
+    "IncreaseTickInterval": "OemPeriod",
+    "DecreaseTickInterval": "OemComma",
+    "ReloadConfig": "B"
+  }
 }

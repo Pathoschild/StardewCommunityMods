@@ -8,7 +8,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <AssemblyName>TimeSpeed</AssemblyName>
     <OutputType>Library</OutputType>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -19,58 +19,117 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DefineConstants>TRACE;DEBUG;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <GamePlatform>Windows</GamePlatform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <GamePlatform>Windows</GamePlatform>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono-Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <DefineConstants>TRACE;DEBUG;MONO</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <GamePlatform>Mac</GamePlatform>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono-Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <DefineConstants>TRACE;MONO</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <GamePlatform>Mac</GamePlatform>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>TimeSpeed</RootNamespace>
   </PropertyGroup>
+
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+
+  <Import Project="..\packages\Pathoschild.Stardew.ModBuildConfig.1.1.0\build\Pathoschild.Stardew.ModBuildConfig.targets" Condition="Exists('..\packages\Pathoschild.Stardew.ModBuildConfig.1.1.0\build\Pathoschild.Stardew.ModBuildConfig.targets')" />
+
+  <PropertyGroup>
+    <GamePath>.\External\$(GamePlatform)</GamePath>
+  </PropertyGroup>
+
   <ItemGroup>
-    <Compile Include="Components\ITimeFreezerConfig.cs" />
-    <Compile Include="Components\ITimeScalerConfig.cs" />
-    <Compile Include="Components\TimeFreezer.cs" />
-    <Compile Include="Components\TimeScaler.cs" />
-    <Compile Include="ModConfig.cs" />
-    <Compile Include="Services\Notifier.cs" />
-    <Compile Include="Services\Logger.cs" />
-    <Compile Include="TimeSpeedMod.cs" />
+    <Reference Include="System" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="packages.config" />
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Xna.Framework" />
-    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
-    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Stardew Valley">
-      <HintPath>External\Stardew Valley.exe</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="StardewModdingAPI">
-      <HintPath>External\StardewModdingAPI.exe</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Extensions\LocationExtensions.cs" />
-    <Compile Include="TimeSpeedConfig.cs" />
-    <Reference Include="System" />
   </ItemGroup>
+
+<!--
+  <Choose>
+    <When Condition="'$(GamePlatform)' == 'Windows'">
+      <PropertyGroup>
+        <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+-->
+  <ItemGroup>
+    <Content Include="External\Linux\MonoGame.Framework.dll" />
+    <Content Include="External\Linux\StardewModdingAPI.exe" />
+    <Content Include="External\Linux\StardewValley.exe" />
+    <Content Include="External\Linux\xTile.dll" />
+    <Content Include="External\Mac\MonoGame.Framework.dll" />
+    <Content Include="External\Mac\StardewModdingAPI.exe" />
+    <Content Include="External\Mac\StardewValley.exe" />
+    <Content Include="External\Mac\xTile.dll" />
+    <Content Include="External\Windows\Stardew Valley.exe" />
+    <Content Include="External\Windows\StardewModdingAPI.exe" />
+    <Content Include="External\Windows\xTile.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Helpers\ModConfig.cs" />
+    <Compile Include="Helpers\Notifier.cs" />
+    <Compile Include="Helpers\Logger.cs" />
+    <Compile Include="Helpers\TimeHelper.cs" />
+    <Compile Include="TimeSpeed.cs" />
+    <Compile Include="TimeSpeedConfig.cs" />
+    <Compile Include="TimeSpeedConfig.json.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -78,40 +137,48 @@
     <None Include="manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="External\Stardew Valley.exe" />
-    <None Include="External\StardewModdingAPI.exe" />
-  </ItemGroup>
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
+
   <Import Project="..\packages\MSBuild.Extension.Pack.1.8.0\build\net40\MSBuild.Extension.Pack.targets" Condition="Exists('..\packages\MSBuild.Extension.Pack.1.8.0\build\net40\MSBuild.Extension.Pack.targets')" />
+
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\MSBuild.Extension.Pack.1.8.0\build\net40\MSBuild.Extension.Pack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.Extension.Pack.1.8.0\build\net40\MSBuild.Extension.Pack.targets'))" />
   </Target>
+
+  <Target Name="BeforeResolveReferences">
+    <CreateProperty Value="$(GamePath);$(AssemblySearchPaths)">
+    <Output TaskParameter="Value" PropertyName="AssemblySearchPaths" />
+    </CreateProperty>
+  </Target>
+
+  <Target Name="BeforeBuild">
+    <Message Text="-$(ReferencePath)-" Importance="high" />
+  </Target>
+
   <Target Name="AfterBuild">
     <ItemGroup>
       <Files Include="$(OutDir)*" Exclude="$(OutDir)*.zip" />
     </ItemGroup>
+
     <GetAssemblyIdentity AssemblyFiles="$(OutDir)$(TargetFileName)">
       <Output TaskParameter="Assemblies" ItemName="Assembly" />
     </GetAssemblyIdentity>
-    <Zip TaskAction="Create" RemoveRoot="$(OutDir)" CompressFiles="@(Files)" ZipFileName="$(OutDir)$(ProjectName) %(Assembly.Version).zip" />
+
+    <Zip TaskAction="Create" RemoveRoot="$(OutDir)" CompressFiles="@(Files)" ZipFileName="$(OutDir)$(ProjectName)-%(Assembly.Version).$(GamePlatform).zip" />
+
     <RoboCopy Source="$(OutDir)" Destination="$(AppData)\StardewValley\Mods\$(ProjectName)\" Files="*.*" Options="/r:0 /MIR /XF *.zip">
       <Output TaskParameter="ExitCode" PropertyName="Exit" />
       <Output TaskParameter="ReturnCode" PropertyName="Return" />
     </RoboCopy>
+
     <Message Text="ExitCode = $(Exit)" />
     <Message Text="ReturnCode = $(Return)" />
+  </Target>
+
+  <Target Name="AfterClean">
+    <Folder TaskAction="RemoveContent" Path="$(OutDir)" />
   </Target>
 </Project>

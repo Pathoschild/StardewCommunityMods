@@ -1,89 +1,56 @@
 ﻿using System;
-using JetBrains.Annotations;
-using Microsoft.Xna.Framework.Input;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using StardewModdingAPI;
-using TimeSpeed.Components;
+using System.Linq;
+using System.Runtime.Serialization;
+using StardewValley;
 
 namespace TimeSpeed
 {
-    [PublicAPI("Mod")]
-    public class TimeSpeedConfig : ModConfig, ITimeFreezerConfig, ITimeScalerConfig
+    public partial class TimeSpeedConfig
     {
-        public override T GenerateDefaultConfig<T>()
+        private double? GetTickLengthOrFreeze(GameLocation location)
         {
-            _outdoorTickLength = 14000;
-            _indoorTickLength = 14000;
-            _mineTickLength = 14000;
-            FreezeTimeOutdoors = false;
-            FreezeTimeIndoors = false;
-            FreezeTimeInMines = false;
-            FreezeTimeAt = null;
-            FreezeTimeKey = Keys.N;
-            IncreaseTickLengthKey = Keys.OemPeriod;
-            DecreaseTickLengthKey = Keys.OemComma;
-            ReloadConfigKey = Keys.B;
-
-            return this as T;
-        }
-
-        public int? FreezeTimeAt { get; set; }
-
-        public bool FreezeTimeIndoors { get; set; }
-
-        public bool FreezeTimeInMines { get; set; }
-
-        public bool FreezeTimeOutdoors { get; set; }
-
-        private int _outdoorTickLength;
-
-        public int OutdoorTickLength
-        {
-            get { return _outdoorTickLength; }
-            set
+            double? locationTickLength;
+            if (TickLengthByLocation.TryGetValue(location.Name, out locationTickLength) ||
+                (location.IsOutdoors && TickLengthByLocation.TryGetValue(LocationTypes.Outdoors.ToString(), out locationTickLength)) ||
+                (!location.IsOutdoors && TickLengthByLocation.TryGetValue(LocationTypes.Indoors.ToString(), out locationTickLength)))
             {
-                _outdoorTickLength = Math.Max(100, value);
-                Log.Info($"Outdoor tick length set to {_outdoorTickLength / 1000f:0.###} sec.");
+                return locationTickLength;
             }
+
+            return DefaultTickLength;
         }
 
-        private int _indoorTickLength;
-
-        public int IndoorTickLength
+        [OnDeserialized]
+        private void OnDeserializedMethod(StreamingContext context)
         {
-            get { return _indoorTickLength; }
-            set
-            {
-                _indoorTickLength = Math.Max(100, value);
-                Log.Info($"Indoor tick length set to {_indoorTickLength / 1000f:0.###} sec.");
-            }
+            TickLengthByLocation = TickLengthByLocation.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.OrdinalIgnoreCase);
         }
 
-        private int _mineTickLength;
-
-        public int MineTickLength
+        public bool Enable(string season, int dayOfMonth)
         {
-            get { return _mineTickLength; }
-            set
-            {
-                _mineTickLength = Math.Max(100, value);
-                Log.Info($"Mine tick length set to {_indoorTickLength / 1000f:0.###} sec.");
-            }
+            if (EnableOnFestivalDays) return true;
+            return Utility.isFestivalDay(dayOfMonth, season);
         }
 
-        public bool ChangeTimeSpeedOnFestivalDays { get; set; }
+        public bool ShouldFreeze(GameLocation location)
+        {
+            return GetTickLengthOrFreeze(location) == null;
+        }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public Keys FreezeTimeKey { get; set; }
+        public bool ShouldFreeze(int time)
+        {
+            return time == FreezeTimeAt;
+        }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public Keys IncreaseTickLengthKey { get; set; }
+        public bool ShouldScale(string season, int dayOfMonth)
+        {
+            if (EnableOnFestivalDays) return true;
+            return !Utility.isFestivalDay(dayOfMonth, season);
+        }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public Keys DecreaseTickLengthKey { get; set; }
-
-        [JsonConverter(typeof(StringEnumConverter))]
-        public Keys ReloadConfigKey { get; set; }
+        public int? GetTickInterval(GameLocation location)
+        {
+            return (int?)((GetTickLengthOrFreeze(location) ?? DefaultTickLength) * 1000);
+        }
     }
 }

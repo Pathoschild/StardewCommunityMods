@@ -3,9 +3,9 @@ using System.Diagnostics;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 
-namespace TimeSpeed.Services
+namespace TimeSpeed.Helpers
 {
-    [PublicAPI]
+    [PublicAPI("Helper")]
     public class Logger
     {
         protected readonly string Name;
