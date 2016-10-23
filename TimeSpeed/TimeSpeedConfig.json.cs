@@ -16,7 +16,7 @@ namespace TimeSpeed
         /// Default length of in-game 10 minutes tick in seconds.
         /// Game uses 7 seconds by default.
         /// Specifying zero or negative values will cause undefined behavior :)
-        /// Set to <c>null</c> to freeze time globally.
+        /// Set to null to freeze time globally.
         /// </summary>
         public double? DefaultTickLength { get; set; } = 14.0;
 
@@ -29,7 +29,8 @@ namespace TimeSpeed
         /// <summary>
         /// Time speed for each location or location type. This will override <see cref="DefaultTickLength"/>.
         /// Specifying zero or negative values will cause undefined behavior.
-        /// Set to <c>null</c> to freeze time for location or location type.
+        /// Set to null to freeze time for location or location type.
+        /// Example: {"Farm":null, "Outdoors": 14}
         /// </summary>
         public Dictionary<string, double?> TickLengthByLocation { get; set; } = new Dictionary<string, double?>
         {
@@ -43,7 +44,7 @@ namespace TimeSpeed
         public bool EnableOnFestivalDays { get; set; } = false;
 
         /// <summary>
-        /// If not <c>null</c> time will be freezed everywhere at specified time.
+        /// If not null time will be freezed everywhere at specified time.
         /// Format: 1230 for 12:30PM; 800 for 8:00AM
         /// </summary>
         public int? FreezeTimeAt { get; set; } = null;
@@ -56,7 +57,7 @@ namespace TimeSpeed
         /// <summary>
         /// Allowed keys can be found here:
         /// https://msdn.microsoft.com/en-us/library/microsoft.xna.framework.input.keys.aspx
-        /// Set key to <c>"None"</c> or <c>0</c> to disable it.
+        /// Set key to "None" or 0 to disable it.
         /// </summary>
         [PublicAPI("Config")]
         public class KeysConfig
