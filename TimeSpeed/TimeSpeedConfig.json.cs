@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Input;
 using Newtonsoft.Json;
@@ -28,6 +28,8 @@ namespace TimeSpeed
 
         /// <summary>
         /// Time speed for each location or location type. This will override <see cref="DefaultTickLength"/>.
+        /// Supported location types are above. All location names can be found at "\Stardew Valley\Content\Maps" directory.
+        /// They usually match file name without xnb extension.
         /// Specifying zero or negative values will cause undefined behavior.
         /// Set to null to freeze time for location or location type.
         /// Example: {"Farm":null, "Outdoors": 14}
