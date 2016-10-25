@@ -14,4 +14,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright \x00a9 2016")]
 [assembly: ComVisible(false)]
 [assembly: Guid("d617dc5d-0495-4aa3-98ce-8c80baf66c33")]
-[assembly: AssemblyVersion("2.0.0")]
+[assembly: AssemblyVersion("2.0.1")]
