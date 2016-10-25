@@ -2,6 +2,7 @@
 using System.IO;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using StardewModdingAPI;
 
 namespace TimeSpeed.Helpers
@@ -9,20 +10,17 @@ namespace TimeSpeed.Helpers
     [PublicAPI("Helper")]
     public class ModConfig: Config
     {
-        //public override T UpdateConfig<T>()
-        //{
-        //    var obj = base.UpdateConfig<T>();
-        //    var @default = JObject.FromObject(GenerateDefaultConfig<T>());
-        //    var updated = JObject.Parse(File.ReadAllText(ConfigLocation));
+        public override T UpdateConfig<T>()
+        {
+            var @default = JObject.FromObject(GenerateDefaultConfig<T>());
+            var updated = JObject.Parse(File.ReadAllText(ConfigLocation));
+            @default.Merge(updated);
 
-        //    var content = JsonConvert.SerializeObject((object)this, typeof(T), Formatting.Indented, new JsonSerializerSettings() { ContractResolver = new DefaultContractResolver() });
+            var merged = @default.ToObject<T>();
+            ((ModConfig)(object)merged).ConfigLocation = ConfigLocation;
 
-        //    @default.Merge(updated);
-        //    var merged = @default.ToObject<T>();
-        //    ((ModConfig)(object)merged).ConfigLocation = ConfigLocation;
-
-        //    return merged;
-        //}
+            return merged;
+        }
 
         public event EventHandler Reloaded;
 

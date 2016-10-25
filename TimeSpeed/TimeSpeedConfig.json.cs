@@ -34,6 +34,7 @@ namespace TimeSpeed
         /// Set to null to freeze time for location or location type.
         /// Example: {"Farm":null, "Outdoors": 14}
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, double?> TickLengthByLocation { get; set; } = new Dictionary<string, double?>
         {
             { LocationTypes.Indoors.ToString(), 14.0 },
@@ -94,7 +95,7 @@ namespace TimeSpeed
             public Keys ReloadConfig { get; set; } = Keys.B;
         }
 
-        [JsonProperty(PropertyName = "Keys")]
+        [JsonProperty(PropertyName = "Keys", NullValueHandling = NullValueHandling.Ignore)]
         public KeysConfig Control { get; set; } = new KeysConfig();
     }
 }
