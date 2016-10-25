@@ -28,12 +28,41 @@ namespace TimeSpeed
 
         /// <summary>
         /// Time speed for each location or location type. This will override <see cref="DefaultTickLength"/>.
-        /// Supported location types are above. All location names can be found at "\Stardew Valley\Content\Maps" directory.
-        /// They usually match file name without xnb extension.
         /// Specifying zero or negative values will cause undefined behavior.
         /// Set to null to freeze time for location or location type.
-        /// Example: {"Farm":null, "Outdoors": 14}
         /// </summary>
+        /// <remarks>
+        /// Supported location types are specified in <see cref="LocationTypes"/>.
+        /// Most location names can be found at "\Stardew Valley\Content\Maps" directory. They usually match file name without xnb extension.
+        /// Or you can use "CurrentLocation" mod by AlphaOmegasis: http://www.nexusmods.com/stardewvalley/mods/638
+        /// </remarks>
+        /// <example>
+        /// This will set time in Mines and Skull Cavern to 28 seconds per 10 in-game minutes, freeze time indoors and use <see cref="DefaultTickLength"/> for outdoors.
+        /// <code>
+        /// "TickLengthByLocation": {
+        ///     "UndegroundMine": 28,
+        ///     "Indoors": null
+        /// }
+        /// </code>
+        /// </example>
+        /// <example>
+        /// This will freeze time on you Farm and set it to 14 seconds per 10 in-game minutes elsewhere.
+        /// <code>
+        /// "TickLengthByLocation": {
+        ///     "Indoors": 14,
+        ///     "Outdoors": 14,
+        ///     "Farm":null
+        /// }
+        /// </code>
+        /// </example>
+        /// <example>
+        /// This will freeze time in Saloon. In all other location it will act as specified by <see cref="DefaultTickLength"/>.
+        /// <code>
+        /// "TickLengthByLocation": {
+        ///     "Saloon": null
+        /// }
+        /// </code>
+        /// </example>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, double?> TickLengthByLocation { get; set; } = new Dictionary<string, double?>
         {
