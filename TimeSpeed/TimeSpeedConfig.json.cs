@@ -40,7 +40,7 @@ namespace TimeSpeed
         /// This will set time in Mines and Skull Cavern to 28 seconds per 10 in-game minutes, freeze time indoors and use <see cref="DefaultTickLength"/> for outdoors.
         /// <code>
         /// "TickLengthByLocation": {
-        ///     "UndegroundMine": 28,
+        ///     "UndergroundMine": 28,
         ///     "Indoors": null
         /// }
         /// </code>
