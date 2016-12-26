@@ -175,7 +175,8 @@ namespace TimeSpeed
 
         private void HandleTickProgress(TimeHelper.TickProgressChangedEventArgs args)
         {
-            if (Frozen) _time.TickProgress = args.PreviousProgress;
+            if (Frozen)
+                _time.TickProgress = args.TimeChanged ? 0 : args.PreviousProgress;
             else
             {
                 if (!_scale) return;
