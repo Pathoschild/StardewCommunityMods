@@ -48,6 +48,8 @@ namespace TimeSpeed
 
             ControlEvents.KeyPressed += (sender, args) =>
             {
+                if (!Game1.hasLoadedGame) return;
+
                 var key = args.KeyPressed;
 
                 if (key == _config.Control.FreezeTime)
