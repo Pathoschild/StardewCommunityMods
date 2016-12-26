@@ -26,12 +26,6 @@ namespace TimeSpeed
             TickLengthByLocation = TickLengthByLocation.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.OrdinalIgnoreCase);
         }
 
-        public bool Enable(string season, int dayOfMonth)
-        {
-            if (EnableOnFestivalDays) return true;
-            return Utility.isFestivalDay(dayOfMonth, season);
-        }
-
         public bool ShouldFreeze(GameLocation location)
         {
             return GetTickLengthOrFreeze(location) == null;
