@@ -49,6 +49,7 @@ namespace TimeSpeed
             ControlEvents.KeyPressed += (sender, args) =>
             {
                 if (!Game1.hasLoadedGame) return;
+                if (Game1.activeClickableMenu != null) return;
 
                 var key = args.KeyPressed;
 
