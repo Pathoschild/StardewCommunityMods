@@ -11,7 +11,7 @@ Solution is created in Visual Studio 2015.
 
 Mod can be build for Windows, Mac and Linux game versions.
 You can change desired platform via solution configurations.  
-Each platform requires corresponding binaries from the game folder to be present in _External_ directory:
+Each platform requires corresponding binaries from the game folder to be present in _<Solution_root>/TimeSpeed/External_ directory:
 
 * **Windows**:  
 _External/Windows_:  
@@ -33,7 +33,4 @@ _External/Linux_:
   * StardewValley.exe
   * xTile.dll
 
-Linux and Mac files are probably the same by I haven't tested it. 
-
-If you want to build for platform(s) other that the one you are currently using
-you can use [SteamCmd](https://developer.valvesoftware.com/wiki/SteamCMD#Cross-Platform_Installation) to download files for other platforms.
+Use [SteamCmd](https://developer.valvesoftware.com/wiki/SteamCMD#Cross-Platform_Installation) to download game files for other platforms.
