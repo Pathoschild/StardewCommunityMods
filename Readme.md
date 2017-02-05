@@ -1,6 +1,7 @@
 # TimeSpeed (unofficial)
 Continuation of [TimeSpeed](http://www.nexusmods.com/stardewvalley/mods/169/) mod for Stardew Valley.  
-Json configuration documentation can be found [here](https://github.com/alexb5dh/TimeSpeed/blob/master/TimeSpeed/TimeSpeedConfig.json.cs).
+Json configuration documentation can be found [here](https://github.com/alexb5dh/TimeSpeed/blob/master/TimeSpeed/TimeSpeedConfig.json.cs).  
+Forum topic can be found [here](http://community.playstarbound.com/threads/timespeed-unofficial.126181/).
 
 ## Requirements
 - Stardew Valley 1.11
