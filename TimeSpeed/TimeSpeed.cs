@@ -11,12 +11,6 @@ namespace TimeSpeed
     [PublicAPI("Mod")]
     public sealed class TimeSpeed : Mod
     {
-#if DEBUG
-        static TimeSpeed()
-        {
-            while (!System.Diagnostics.Debugger.IsAttached) System.Threading.Thread.Sleep(1000);
-        }
-#endif
         private Notifier _immersiveNotifier = new Notifier("");
         private Notifier _notifier = new Notifier(nameof(TimeSpeed));
         private Logger _logger = new Logger(nameof(TimeSpeed));
