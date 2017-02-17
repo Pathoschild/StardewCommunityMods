@@ -12,7 +12,9 @@ namespace TimeSpeed
         /*********
         ** Properties
         *********/
-        private readonly Notifier _immersiveNotifier = new Notifier("");
+        /// <summary>Displays messages to the user.</summary>
+        private readonly Notifier Notifier = new Notifier();
+
         private readonly TimeHelper _time = new TimeHelper();
 
         private TimeSpeedConfig Config;
@@ -80,7 +82,7 @@ namespace TimeSpeed
             this.UpdateScaleForDay();
             this.UpdateSettingsForLocation();
             this.Config = this.Helper.ReadConfig<TimeSpeedConfig>();
-            _immersiveNotifier.ShortNotify("Time feels differently now...");
+            this.Notifier.ShortNotify("Time feels differently now...");
         }
 
         private void ChangeTickInterval(bool increase)
@@ -101,7 +103,7 @@ namespace TimeSpeed
                 TickInterval = TickInterval + modifier;
             }
 
-            _immersiveNotifier.QuickNotify($"10 minutes feels like {TickInterval / 1000} seconds.");
+            this.Notifier.QuickNotify($"10 minutes feels like {TickInterval / 1000} seconds.");
             this.Monitor.Log($"Tick length set to {TickInterval / 1000d: 0.##} seconds.", LogLevel.Info);
         }
 
@@ -110,13 +112,13 @@ namespace TimeSpeed
             if (!Frozen)
             {
                 _frozenGlobal = true;
-                _immersiveNotifier.QuickNotify("Hey, you stopped the time!");
+                this.Notifier.QuickNotify("Hey, you stopped the time!");
                 this.Monitor.Log("Time is frozen globally.", LogLevel.Info);
             }
             else
             {
                 Frozen = false;
-                _immersiveNotifier.QuickNotify("Time feels as usual now...");
+                this.Notifier.QuickNotify("Time feels as usual now...");
                 this.Monitor.Log($"Time is temporarily unfrozen at \"{Game1.currentLocation.name}\".", LogLevel.Info);
             }
         }
@@ -126,7 +128,7 @@ namespace TimeSpeed
             if (Config.ShouldFreeze(Game1.timeOfDay))
             {
                 _frozenGlobal = true;
-                _immersiveNotifier.ShortNotify("Time suddenly stops...");
+                this.Notifier.ShortNotify("Time suddenly stops...");
                 this.Monitor.Log($"Time automatically set to frozen at {Game1.timeOfDay}.", LogLevel.Info);
             }
         }
@@ -143,11 +145,11 @@ namespace TimeSpeed
             if (Config.LocationNotify)
             {
                 if (_frozenGlobal)
-                    _immersiveNotifier.ShortNotify("Looks like time stopped everywhere...");
+                    this.Notifier.ShortNotify("Looks like time stopped everywhere...");
                 else if (_frozenAtLocation)
-                    _immersiveNotifier.ShortNotify("It feels like time is frozen here...");
+                    this.Notifier.ShortNotify("It feels like time is frozen here...");
                 else
-                    _immersiveNotifier.ShortNotify($"10 minutes feels more like {TickInterval / 1000} seconds here...");
+                    this.Notifier.ShortNotify($"10 minutes feels more like {TickInterval / 1000} seconds here...");
             }
         }
 
