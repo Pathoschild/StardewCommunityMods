@@ -38,11 +38,11 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\Notifier.cs" />
-    <Compile Include="Helpers\TimeHelper.cs" />
+    <Compile Include="Framework\Notifier.cs" />
+    <Compile Include="Framework\TimeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeSpeed.cs" />
-    <Compile Include="TimeSpeedConfig.cs" />
+    <Compile Include="Framework\TimeSpeedConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json" />

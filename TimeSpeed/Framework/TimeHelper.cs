@@ -3,17 +3,17 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace TimeSpeed.Helpers
+namespace TimeSpeed.Framework
 {
     [PublicAPI("Helper")]
-    public class TimeHelper
+    internal class TimeHelper
     {
         public int CurrentDefaultTickInterval => 7000 + (Game1.currentLocation?.getExtraMillisecondsPerInGameMinuteForThisLocation() ?? 0);
 
         public double TickProgress
         {
-            get { return (double)Game1.gameTimeInterval / CurrentDefaultTickInterval; }
-            set { Game1.gameTimeInterval = (int)(value * CurrentDefaultTickInterval); }
+            get { return (double)Game1.gameTimeInterval / this.CurrentDefaultTickInterval; }
+            set { Game1.gameTimeInterval = (int)(value * this.CurrentDefaultTickInterval); }
         }
 
         [PublicAPI("Helper")]
@@ -23,12 +23,12 @@ namespace TimeSpeed.Helpers
 
             public double NewProgress { get; }
 
-            public bool TimeChanged => NewProgress < PreviousProgress;
+            public bool TimeChanged => this.NewProgress < this.PreviousProgress;
 
             public TickProgressChangedEventArgs(double previousProgess, double newProgress)
             {
-                PreviousProgress = previousProgess;
-                NewProgress = newProgress;
+                this.PreviousProgress = previousProgess;
+                this.NewProgress = newProgress;
             }
         }
 
@@ -38,9 +38,9 @@ namespace TimeSpeed.Helpers
             EventHandler wrapper = (sender, args) =>
             {
                 // ReSharper disable once CompareOfFloatsByEqualityOperator - intended
-                if (previousProgress != TickProgress)
-                    handler(new TickProgressChangedEventArgs(previousProgress, TickProgress));
-                previousProgress = TickProgress;
+                if (previousProgress != this.TickProgress)
+                    handler(new TickProgressChangedEventArgs(previousProgress, this.TickProgress));
+                previousProgress = this.TickProgress;
             };
 
             GameEvents.UpdateTick += wrapper;

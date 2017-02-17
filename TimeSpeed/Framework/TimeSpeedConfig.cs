@@ -7,10 +7,10 @@ using Key = Microsoft.Xna.Framework.Input.Keys;
 
 // ReSharper disable RedundantDefaultMemberInitializer - intentional explicit initialization
 
-namespace TimeSpeed
+namespace TimeSpeed.Framework
 {
     [PublicAPI("JSON")]
-    public class TimeSpeedConfig
+    internal class TimeSpeedConfig
     {
         /*********
         ** Accessors
@@ -137,35 +137,35 @@ namespace TimeSpeed
         private double? GetTickLengthOrFreeze(GameLocation location)
         {
             double? locationTickLength;
-            if (TickLengthByLocation.TryGetValue(location.Name, out locationTickLength) ||
-                (location.IsOutdoors && TickLengthByLocation.TryGetValue(LocationTypes.Outdoors.ToString(), out locationTickLength)) ||
-                (!location.IsOutdoors && TickLengthByLocation.TryGetValue(LocationTypes.Indoors.ToString(), out locationTickLength)))
+            if (this.TickLengthByLocation.TryGetValue(location.Name, out locationTickLength) ||
+                (location.IsOutdoors && this.TickLengthByLocation.TryGetValue(LocationTypes.Outdoors.ToString(), out locationTickLength)) ||
+                (!location.IsOutdoors && this.TickLengthByLocation.TryGetValue(LocationTypes.Indoors.ToString(), out locationTickLength)))
             {
                 return locationTickLength;
             }
 
-            return DefaultTickLength;
+            return this.DefaultTickLength;
         }
 
         public bool ShouldFreeze(GameLocation location)
         {
-            return GetTickLengthOrFreeze(location) == null;
+            return this.GetTickLengthOrFreeze(location) == null;
         }
 
         public bool ShouldFreeze(int time)
         {
-            return time == FreezeTimeAt;
+            return time == this.FreezeTimeAt;
         }
 
         public bool ShouldScale(string season, int dayOfMonth)
         {
-            if (EnableOnFestivalDays) return true;
+            if (this.EnableOnFestivalDays) return true;
             return !Utility.isFestivalDay(dayOfMonth, season);
         }
 
         public int? GetTickInterval(GameLocation location)
         {
-            return (int?)((GetTickLengthOrFreeze(location) ?? DefaultTickLength) * 1000);
+            return (int?)((this.GetTickLengthOrFreeze(location) ?? this.DefaultTickLength) * 1000);
         }
     }
 }
