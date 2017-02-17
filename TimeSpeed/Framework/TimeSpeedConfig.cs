@@ -2,52 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using StardewValley;
-using Key = Microsoft.Xna.Framework.Input.Keys;
-
-// ReSharper disable RedundantDefaultMemberInitializer - intentional explicit initialization
 
 namespace TimeSpeed.Framework
 {
+    /// <summary>The mod configuration model.</summary>
     internal class TimeSpeedConfig
     {
         /*********
         ** Accessors
         *********/
-        /// <summary>
-        /// Default length of in-game 10 minutes tick in seconds.
-        /// Game uses 7 seconds by default.
-        /// Specifying zero or negative values will cause undefined behavior :)
-        /// Set to null to freeze time globally.
-        /// </summary>
+        /// <summary>The default number of seconds per 10-game-minutes, or <c>null</c> to freeze time globally. The game uses 7 seconds by default.</summary>
         public double? DefaultTickLength { get; set; } = 14.0;
 
-        public enum LocationTypes
-        {
-            Indoors,
-            Outdoors
-        }
-
-        /// <summary>
-        /// Time speed for each location or location type. This will override <see cref="DefaultTickLength"/>.
-        /// Specifying zero or negative values will cause undefined behavior.
-        /// Set to null to freeze time for location or location type.
-        /// </summary>
-        /// <remarks>
-        /// Supported location types are specified in <see cref="LocationTypes"/>.
-        /// Most location names can be found at "\Stardew Valley\Content\Maps" directory. They usually match file name without xnb extension.
-        /// Or you can use "CurrentLocation" mod by AlphaOmegasis: http://www.nexusmods.com/stardewvalley/mods/638
-        /// </remarks>
+        /// <summary>The number of seconds per 10-game-minutes (or <c>null</c> to freeze time) for each location. The key can be a location name or <see cref="LocationType"/>.</summary>
+        /// <remarks>Most location names can be found at "\Stardew Valley\Content\Maps" directory. They usually match the file name without its extension.</remarks>
         /// <example>
-        /// This will set time in Mines and Skull Cavern to 28 seconds per 10 in-game minutes, freeze time indoors and use <see cref="DefaultTickLength"/> for outdoors.
+        /// This will set the Mines and Skull Cavern to 28 seconds per 10-game-minutes, freeze time indoors and use <see cref="DefaultTickLength"/> for outdoors:
         /// <code>
         /// "TickLengthByLocation": {
         ///     "UndergroundMine": 28,
         ///     "Indoors": null
         /// }
         /// </code>
-        /// </example>
-        /// <example>
-        /// This will freeze time on you Farm and set it to 14 seconds per 10 in-game minutes elsewhere.
+        /// 
+        /// This will freeze time on your farm and set it to 14 seconds per 10-game-minutes elsewhere.
         /// <code>
         /// "TickLengthByLocation": {
         ///     "Indoors": 14,
@@ -55,9 +33,8 @@ namespace TimeSpeed.Framework
         ///     "Farm":null
         /// }
         /// </code>
-        /// </example>
-        /// <example>
-        /// This will freeze time in Saloon. In all other location it will act as specified by <see cref="DefaultTickLength"/>.
+        /// 
+        /// This will freeze time in the Saloon. All other locations will default to <see cref="DefaultTickLength"/>.
         /// <code>
         /// "TickLengthByLocation": {
         ///     "Saloon": null
@@ -66,103 +43,79 @@ namespace TimeSpeed.Framework
         /// </example>
         public Dictionary<string, double?> TickLengthByLocation { get; set; } = new Dictionary<string, double?>
         {
-            { LocationTypes.Indoors.ToString(), 14.0 },
-            { LocationTypes.Outdoors.ToString(), 14.0 },
+            { LocationType.Indoors.ToString(), 14.0 },
+            { LocationType.Outdoors.ToString(), 14.0 },
         };
 
-        /// <summary>
-        /// Enable tick length override on festival days.
-        /// </summary>
+        /// <summary>Whether to change tick length on festival days.</summary>
         public bool EnableOnFestivalDays { get; set; } = false;
 
-        /// <summary>
-        /// If not null time will be freezed everywhere at specified time.
-        /// Format: 1230 for 12:30PM; 800 for 8:00AM
-        /// </summary>
+        /// <summary>The time at which to freeze time everywhere (or <c>null</c> to disable this). This should be 24-hour military time (e.g. 0800 for 8am, 1600 for 8pm, etc).</summary>
         public int? FreezeTimeAt { get; set; } = null;
 
-        /// <summary>
-        /// If true mod will notify about time settings at current location.
-        /// </summary>
+        /// <summary>Whether to show a message about the time settings when you enter a location.</summary>
         public bool LocationNotify { get; set; } = false;
 
-        /// <summary>
-        /// Allowed keys can be found here:
-        /// https://msdn.microsoft.com/en-us/library/microsoft.xna.framework.input.keys.aspx
-        /// Set key to "None" or 0 to disable it.
-        /// </summary>
-        public class KeysConfig
+        /// <summary>The keyboard bindings used to control the flow of time. See available keys at <a href="https://msdn.microsoft.com/en-us/library/microsoft.xna.framework.input.keys.aspx" />. Set a key to null to disable it.</summary>
+        public KeysConfig Keys { get; set; } = new KeysConfig();
+
+
+        /*********
+        ** Public methods
+        *********/
+        /// <summary>Get whether time should be frozen at a given location.</summary>
+        /// <param name="location">The game location.</param>
+        public bool ShouldFreeze(GameLocation location)
         {
-            /// <summary>
-            /// If time is not frozen this key will freeze it everywhere.
-            /// If time is frozen this key will unfreeze it untill location changed - then other settings will take precedence.
-            /// </summary>
-            public Key? FreezeTime { get; set; } = Key.N;
-
-            /// <summary>
-            /// Increases current tick length by 1 second.
-            /// If pressed with Control - 100, Shift - 10, Alt - 0.1 seconds.
-            /// </summary>
-            public Key? IncreaseTickInterval { get; set; } = Key.OemPeriod;
-
-            /// <summary>
-            /// Decreases current tick length by 1 second.
-            /// If pressed with Control - 100, Shift - 10, Alt - 0.1 seconds.
-            /// For safety reasons tick length won't became less than difference.
-            /// </summary>
-            public Key? DecreaseTickInterval { get; set; } = Key.OemComma;
-
-            /// <summary>
-            /// Reloads all values from config and applies them immediately.
-            /// Time will stay frozen if it was frozen via hotkey.
-            /// </summary>
-            public Key? ReloadConfig { get; set; } = Key.B;
+            return this.GetTickLengthOrFreeze(location) == null;
         }
 
-        public KeysConfig Keys { get; set; } = new KeysConfig();
+        /// <summary>Get whether the time should be frozen at a given time of day.</summary>
+        /// <param name="time">The time of day in 24-hour military format (e.g. 1600 for 8pm).</param>
+        public bool ShouldFreeze(int time)
+        {
+            return this.FreezeTimeAt == time;
+        }
+
+        /// <summary>Get whether time settings should be applied on a given day.</summary>
+        /// <param name="season">The season to check.</param>
+        /// <param name="dayOfMonth">The day of month to check.</param>
+        public bool ShouldScale(string season, int dayOfMonth)
+        {
+            return this.EnableOnFestivalDays || !Utility.isFestivalDay(dayOfMonth, season);
+        }
+
+        /// <summary>Get the tick interval to apply for a location.</summary>
+        /// <param name="location">The game location.</param>
+        public int? GetTickInterval(GameLocation location)
+        {
+            return (int?)((this.GetTickLengthOrFreeze(location) ?? this.DefaultTickLength) * 1000);
+        }
 
 
         /*********
         ** Private methods
         *********/
+        /// <summary>The method called after the config file is deserialised.</summary>
+        /// <param name="context">The deserialisation context.</param>
         [OnDeserialized]
         private void OnDeserializedMethod(StreamingContext context)
         {
             this.TickLengthByLocation = new Dictionary<string, double?>(this.TickLengthByLocation, StringComparer.OrdinalIgnoreCase);
         }
 
+        /// <summary>Get the tick length to apply for a given location, or <c>null</c> to freeze time.</summary>
+        /// <param name="location">The game location.</param>
         private double? GetTickLengthOrFreeze(GameLocation location)
         {
-            double? locationTickLength;
-            if (this.TickLengthByLocation.TryGetValue(location.Name, out locationTickLength) ||
-                (location.IsOutdoors && this.TickLengthByLocation.TryGetValue(LocationTypes.Outdoors.ToString(), out locationTickLength)) ||
-                (!location.IsOutdoors && this.TickLengthByLocation.TryGetValue(LocationTypes.Indoors.ToString(), out locationTickLength)))
-            {
-                return locationTickLength;
-            }
+            double? tickLength;
+            bool specified = this.TickLengthByLocation.TryGetValue(location.Name, out tickLength)
+                || (location.IsOutdoors && this.TickLengthByLocation.TryGetValue(LocationType.Outdoors.ToString(), out tickLength))
+                || (!location.IsOutdoors && this.TickLengthByLocation.TryGetValue(LocationType.Indoors.ToString(), out tickLength));
 
-            return this.DefaultTickLength;
-        }
-
-        public bool ShouldFreeze(GameLocation location)
-        {
-            return this.GetTickLengthOrFreeze(location) == null;
-        }
-
-        public bool ShouldFreeze(int time)
-        {
-            return time == this.FreezeTimeAt;
-        }
-
-        public bool ShouldScale(string season, int dayOfMonth)
-        {
-            if (this.EnableOnFestivalDays) return true;
-            return !Utility.isFestivalDay(dayOfMonth, season);
-        }
-
-        public int? GetTickInterval(GameLocation location)
-        {
-            return (int?)((this.GetTickLengthOrFreeze(location) ?? this.DefaultTickLength) * 1000);
+            return specified
+                ? tickLength
+                : this.DefaultTickLength;
         }
     }
 }

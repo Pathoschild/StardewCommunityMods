@@ -4,34 +4,32 @@ using StardewValley;
 
 namespace TimeSpeed.Framework
 {
+    /// <summary>Provides helper methods for tracking time flow.</summary>
     internal class TimeHelper
     {
+        /*********
+        ** Accessors
+        *********/
+        /// <summary>The game's default tick interval in milliseconds for the current location.</summary>
         public int CurrentDefaultTickInterval => 7000 + (Game1.currentLocation?.getExtraMillisecondsPerInGameMinuteForThisLocation() ?? 0);
 
+        /// <summary>The percentage of the <see cref="CurrentDefaultTickInterval"/> that's elapsed since the last tick.</summary>
         public double TickProgress
         {
             get { return (double)Game1.gameTimeInterval / this.CurrentDefaultTickInterval; }
             set { Game1.gameTimeInterval = (int)(value * this.CurrentDefaultTickInterval); }
         }
 
-        public class TickProgressChangedEventArgs : EventArgs
-        {
-            public double PreviousProgress { get; }
 
-            public double NewProgress { get; }
-
-            public bool TimeChanged => this.NewProgress < this.PreviousProgress;
-
-            public TickProgressChangedEventArgs(double previousProgess, double newProgress)
-            {
-                this.PreviousProgress = previousProgess;
-                this.NewProgress = newProgress;
-            }
-        }
-
+        /*********
+        ** Public methods
+        *********/
+        /// <summary>Register an event handler to notify when the <see cref="TickProgress"/> changes.</summary>
+        /// <param name="handler">The event handler to notify.</param>
+        /// <returns>Returns an action which unregisters the handler.</returns>
         public Action WhenTickProgressChanged(Action<TickProgressChangedEventArgs> handler)
         {
-            var previousProgress = 0d;
+            double previousProgress = 0;
             EventHandler wrapper = (sender, args) =>
             {
                 // ReSharper disable once CompareOfFloatsByEqualityOperator - intended

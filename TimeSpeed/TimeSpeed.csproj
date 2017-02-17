@@ -34,7 +34,10 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework\KeysConfig.cs" />
+    <Compile Include="Framework\LocationType.cs" />
     <Compile Include="Framework\Notifier.cs" />
+    <Compile Include="Framework\TickProgressChangedEventArgs.cs" />
     <Compile Include="Framework\TimeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeSpeed.cs" />
