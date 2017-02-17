@@ -97,26 +97,26 @@ namespace TimeSpeed.Framework
             /// If time is not frozen this key will freeze it everywhere.
             /// If time is frozen this key will unfreeze it untill location changed - then other settings will take precedence.
             /// </summary>
-            public Key FreezeTime { get; set; } = Key.N;
+            public Key? FreezeTime { get; set; } = Key.N;
 
             /// <summary>
             /// Increases current tick length by 1 second.
             /// If pressed with Control - 100, Shift - 10, Alt - 0.1 seconds.
             /// </summary>
-            public Key IncreaseTickInterval { get; set; } = Key.OemPeriod;
+            public Key? IncreaseTickInterval { get; set; } = Key.OemPeriod;
 
             /// <summary>
             /// Decreases current tick length by 1 second.
             /// If pressed with Control - 100, Shift - 10, Alt - 0.1 seconds.
             /// For safety reasons tick length won't became less than difference.
             /// </summary>
-            public Key DecreaseTickInterval { get; set; } = Key.OemComma;
+            public Key? DecreaseTickInterval { get; set; } = Key.OemComma;
 
             /// <summary>
             /// Reloads all values from config and applies them immediately.
             /// Time will stay frozen if it was frozen via hotkey.
             /// </summary>
-            public Key ReloadConfig { get; set; } = Key.B;
+            public Key? ReloadConfig { get; set; } = Key.B;
         }
 
         public KeysConfig Keys { get; set; } = new KeysConfig();
