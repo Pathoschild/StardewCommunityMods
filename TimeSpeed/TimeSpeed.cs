@@ -16,7 +16,6 @@ namespace TimeSpeed
         *********/
         private Notifier _immersiveNotifier = new Notifier("");
         private Notifier _notifier = new Notifier(nameof(TimeSpeed));
-        private Logger _logger = new Logger(nameof(TimeSpeed));
         private TimeHelper _time = new TimeHelper();
 
         private TimeSpeedConfig Config;
@@ -71,7 +70,7 @@ namespace TimeSpeed
             TimeEvents.TimeOfDayChanged += (sender, args) => UpdateFreezeForTime();
             TimeEvents.DayOfMonthChanged += (sender, args) => UpdateScaleForDay();
             LocationEvents.CurrentLocationChanged += (sender, args) => UpdateSettingsForLocation();
-            
+
             AddFreezeTimeBoxNotification();
         }
 
@@ -105,8 +104,8 @@ namespace TimeSpeed
                 TickInterval = TickInterval + modifier;
             }
 
-            _immersiveNotifier.QuickNotify($"10 minutes feels like {TickInterval/1000} seconds.");
-            _logger.Info($"Tick length set to {TickInterval / 1000d: 0.##} seconds.");
+            _immersiveNotifier.QuickNotify($"10 minutes feels like {TickInterval / 1000} seconds.");
+            this.Monitor.Log($"Tick length set to {TickInterval / 1000d: 0.##} seconds.", LogLevel.Info);
         }
 
         private void ToogleFreezeByKey()
@@ -115,13 +114,13 @@ namespace TimeSpeed
             {
                 _frozenGlobal = true;
                 _immersiveNotifier.QuickNotify("Hey, you stopped the time!");
-                _logger.Info("Time is frozen globally.");
+                this.Monitor.Log("Time is frozen globally.", LogLevel.Info);
             }
             else
             {
                 Frozen = false;
                 _immersiveNotifier.QuickNotify("Time feels as usual now...");
-                _logger.Info($"Time is temporarily unfrozen at \"{Game1.currentLocation.name}\".");
+                this.Monitor.Log($"Time is temporarily unfrozen at \"{Game1.currentLocation.name}\".", LogLevel.Info);
             }
         }
 
@@ -131,7 +130,7 @@ namespace TimeSpeed
             {
                 _frozenGlobal = true;
                 _immersiveNotifier.ShortNotify("Time suddenly stops...");
-                _logger.Info($"Time automatically set to frozen at {Game1.timeOfDay}.");
+                this.Monitor.Log($"Time automatically set to frozen at {Game1.timeOfDay}.", LogLevel.Info);
             }
         }
 
@@ -154,7 +153,7 @@ namespace TimeSpeed
                     _immersiveNotifier.ShortNotify($"10 minutes feels more like {TickInterval / 1000} seconds here...");
             }
         }
-        
+
         private void UpdateScaleForDay()
         {
             _scale = this.Config.ShouldScale(Game1.currentSeason, Game1.dayOfMonth);
