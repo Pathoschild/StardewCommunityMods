@@ -43,16 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Logger.cs" />
-    <Compile Include="Helpers\ModConfig.cs" />
     <Compile Include="Helpers\Notifier.cs" />
     <Compile Include="Helpers\TimeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeSpeed.cs" />
     <Compile Include="TimeSpeedConfig.cs" />
-    <Compile Include="TimeSpeedConfig.json.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="config.json" />
     <None Include="manifest.json" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -71,7 +68,6 @@
     <Copy SourceFiles="$(TargetDir)\$(TargetName).dll" DestinationFolder="$(ModPath)" />
     <Copy SourceFiles="$(TargetDir)\$(TargetName).pdb" DestinationFolder="$(ModPath)" Condition="Exists('$(TargetDir)\$(TargetName).pdb')" />
     <Copy SourceFiles="$(TargetDir)\$(TargetName).dll.mdb" DestinationFolder="$(ModPath)" Condition="Exists('$(TargetDir)\$(TargetName).dll.mdb')" />
-    <Copy SourceFiles="$(ProjectDir)\config.json" DestinationFolder="$(ModPath)" />
     <Copy SourceFiles="$(ProjectDir)\manifest.json" DestinationFolder="$(ModPath)" />
   </Target>
 </Project>

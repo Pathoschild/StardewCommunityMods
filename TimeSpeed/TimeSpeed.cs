@@ -11,12 +11,15 @@ namespace TimeSpeed
     [PublicAPI("Mod")]
     public sealed class TimeSpeed : Mod
     {
+        /*********
+        ** Properties
+        *********/
         private Notifier _immersiveNotifier = new Notifier("");
         private Notifier _notifier = new Notifier(nameof(TimeSpeed));
         private Logger _logger = new Logger(nameof(TimeSpeed));
         private TimeHelper _time = new TimeHelper();
 
-        private TimeSpeedConfig _config;
+        private TimeSpeedConfig Config;
 
         private bool _frozenGlobal;
         private bool _frozenAtLocation;
@@ -36,9 +39,15 @@ namespace TimeSpeed
             set { _tickInterval = Math.Max(value, 0); }
         }
 
-        public override void Entry(params object[] objects)
+
+        /*********
+        ** Public methods
+        *********/
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides simplified APIs for writing mods.</param>
+        public override void Entry(IModHelper helper)
         {
-            _config = new TimeSpeedConfig().InitializeConfig(BaseConfigPath);
+            Config = helper.ReadConfig<TimeSpeedConfig>();
 
             ControlEvents.KeyPressed += (sender, args) =>
             {
@@ -47,32 +56,34 @@ namespace TimeSpeed
 
                 var key = args.KeyPressed;
 
-                if (key == _config.Control.FreezeTime)
+                if (key == Config.Control.FreezeTime)
                     ToogleFreezeByKey();
 
-                if (key == _config.Control.IncreaseTickInterval || key == _config.Control.DecreaseTickInterval)
-                    ChangeTickInterval(increase: key == _config.Control.IncreaseTickInterval);
+                if (key == Config.Control.IncreaseTickInterval || key == Config.Control.DecreaseTickInterval)
+                    ChangeTickInterval(increase: key == Config.Control.IncreaseTickInterval);
 
-                if (key == _config.Control.ReloadConfig)
+                if (key == Config.Control.ReloadConfig)
                     ReloadConfig();
             };
 
             _time.WhenTickProgressChanged(HandleTickProgress);
 
             TimeEvents.TimeOfDayChanged += (sender, args) => UpdateFreezeForTime();
-
-            _config.Reloaded += (sender, args) => UpdateScaleForDay();
             TimeEvents.DayOfMonthChanged += (sender, args) => UpdateScaleForDay();
-
-            _config.Reloaded += (sender, args) => UpdateSettingsForLocation();
             LocationEvents.CurrentLocationChanged += (sender, args) => UpdateSettingsForLocation();
             
             AddFreezeTimeBoxNotification();
         }
 
+
+        /*********
+        ** Protected methods
+        *********/
         private void ReloadConfig()
         {
-            _config.Reload();
+            this.UpdateScaleForDay();
+            this.UpdateSettingsForLocation();
+            this.Config = this.Helper.ReadConfig<TimeSpeedConfig>();
             _immersiveNotifier.ShortNotify("Time feels differently now...");
         }
 
@@ -116,7 +127,7 @@ namespace TimeSpeed
 
         private void UpdateFreezeForTime()
         {
-            if (_config.ShouldFreeze(Game1.timeOfDay))
+            if (Config.ShouldFreeze(Game1.timeOfDay))
             {
                 _frozenGlobal = true;
                 _immersiveNotifier.ShortNotify("Time suddenly stops...");
@@ -128,12 +139,12 @@ namespace TimeSpeed
         {
             if (Game1.currentLocation == null) return;
 
-            _frozenAtLocation = _frozenGlobal || _config.ShouldFreeze(Game1.currentLocation);
-            if (_config.GetTickInterval(Game1.currentLocation) != null)
-                TickInterval = _config.GetTickInterval(Game1.currentLocation) ?? TickInterval;
+            _frozenAtLocation = _frozenGlobal || Config.ShouldFreeze(Game1.currentLocation);
+            if (Config.GetTickInterval(Game1.currentLocation) != null)
+                TickInterval = Config.GetTickInterval(Game1.currentLocation) ?? TickInterval;
 
 
-            if (_config.LocationNotify)
+            if (Config.LocationNotify)
             {
                 if (_frozenGlobal)
                     _immersiveNotifier.ShortNotify("Looks like time stopped everywhere...");
@@ -146,7 +157,7 @@ namespace TimeSpeed
         
         private void UpdateScaleForDay()
         {
-            _scale = _config.ShouldScale(Game1.currentSeason, Game1.dayOfMonth);
+            _scale = this.Config.ShouldScale(Game1.currentSeason, Game1.dayOfMonth);
         }
 
         private void AddFreezeTimeBoxNotification()
