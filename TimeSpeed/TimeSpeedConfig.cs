@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using JetBrains.Annotations;
-using Microsoft.Xna.Framework.Input;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using StardewValley;
+using Key = Microsoft.Xna.Framework.Input.Keys;
 
 // ReSharper disable RedundantDefaultMemberInitializer - intentional explicit initialization
 
@@ -69,7 +66,6 @@ namespace TimeSpeed
         /// }
         /// </code>
         /// </example>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, double?> TickLengthByLocation { get; set; } = new Dictionary<string, double?>
         {
             { LocationTypes.Indoors.ToString(), 14.0 },
@@ -104,39 +100,40 @@ namespace TimeSpeed
             /// If time is not frozen this key will freeze it everywhere.
             /// If time is frozen this key will unfreeze it untill location changed - then other settings will take precedence.
             /// </summary>
-            [JsonConverter(typeof(StringEnumConverter))]
-            public Keys FreezeTime { get; set; } = Keys.N;
+            public Key FreezeTime { get; set; } = Key.N;
 
             /// <summary>
             /// Increases current tick length by 1 second.
             /// If pressed with Control - 100, Shift - 10, Alt - 0.1 seconds.
             /// </summary>
-            [JsonConverter(typeof(StringEnumConverter))]
-            public Keys IncreaseTickInterval { get; set; } = Keys.OemPeriod;
+            public Key IncreaseTickInterval { get; set; } = Key.OemPeriod;
 
             /// <summary>
             /// Decreases current tick length by 1 second.
             /// If pressed with Control - 100, Shift - 10, Alt - 0.1 seconds.
             /// For safety reasons tick length won't became less than difference.
             /// </summary>
-            [JsonConverter(typeof(StringEnumConverter))]
-            public Keys DecreaseTickInterval { get; set; } = Keys.OemComma;
+            public Key DecreaseTickInterval { get; set; } = Key.OemComma;
 
             /// <summary>
             /// Reloads all values from config and applies them immediately.
             /// Time will stay frozen if it was frozen via hotkey.
             /// </summary>
-            [JsonConverter(typeof(StringEnumConverter))]
-            public Keys ReloadConfig { get; set; } = Keys.B;
+            public Key ReloadConfig { get; set; } = Key.B;
         }
 
-        [JsonProperty(PropertyName = "Keys", NullValueHandling = NullValueHandling.Ignore)]
-        public KeysConfig Control { get; set; } = new KeysConfig();
+        public KeysConfig Keys { get; set; } = new KeysConfig();
 
 
         /*********
         ** Private methods
         *********/
+        [OnDeserialized]
+        private void OnDeserializedMethod(StreamingContext context)
+        {
+            this.TickLengthByLocation = new Dictionary<string, double?>(this.TickLengthByLocation, StringComparer.OrdinalIgnoreCase);
+        }
+
         private double? GetTickLengthOrFreeze(GameLocation location)
         {
             double? locationTickLength;
@@ -148,12 +145,6 @@ namespace TimeSpeed
             }
 
             return DefaultTickLength;
-        }
-
-        [OnDeserialized]
-        private void OnDeserializedMethod(StreamingContext context)
-        {
-            TickLengthByLocation = TickLengthByLocation.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.OrdinalIgnoreCase);
         }
 
         public bool ShouldFreeze(GameLocation location)

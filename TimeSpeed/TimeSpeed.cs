@@ -55,13 +55,13 @@ namespace TimeSpeed
 
                 var key = args.KeyPressed;
 
-                if (key == Config.Control.FreezeTime)
+                if (key == Config.Keys.FreezeTime)
                     ToogleFreezeByKey();
 
-                if (key == Config.Control.IncreaseTickInterval || key == Config.Control.DecreaseTickInterval)
-                    ChangeTickInterval(increase: key == Config.Control.IncreaseTickInterval);
+                if (key == Config.Keys.IncreaseTickInterval || key == Config.Keys.DecreaseTickInterval)
+                    ChangeTickInterval(increase: key == Config.Keys.IncreaseTickInterval);
 
-                if (key == Config.Control.ReloadConfig)
+                if (key == Config.Keys.ReloadConfig)
                     ReloadConfig();
             };
 
