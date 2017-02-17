@@ -1,11 +1,9 @@
 ﻿using System;
-using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
 namespace TimeSpeed.Framework
 {
-    [PublicAPI("Helper")]
     internal class TimeHelper
     {
         public int CurrentDefaultTickInterval => 7000 + (Game1.currentLocation?.getExtraMillisecondsPerInGameMinuteForThisLocation() ?? 0);
@@ -16,7 +14,6 @@ namespace TimeSpeed.Framework
             set { Game1.gameTimeInterval = (int)(value * this.CurrentDefaultTickInterval); }
         }
 
-        [PublicAPI("Helper")]
         public class TickProgressChangedEventArgs : EventArgs
         {
             public double PreviousProgress { get; }

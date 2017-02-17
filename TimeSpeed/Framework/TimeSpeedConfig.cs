@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using JetBrains.Annotations;
 using StardewValley;
 using Key = Microsoft.Xna.Framework.Input.Keys;
 
@@ -9,7 +8,6 @@ using Key = Microsoft.Xna.Framework.Input.Keys;
 
 namespace TimeSpeed.Framework
 {
-    [PublicAPI("JSON")]
     internal class TimeSpeedConfig
     {
         /*********
@@ -93,7 +91,6 @@ namespace TimeSpeed.Framework
         /// https://msdn.microsoft.com/en-us/library/microsoft.xna.framework.input.keys.aspx
         /// Set key to "None" or 0 to disable it.
         /// </summary>
-        [PublicAPI("Config")]
         public class KeysConfig
         {
             /// <summary>

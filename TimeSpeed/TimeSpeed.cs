@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -8,15 +7,13 @@ using TimeSpeed.Framework;
 
 namespace TimeSpeed
 {
-    [PublicAPI("Mod")]
     public sealed class TimeSpeed : Mod
     {
         /*********
         ** Properties
         *********/
-        private Notifier _immersiveNotifier = new Notifier("");
-        private Notifier _notifier = new Notifier(nameof(TimeSpeed));
-        private TimeHelper _time = new TimeHelper();
+        private readonly Notifier _immersiveNotifier = new Notifier("");
+        private readonly TimeHelper _time = new TimeHelper();
 
         private TimeSpeedConfig Config;
 

@@ -1,9 +1,7 @@
-﻿using JetBrains.Annotations;
-using StardewValley;
+﻿using StardewValley;
 
 namespace TimeSpeed.Framework
 {
-    [PublicAPI("Helper")]
     internal class Notifier
     {
         protected readonly string Name;
