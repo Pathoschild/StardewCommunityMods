@@ -1,0 +1,8 @@
+﻿{
+    "displayName": "TimeSpeed",
+    "author": "cantorsdust",
+    "version": "1.5.3.1",
+    "description": "Goes in %appdata% StardewValley/Mods/TimeSpeed with your dll.",
+
+    "assemblyFileName": "TimeSpeed.dll"
+}

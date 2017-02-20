@@ -1,0 +1,14 @@
+{
+  "Name": "TimeSpeed Mod",
+  "Authour": "cantorsdust and Syndlig",
+  "Version": {
+    "MajorVersion": 0,
+    "MinorVersion": 0,
+    "PatchVersion": 0,
+    "Build": ""
+  },
+  "Description": "Allows for a configurable ten minute tick length.",
+  "UniqueID": "4108e859-333c-4fec-a1a7-d2e18c1019fe",
+  "PerSaveConfigs": false,
+  "EntryDll": "TimeSpeed.dll"
+}

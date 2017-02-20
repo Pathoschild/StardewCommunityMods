@@ -1,0 +1,61 @@
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\TimeSpeed.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\TimeSpeed.pdb
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\Microsoft.Xna.Framework.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\Microsoft.Xna.Framework.Game.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\Stardew Valley.exe
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\StardewModdingAPI.exe
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\TrainerMod.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\Microsoft.Xna.Framework.Graphics.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\xTile.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\Lidgren.Network.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\Microsoft.Xna.Framework.Xact.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\Steamworks.NET.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\Microsoft.Xna.Framework.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\Microsoft.Xna.Framework.Game.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\Microsoft.Xna.Framework.Graphics.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\bin\Debug\Microsoft.Xna.Framework.Xact.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\obj\Debug\TimeSpeed.csprojResolveAssemblyReference.cache
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\obj\Debug\TimeSpeed.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSlow\project files\TimeSlow\TimeSlow\obj\Debug\TimeSpeed.pdb
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\TimeSpeed.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\TimeSpeed.pdb
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Game.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\Stardew Valley.exe
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\StardewModdingAPI.exe
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Graphics.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\xTile.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\Lidgren.Network.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Xact.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\Steamworks.NET.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Game.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Graphics.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Xact.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.csprojResolveAssemblyReference.cache
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\project files\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.pdb
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\TimeSpeed.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\TimeSpeed.pdb
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Game.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Stardew Valley.exe
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\StardewModdingAPI.exe
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Graphics.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\xTile.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Lidgren.Network.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Xact.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Steamworks.NET.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Game.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Graphics.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Xact.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.csprojResolveAssemblyReference.cache
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\obj\Debug\TimeSpeed.pdb
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.GamerServices.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Input.Touch.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.GamerServices.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Microsoft.Xna.Framework.Input.Touch.xml
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Newtonsoft.Json.dll
+C:\Steam\SteamApps\common\Stardew Valley\mods made\TimeSpeed\TimeSpeed-SMAPI\TimeSpeed\TimeSpeed\bin\Debug\Newtonsoft.Json.xml
