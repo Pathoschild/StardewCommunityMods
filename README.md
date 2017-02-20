@@ -1,4 +1,4 @@
-This repository contains mods for [Stardew Valley](http://stardewvalley.net/) that are maintained
+﻿This repository contains mods for [Stardew Valley](http://stardewvalley.net/) that are maintained
 by the community.
 
 ## Community mods
@@ -20,13 +20,15 @@ More importantly, modders can volunteer to become maintainers for one or more mo
 commit directly to the repository and release new versions on the official Nexus page for the mod.
 
 ### What does this mean for the original author?
-The original author must [choose an open-source license](https://choosealicense.com/) first. They
-can retake control of the mod and Nexus page anytime, and release new versions without an open
-license. (However, the license can't be revoked for the code they already released under it.) Their
-original source code won't be changed, but they're free to merge the community changes into their
-code.
+This is a caretaker thing — it's meant to maintain popular mods while the author is inactive, and
+let them retake the mod if they come back. The author needs to release their code with
+[an open-source license](https://choosealicense.com/), which lets others maintain it. If they
+return later, they can retake control of the Nexus page and release new versions without an open
+license. Their original source code won't be changed, but they're free to merge the community
+changes into their own code.
 
-The author will always be credited as the original author. (Most licenses make that mandatory, too.)
+The author will always be credited as the original author, and they're free to choose a license
+that enforces that (like the MIT license).
 
 ### What are the requirements?
 To be accepted as a community mod...
@@ -34,8 +36,8 @@ To be accepted as a community mod...
 1. The source code must be available under [an open-source license](https://choosealicense.com/).
    The MIT license is preferred.
 2. The mod must be abandoned by the original author.
-3. The mod must use SMAPI only � no XNB replacement mods (unless it's done through SMAPI).
-4. Pathoschild must have co-maintainer access to the official Nexus page.
+3. The mod must use SMAPI only — no XNB replacement mods (unless it's done through SMAPI).
+4. Pathoschild must have co-maintainer access to the official Nexus page to set up official updates.
 
 ### How do I become a maintainer?
 Pull requests are welcome from anyone, but maintainers should already be active in the modding
