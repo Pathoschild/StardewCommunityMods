@@ -1,8 +1,0 @@
-﻿{
-    "displayName": "RecatchLegendaryFish",
-    "author": "cantorsdust",
-    "version": "1.0.0.0.STORM",
-    "description": "Goes in %appdata% StardewValley/Mods/RecatchLegendaryFish with your dll.",
-
-    "assemblyFileName": "RecatchLegendaryFish.dll"
-}
