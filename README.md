@@ -4,7 +4,11 @@ by the community.
 ## Community mods
 The following mods are maintained by the community:
 
-* _TBD_
+mod | original author | maintainers | license
+:-- | :-------------- | :---------- | :------
+[All Crops All Seasons](AllProfessions) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/170)) | cantorsdust | _none_ | GPL
+[All Professions](AllProfessions) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/174)) | cantorsdust | _none_ | GPL
+
 
 ## FAQs
 ### What is a 'community mod'?
