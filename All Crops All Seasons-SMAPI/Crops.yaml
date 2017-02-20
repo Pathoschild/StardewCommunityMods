@@ -28,6 +28,7 @@ content:  #!Dictionary<Int32,String>
     427: "1 1 2 2/spring summer fall winter/26/591/-1/0/false/false/true 255 186 255 223 191 255 255 246 0 255 80 0 255 158 193" #!String
     429: "1 2 2 2/spring summer fall winter/27/597/-1/0/false/false/true 35 127 255 109 131 255 112 207 255 191 228 255 94 121 255 40 150 255" #!String
     431: "1 2 3 2/spring summer fall winter/30/421/-1/0/false/false/false" #!String
+    433: "1 2 2 3 2/spring summer fall winter/40/433/2/0/true 4 6 10 .02/false/false" #!String
     453: "1 2 2 2/spring summer fall winter/28/376/-1/0/false/false/true 255 0 0 254 254 254 255 170 0" #!String
     455: "1 2 3 2/spring summer fall winter/29/593/-1/0/false/false/true 0 208 255 99 255 210 255 212 0 255 144 122 255 0 238 206 91 255" #!String
     472: "1 1 1 1/spring summer fall winter/0/24/-1/0/false/false/false" #!String
