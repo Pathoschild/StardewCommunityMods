@@ -30,7 +30,7 @@ namespace All_Crops_All_Seasons
         public Dictionary<Microsoft.Xna.Framework.Vector2, StardewValley.TerrainFeatures.HoeDirt> savedhoedirts = new Dictionary<Microsoft.Xna.Framework.Vector2, StardewValley.TerrainFeatures.HoeDirt>();
         public Dictionary<Microsoft.Xna.Framework.Vector2, StardewValley.Crop> savedcrops = new Dictionary<Microsoft.Xna.Framework.Vector2, StardewValley.Crop>();
 
-        public override void Entry(params object[] objects)
+        public override void Entry(IModHelper helper)
         {
             Console.WriteLine("All Crops All Seasons Mod Has Loaded");
             LocationEvents.CurrentLocationChanged += Events_LocationChanged;
