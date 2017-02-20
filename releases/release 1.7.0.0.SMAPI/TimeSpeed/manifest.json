@@ -1,7 +1,0 @@
-﻿{
-  "Name": "TimeSpeed Mod",
-  "Authour": "cantorsdust and Syndlig",
-  "Version": "1.7.0.0.SMAPI",
-  "Description": "Allows for a configurable ten minute tick length.",
-  "EntryDll":  "TimeSpeed.dll"
-}
