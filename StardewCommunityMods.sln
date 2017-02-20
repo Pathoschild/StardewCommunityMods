@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllProfessions", "AllProfes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantGrowTrees", "InstantGrowTrees\InstantGrowTrees.csproj", "{6C0BC797-B2EE-44C1-BB9D-2ABD8CB2955F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecatchLegendaryFish", "RecatchLegendaryFish\RecatchLegendaryFish.csproj", "{61762BCD-161E-478D-9E1D-DECD67103749}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{6C0BC797-B2EE-44C1-BB9D-2ABD8CB2955F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C0BC797-B2EE-44C1-BB9D-2ABD8CB2955F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C0BC797-B2EE-44C1-BB9D-2ABD8CB2955F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61762BCD-161E-478D-9E1D-DECD67103749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61762BCD-161E-478D-9E1D-DECD67103749}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61762BCD-161E-478D-9E1D-DECD67103749}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61762BCD-161E-478D-9E1D-DECD67103749}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
