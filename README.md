@@ -10,6 +10,7 @@ mod | original author | maintainers | license
 [All Professions](AllProfessions) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/174)) | cantorsdust | _none_ | GPL
 [Instant Grow Trees](InstantGrowTrees) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/173)) | cantorsdust | _none_ | GPL
 [Recatch Legendary Fish](RecatchLegendaryFish) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/172)) | cantorsdust | _none_ | GPL
+[Skull Cave Saver](SkullCaveSaver) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/175/)) | cantorsdust | _none_ | GPL
 
 ## FAQs
 ### What is a 'community mod'?

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantGrowTrees", "Instant
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecatchLegendaryFish", "RecatchLegendaryFish\RecatchLegendaryFish.csproj", "{61762BCD-161E-478D-9E1D-DECD67103749}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkullCaveSaver", "SkullCaveSaver\SkullCaveSaver.csproj", "{8EBDCD9D-0C6D-4C0C-A907-496AD0E09B16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{61762BCD-161E-478D-9E1D-DECD67103749}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61762BCD-161E-478D-9E1D-DECD67103749}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61762BCD-161E-478D-9E1D-DECD67103749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EBDCD9D-0C6D-4C0C-A907-496AD0E09B16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EBDCD9D-0C6D-4C0C-A907-496AD0E09B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EBDCD9D-0C6D-4C0C-A907-496AD0E09B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EBDCD9D-0C6D-4C0C-A907-496AD0E09B16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
