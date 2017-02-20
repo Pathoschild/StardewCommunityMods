@@ -1,0 +1,14 @@
+{
+  "Name": "SkullCaveSaver Mod",
+  "Authour": "cantorsdust",
+  "Version": {
+    "MajorVersion": 1,
+    "MinorVersion": 0,
+    "PatchVersion": 0,
+    "Build": ""
+  },
+  "Description": "Allows you to save your Skull Cave progress like the elevator does in the mines.",
+  "UniqueID": "8ac06349-26f7-4394-806c-95d48fd35774",
+  "PerSaveConfigs": true,
+  "EntryDll": "SkullCaveSaver.dll"
+}
