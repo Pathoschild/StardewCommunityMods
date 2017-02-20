@@ -1,28 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-//using System.Dynamic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using StardewModdingAPI.Inheritance;
-using System.Threading;
 
 /*
 TODO:
-
     Add seeds to seed shop inventory.  See SeedShop.cs line 155, shopStock().
 */
 
-namespace All_Crops_All_Seasons
+namespace AllCropsAllSeasons
 {
     public class AllCropsAllSeasons : Mod
     {
@@ -37,8 +23,8 @@ namespace All_Crops_All_Seasons
             TimeEvents.DayOfMonthChanged += Events_DayChanged;
 
         }
-        
-        
+
+
         void Events_LocationChanged(object sender, EventArgsCurrentLocationChanged e)
         {
             StardewValley.GameLocation location;
@@ -55,42 +41,42 @@ namespace All_Crops_All_Seasons
             if ((StardewValley.Game1.dayOfMonth != null) && (StardewValley.Game1.currentSeason != null) && (StardewValley.Game1.currentSeason != null) && (StardewValley.Game1.dayOfMonth != null))
             {
                 //Console.WriteLine("not all null");
-                
+
                 if (((StardewValley.Game1.dayOfMonth == 28) && (StardewValley.Game1.currentSeason.Equals("fall"))) || ((StardewValley.Game1.currentSeason.Equals("winter")) && !(StardewValley.Game1.dayOfMonth == 28)))
                 {
                     //Console.WriteLine("winter is coming");
-                    
+
                     if (location.name == "Farm")
                     //if player has come from farm into farmhouse, we're assuming they're going to bed, bad assumption, i know
                     {
                         //Console.WriteLine("firing saveCurrentCrops");
                         saveCurrentCrops();
                     }
-                    
+
                 }
-                
+
             }
-            
-            
+
+
         }
-        
+
         void Events_DayChanged(object sender, EventArgsIntChanged e)
         {
             //day is changed, safe again, now we go back to reset the crops properly
-            
+
             if ((StardewValley.Game1.currentSeason != null) && (StardewValley.Game1.currentSeason.Equals("winter")))
             {
                 //Console.WriteLine("firing restoreCurrentCrops");
                 restoreCurrentCrops();
             }
-            
+
         }
-        
+
         //TODO:  Save crops to file for saved game because they'll be deleted upon save!  Aaaaa!
 
         void saveCurrentCrops()
         {
-            
+
             StardewValley.GameLocation farm = StardewValley.Game1.getLocationFromName("Farm");
             StardewValley.SerializableDictionary<Microsoft.Xna.Framework.Vector2, StardewValley.TerrainFeatures.TerrainFeature> terrainFeaturelist = farm.terrainFeatures;
             savedhoedirts.Clear();
@@ -99,8 +85,8 @@ namespace All_Crops_All_Seasons
             foreach (KeyValuePair<Microsoft.Xna.Framework.Vector2, StardewValley.TerrainFeatures.TerrainFeature> entry in terrainFeaturelist)
             {
                 //Console.WriteLine("made it to foreach");
-                
-                
+
+
                 StardewValley.TerrainFeatures.TerrainFeature value = entry.Value;
                 Microsoft.Xna.Framework.Vector2 key = entry.Key;
                 if (value is StardewValley.TerrainFeatures.HoeDirt)
@@ -120,12 +106,12 @@ namespace All_Crops_All_Seasons
 
 
                 }
-                
-                
+
+
 
             }
-            
-            
+
+
         }
 
         void restoreCurrentCrops()
@@ -159,7 +145,7 @@ namespace All_Crops_All_Seasons
                 }
             }
         }
-        
+
 
 
 
