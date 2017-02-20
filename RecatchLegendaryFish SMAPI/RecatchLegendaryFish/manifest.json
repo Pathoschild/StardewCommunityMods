@@ -1,0 +1,14 @@
+﻿{
+  "Name": "RecatchLegendaryFish Mod",
+  "Authour": "cantorsdust",
+  "Version": {
+    "MajorVersion": 1,
+    "MinorVersion": 2,
+    "PatchVersion": 0,
+    "Build": ""
+  },
+  "Description": "Allows legendary fish to be caught again and again.",
+  "UniqueID": "b3af8c31-48f0-43cf-8343-3eb08bcfa1f9",
+  "PerSaveConfigs": false,
+  "EntryDll": "RecatchLegendaryFish.dll"
+}
