@@ -6,7 +6,6 @@ The following mods are maintained by the community:
 
 * _TBD_
 
-
 ## FAQs
 ### What is a 'community mod'?
 When a mod is no longer maintained, the author can choose to let the community maintain it. They do
@@ -27,7 +26,7 @@ license. (However, the license can't be revoked for the code they already releas
 original source code won't be changed, but they're free to merge the community changes into their
 code.
 
-The author will always be credited as original author. (Most licenses make that mandatory, too.)
+The author will always be credited as the original author. (Most licenses make that mandatory, too.)
 
 ### What are the requirements?
 To be accepted as a community mod...
