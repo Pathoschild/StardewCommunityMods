@@ -87,20 +87,4 @@ namespace InstantGrowTrees
             }
         }
     }
-
-    public class ModConfig : Config
-    {
-        public bool FruitTreesInstantGrow { get; set; }
-        public bool RegularTreesInstantGrow { get; set; }
-        public bool RegularTreesGrowInWinter { get; set; }
-
-        public override T GenerateDefaultConfig<T>()
-        {
-            FruitTreesInstantGrow = false;
-            RegularTreesInstantGrow = true;
-            RegularTreesGrowInWinter = false;
-
-            return this as T;
-        }
-    }
 }
