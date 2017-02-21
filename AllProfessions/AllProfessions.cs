@@ -11,7 +11,7 @@ namespace AllProfessions
     {
 
 
-        public override void Entry(params object[] objects)
+        public override void Entry(IModHelper helper)
         {
             runConfig();
             Console.WriteLine("AllProfessions Has Loaded");

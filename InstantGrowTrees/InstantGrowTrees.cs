@@ -12,16 +12,11 @@ namespace InstantGrowTrees
     {
         public static ModConfig InstantGrowTreesConfig { get; private set; }
 
-        public override void Entry(params object[] objects)
+        public override void Entry(IModHelper helper)
         {
-            runConfig();
+            InstantGrowTreesConfig = helper.ReadConfig<ModConfig>();
             Console.WriteLine("InstantGrowTrees Has Loaded");
             TimeEvents.DayOfMonthChanged += Events_NewDay;
-        }
-
-        void runConfig()
-        {
-            InstantGrowTreesConfig = new ModConfig().InitializeConfig(BaseConfigPath);
         }
 
         public void Events_NewDay(object sender, EventArgs e)

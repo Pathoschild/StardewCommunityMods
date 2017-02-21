@@ -5,8 +5,9 @@
     "MajorVersion": 1,
     "MinorVersion": 2,
     "PatchVersion": 0,
-    "Build": null
+    "Build": "beta"
   },
+  "MinimumApiVersion": "1.9-beta.7",
   "Description": "Gives you all possible professions when you level up, instead of just the one chosen.",
   "UniqueID": "community.AllProfessions",
   "EntryDll": "AllProfessions.dll"

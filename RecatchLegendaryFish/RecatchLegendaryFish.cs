@@ -19,7 +19,7 @@ namespace RecatchLegendaryFish
         public List<int> bossFishList = new List<int> { 159, 160, 163, 682, 775 };
 
 
-        public override void Entry(params object[] objects)
+        public override void Entry(IModHelper helper)
         {
             Console.WriteLine("RecatchLegendaryFish Has Loaded");
             GameEvents.UpdateTick += Events_UpdateTick;

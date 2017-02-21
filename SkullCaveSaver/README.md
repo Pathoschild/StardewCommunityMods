@@ -20,12 +20,13 @@ and now maintained by the community — pull requests are welcome!
 Just install the mod and play the game. It will save your Skull Cave level and warp you back to it
 automatically.
 
-The mod creates a `config.json` file the first time you run it. You can open the file in a text
+The mod creates a `config/<save id>.json` file the first time you run it. You can open the file in a text
 editor to configure the mod:
 
 setting | effect
 :------ | :-----
 `SaveLevelEveryXFloors` | The multiple of floors at which to save (e.g. `5` to save every fifth floor).
+`LastMineLevel` | The last saved Skull Cave floor. This is updated automatically, but you can set it manually to skip to that floor.
 
 ## Versions
 ### 1.0

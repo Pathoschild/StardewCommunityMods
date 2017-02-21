@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -8,26 +9,22 @@ namespace SkullCaveSaver
 {
     public class SkullCaveSaver : Mod
     {
-        public static ModConfig SkullCaveSaverConfig { get; private set; }
+        private static ModConfig SkullCaveSaverConfig;
+
         public bool loadingNewLevel = false;
 
-        public override void Entry(params object[] objects)
+        public override void Entry(IModHelper helper)
         {
             Console.WriteLine("SkullCaveSaver Has Loaded");
-            PlayerEvents.LoadedGame += Events_GameLoaded;
+            SaveEvents.AfterLoad += Events_AfterLoad;
             GameEvents.HalfSecondTick += Events_HalfSecond;
-
-
         }
 
-        void runConfig()
+        void Events_AfterLoad(object sender, EventArgs e)
         {
-            SkullCaveSaverConfig = new ModConfig().InitializeConfig(PerSaveConfigPath);
-        }
-
-        public void Events_GameLoaded(object sender, EventArgs e)
-        {
-            runConfig();
+            string path = Path.Combine("config", $"{Constants.SaveFolderName}.json");
+            SkullCaveSaver.SkullCaveSaverConfig = this.Helper.ReadJsonFile<ModConfig>(path) ?? new ModConfig();
+            this.Helper.WriteJsonFile(path, SkullCaveSaver.SkullCaveSaverConfig);
         }
 
         void Events_HalfSecond(object sender, EventArgs e)
@@ -39,7 +36,7 @@ namespace SkullCaveSaver
                 if (ms.mineLevel > SkullCaveSaverConfig.LastMineLevel && (ms.mineLevel - SkullCaveSaverConfig.LastMineLevel) >= SkullCaveSaverConfig.SaveLevelEveryXFloors)
                 {
                     SkullCaveSaverConfig.LastMineLevel = ms.mineLevel - (ms.mineLevel % SkullCaveSaverConfig.SaveLevelEveryXFloors);
-                    SkullCaveSaverConfig.WriteConfig<ModConfig>();
+                    this.Helper.WriteConfig(SkullCaveSaver.SkullCaveSaverConfig);
                 }
                 if (ms.mineLevel > 120 && ms.mineLevel < SkullCaveSaverConfig.LastMineLevel && !loadingNewLevel)
                 {

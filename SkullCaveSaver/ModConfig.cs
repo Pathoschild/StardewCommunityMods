@@ -1,18 +1,8 @@
-﻿using StardewModdingAPI;
-
-namespace SkullCaveSaver
+﻿namespace SkullCaveSaver
 {
-    public class ModConfig : Config
+    public class ModConfig
     {
         public int LastMineLevel { get; set; }
-        public int SaveLevelEveryXFloors { get; set; }
-
-        public override T GenerateDefaultConfig<T>()
-        {
-            LastMineLevel = 0;
-            SaveLevelEveryXFloors = 5;
-
-            return this as T;
-        }
+        public int SaveLevelEveryXFloors { get; set; } = 5;
     }
 }
