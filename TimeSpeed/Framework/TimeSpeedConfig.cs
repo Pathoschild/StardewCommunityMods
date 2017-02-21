@@ -50,7 +50,7 @@ namespace TimeSpeed.Framework
         /// <summary>Whether to change tick length on festival days.</summary>
         public bool EnableOnFestivalDays { get; set; } = false;
 
-        /// <summary>The time at which to freeze time everywhere (or <c>null</c> to disable this). This should be 24-hour military time (e.g. 0800 for 8am, 1600 for 8pm, etc).</summary>
+        /// <summary>The time at which to freeze time everywhere (or <c>null</c> to disable this). This should be 24-hour military time (e.g. 800 for 8am, 1600 for 8pm, etc).</summary>
         public int? FreezeTimeAt { get; set; } = null;
 
         /// <summary>Whether to show a message about the time settings when you enter a location.</summary>
