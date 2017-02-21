@@ -8,78 +8,113 @@ using StardewValley.TerrainFeatures;
 
 namespace InstantGrowTrees
 {
-    public class InstantGrowTrees : Mod
+    /// <summary>The entry class called by SMAPI.</summary>
+    public class ModEntry : Mod
     {
-        public static ModConfig InstantGrowTreesConfig { get; private set; }
+        /*********
+        ** Properties
+        *********/
+        /// <summary>The mod configuration.</summary>
+        private ModConfig Config;
 
+
+        /*********
+        ** Public methods
+        *********/
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            InstantGrowTreesConfig = helper.ReadConfig<ModConfig>();
-            Console.WriteLine("InstantGrowTrees Has Loaded");
-            TimeEvents.DayOfMonthChanged += Events_NewDay;
+            this.Config = helper.ReadConfig<ModConfig>();
+            TimeEvents.DayOfMonthChanged += this.ReceiveDayOfMonthChanged;
         }
 
-        public void Events_NewDay(object sender, EventArgs e)
+
+        /*********
+        ** Private methods
+        *********/
+        /****
+        ** Event handlers
+        ****/
+        /// <summary>The method called when the current day changes.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void ReceiveDayOfMonthChanged(object sender, EventArgs e)
         {
-            foreach (var location in Game1.locations)
+            this.GrowTrees();
+        }
+
+        /****
+        ** Methods
+        ****/
+        /// <summary>Grow all trees eligible for growth.</summary>
+        private void GrowTrees()
+        {
+            foreach (GameLocation location in Game1.locations)
             {
-                foreach (var terrainfeature in location.terrainFeatures)
+                foreach (KeyValuePair<Vector2, TerrainFeature> feature in location.terrainFeatures)
                 {
-                    if (InstantGrowTreesConfig.RegularTreesInstantGrow && terrainfeature.Value is Tree)
-                    {
-                        Tree tree = (Tree)terrainfeature.Value;
-                        GrowTree(tree, location, terrainfeature.Key);
-                    }
-                    if (InstantGrowTreesConfig.FruitTreesInstantGrow && terrainfeature.Value is FruitTree)
-                    {
-                        FruitTree fruittree = (FruitTree)terrainfeature.Value;
-                        GrowFruitTree(fruittree, location, terrainfeature.Key);
-                    }
+                    if (this.Config.RegularTreesInstantGrow && feature.Value is Tree)
+                        this.GrowTree((Tree)feature.Value, location, feature.Key);
+                    if (this.Config.FruitTreesInstantGrow && feature.Value is FruitTree)
+                        GrowFruitTree((FruitTree)feature.Value, location, feature.Key);
                 }
             }
         }
 
-        public void GrowTree(Tree tree, GameLocation location, Vector2 tileLocation)
+        /// <summary>Grow a tree if it's eligible for growth.</summary>
+        /// <param name="tree">The tree to grow.</param>
+        /// <param name="location">The tree's location.</param>
+        /// <param name="tile">The tree's tile position.</param>
+        private void GrowTree(Tree tree, GameLocation location, Vector2 tile)
         {
-            Rectangle rectangle = new Rectangle((int)(((double)tileLocation.X - 1.0) * (double)Game1.tileSize), (int)(((double)tileLocation.Y - 1.0) * (double)Game1.tileSize), Game1.tileSize * 3, Game1.tileSize * 3);
-            if (!Game1.currentSeason.Equals("winter") || tree.treeType == 6 || InstantGrowTreesConfig.RegularTreesGrowInWinter)
+            if (this.Config.RegularTreesGrowInWinter || !Game1.currentSeason.Equals("winter") || tree.treeType == 6)
             {
-                string str = location.doesTileHaveProperty((int)tileLocation.X, (int)tileLocation.Y, "NoSpawn", "Back");
-                if (str != null && (str.Equals("All") || str.Equals("Tree")))
+                // ignore trees on nospawn tiles
+                string isNoSpawn = location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "NoSpawn", "Back");
+                if (isNoSpawn != null && (isNoSpawn.Equals("All") || isNoSpawn.Equals("Tree")))
                     return;
-                if (tree.growthStage < 5)
+
+                // ignore fully-grown trees
+                if (tree.growthStage >= 5)
+                    return;
+
+                // ignore blocked seeds
+                if (tree.growthStage == 0 && location.objects.ContainsKey(tile))
+                    return;
+
+                // grow blocked trees to max
+                Rectangle freeArea = new Rectangle((int)((tile.X - 1.0) * Game1.tileSize), (int)((tile.Y - 1.0) * Game1.tileSize), Game1.tileSize * 3, Game1.tileSize * 3);
+                foreach (KeyValuePair<Vector2, TerrainFeature> pair in location.terrainFeatures)
                 {
-                    foreach (KeyValuePair<Vector2, TerrainFeature> keyValuePair in (Dictionary<Vector2, TerrainFeature>)location.terrainFeatures)
+                    if (pair.Value is Tree && !pair.Value.Equals(this) && ((Tree)pair.Value).growthStage >= 5 && pair.Value.getBoundingBox(pair.Key).Intersects(freeArea))
                     {
-                        if (keyValuePair.Value is Tree && !keyValuePair.Value.Equals((object)this) && ((Tree)keyValuePair.Value).growthStage >= 5 && keyValuePair.Value.getBoundingBox(keyValuePair.Key).Intersects(rectangle))
-                        {
-                            tree.growthStage = 4;
-                            return;
-                        }
+                        tree.growthStage = 4;
+                        return;
                     }
                 }
-                else if (tree.growthStage == 0 && location.objects.ContainsKey(tileLocation))
-                    return;
+
+                // grow tree
                 tree.growthStage = 5;
             }
         }
 
-        public void GrowFruitTree(FruitTree fruittree, GameLocation environment, Vector2 tileLocation)
+        /// <summary>Grow a fruit tree if it's eligible for growth.</summary>
+        /// <param name="tree">The tree to grow.</param>
+        /// <param name="location">The tree's location.</param>
+        /// <param name="tile">The tree's tile position.</param>
+        private void GrowFruitTree(FruitTree tree, GameLocation location, Vector2 tile)
         {
-            bool flag = false;
-            foreach (Vector2 tileLocation1 in Utility.getSurroundingTileLocationsArray(tileLocation))
+            // ignore if tree blocked
+            foreach (Vector2 adjacentTile in Utility.getSurroundingTileLocationsArray(tile))
             {
-                if (environment.isTileOccupied(tileLocation1, "") && (!environment.terrainFeatures.ContainsKey(tileLocation) || !(environment.terrainFeatures[tileLocation] is HoeDirt) || (environment.terrainFeatures[tileLocation] as HoeDirt).crop == null))
-                {
-                    flag = true;
-                    break;
-                }
+                if (location.isTileOccupied(adjacentTile) && (!location.terrainFeatures.ContainsKey(tile) || !(location.terrainFeatures[tile] is HoeDirt) || ((HoeDirt)location.terrainFeatures[tile]).crop == null))
+                    return;
             }
-            if (!flag)
-            {
-                fruittree.daysUntilMature = 0;
-                fruittree.growthStage = 4;
-            }
+
+            // grow tree
+            tree.daysUntilMature = 0;
+            tree.growthStage = 4;
         }
     }
 }

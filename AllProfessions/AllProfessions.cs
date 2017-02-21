@@ -7,79 +7,76 @@ using StardewValley;
 
 namespace AllProfessions
 {
-    public class AllProfessions : Mod
+    /// <summary>The entry class called by SMAPI.</summary>
+    public class ModEntry : Mod
     {
+        /*********
+        ** Properties
+        *********/
+        /// <summary>Professions to gain for each level.</summary>
+        private readonly IDictionary<string, int[]> ProfessionsToGain = new Dictionary<string, int[]>
+        {
+            ["Farmer:5"] = new[] { 0, 1 },
+            ["Farmer:10"] = new[] { 2, 3, 4, 5 },
+            ["Fishing:5"] = new[] { 6, 7 },
+            ["Fishing:10"] = new[] { 8, 9, 10, 11 },
+            ["Foraging:5"] = new[] { 12, 13 },
+            ["Foraging:10"] = new[] { 14, 15, 16, 17 },
+            ["Mining:5"] = new[] { 18, 19 },
+            ["Mining:10"] = new[] { 20, 21, 22, 23 },
+            ["Combat:5"] = new[] { 24, 25 },
+            ["Combat:10"] = new[] { 26, 27, 28, 29 }
+        };
 
 
+        /*********
+        ** Public methods
+        *********/
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            runConfig();
-            Console.WriteLine("AllProfessions Has Loaded");
-            LocationEvents.CurrentLocationChanged += Events_LocationChanged;
-
-
+            LocationEvents.CurrentLocationChanged += this.ReceiveCurrentLocationChanged;
         }
 
-        public List<int> FarmerLvlFive = new List<int> { 0, 1 };
-        public List<int> FarmerLvlTen = new List<int> { 2, 3, 4, 5 };
 
-        public List<int> FishingLvlFive = new List<int> { 6, 7 };
-        public List<int> FishingLvlTen = new List<int> { 8, 9, 10, 11 };
-
-        public List<int> ForagingLvlFive = new List<int> { 12, 13 };
-        public List<int> ForagingLvlTen = new List<int> { 14, 15, 16, 17 };
-
-        public List<int> MiningLvlFive = new List<int> { 18, 19 };
-        public List<int> MiningLvlTen = new List<int> { 20, 21, 22, 23 };
-
-        public List<int> CombatLvlFive = new List<int> { 24, 25 };
-        public List<int> CombatLvlTen = new List<int> { 26, 27, 28, 29 };
-
-
-
-        void runConfig()
+        /*********
+        ** Private methods
+        *********/
+        /****
+        ** Event handlers
+        ****/
+        /// <summary>The method called when the player warps to a new location.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        public void ReceiveCurrentLocationChanged(object sender, EventArgs e)
         {
+            this.AddMissingProfessions();
         }
 
-
-        public void Events_LocationChanged(object sender, EventArgs e)
-        {
-            //Console.WriteLine("Leveled up!");
-            AddMissingProfessions();
-        }
-
+        /****
+        ** Methods
+        ****/
+        /// <summary>Add all missing professions.</summary>
         public void AddMissingProfessions()
         {
-            //Console.WriteLine("Adding new professions");
-            var professions = Game1.player.professions;
-            List<List<int>> ProfessionsList = new List<List<int>> { FarmerLvlFive, FarmerLvlTen, FishingLvlFive, FishingLvlTen,
-                ForagingLvlFive, ForagingLvlTen, MiningLvlFive, MiningLvlTen, CombatLvlFive, CombatLvlTen };
+            int[] missingProfessions = this.ProfessionsToGain.Values
+                .SelectMany(p => p)
+                .Except(Game1.player.professions)
+                .ToArray();
 
-            foreach (List<int> list in ProfessionsList)
+            foreach (int professionID in missingProfessions)
             {
-                //Console.WriteLine("iterating over lists");
-                if (professions.Intersect(list).Any())
+                if (!Game1.player.professions.Contains(professionID))
                 {
-                    //Console.WriteLine("profession intersection found" + list.ToString());
-                    foreach (int element in list)
-                    {
-                        //Console.WriteLine("checking element: " + element.ToString("g"));
-                        if (!professions.Contains(element))
-                        {
-                            professions.Add(element);
-                            //Console.WriteLine("Adding profession number: " + element.ToString("g"));
+                    // add profession
+                    Game1.player.professions.Add(professionID);
 
-                            //adding in health bonuses that are a special case of LevelUpMenu.getImmediateProfessionPerk
-                            if (element == 24)
-                            {
-                                Game1.player.maxHealth += 15;
-                            }
-                            if (element == 27)
-                            {
-                                Game1.player.maxHealth += 25;
-                            }
-                        }
-                    }
+                    // add health bonuses that are a special case of LevelUpMenu.getImmediateProfessionPerk
+                    if (professionID == 24)
+                        Game1.player.maxHealth += 15;
+                    else if (professionID == 27)
+                        Game1.player.maxHealth += 25;
                 }
             }
         }

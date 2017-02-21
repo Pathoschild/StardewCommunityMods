@@ -7,59 +7,75 @@ using StardewValley.Locations;
 
 namespace SkullCaveSaver
 {
-    public class SkullCaveSaver : Mod
+    /// <summary>The entry class called by SMAPI.</summary>
+    public class ModEntry : Mod
     {
-        private static ModConfig SkullCaveSaverConfig;
+        /*********
+        ** Properties
+        *********/
+        /// <summary>The mod configuration.</summary>
+        private ModConfig Config;
 
-        public bool loadingNewLevel = false;
+        /// <summary>Whether the mod is warping to the saved mine level.</summary>
+        private bool WarpingToSavedLevel;
 
+
+        /*********
+        ** Public methods
+        *********/
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            Console.WriteLine("SkullCaveSaver Has Loaded");
-            SaveEvents.AfterLoad += Events_AfterLoad;
-            GameEvents.HalfSecondTick += Events_HalfSecond;
+            SaveEvents.AfterLoad += this.ReceiveAfterLoad;
+            GameEvents.HalfSecondTick += this.ReceiveHalfSecondTick;
         }
 
-        void Events_AfterLoad(object sender, EventArgs e)
+
+        /*********
+        ** Private methods
+        *********/
+        /****
+        ** Event handlers
+        ****/
+        /// <summary>The method called after the player loads a saved game.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void ReceiveAfterLoad(object sender, EventArgs e)
         {
+            // read per-save config
             string path = Path.Combine("config", $"{Constants.SaveFolderName}.json");
-            SkullCaveSaver.SkullCaveSaverConfig = this.Helper.ReadJsonFile<ModConfig>(path) ?? new ModConfig();
-            this.Helper.WriteJsonFile(path, SkullCaveSaver.SkullCaveSaverConfig);
+            this.Config = this.Helper.ReadJsonFile<ModConfig>(path) ?? new ModConfig();
+            this.Helper.WriteJsonFile(path, this.Config);
         }
 
-        void Events_HalfSecond(object sender, EventArgs e)
+        /// <summary>The method called roughly twice per second.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void ReceiveHalfSecondTick(object sender, EventArgs e)
         {
-            GameLocation location = Game1.currentLocation;
-            if (location is MineShaft)
+            MineShaft mine = Game1.currentLocation as MineShaft;
+            if (mine != null)
             {
-                var ms = location as MineShaft;
-                if (ms.mineLevel > SkullCaveSaverConfig.LastMineLevel && (ms.mineLevel - SkullCaveSaverConfig.LastMineLevel) >= SkullCaveSaverConfig.SaveLevelEveryXFloors)
+                // ignore if currently warping
+                if (this.WarpingToSavedLevel)
                 {
-                    SkullCaveSaverConfig.LastMineLevel = ms.mineLevel - (ms.mineLevel % SkullCaveSaverConfig.SaveLevelEveryXFloors);
-                    this.Helper.WriteConfig(SkullCaveSaver.SkullCaveSaverConfig);
+                    if (mine.mineLevel >= this.Config.LastMineLevel)
+                        this.WarpingToSavedLevel = false;
                 }
-                if (ms.mineLevel > 120 && ms.mineLevel < SkullCaveSaverConfig.LastMineLevel && !loadingNewLevel)
-                {
-                    Game1.enterMine(false, SkullCaveSaverConfig.LastMineLevel, "");
-                    loadingNewLevel = true;
-                    GameEvents.UpdateTick += Events_Update;
-                }
-            }
-        }
 
-        void Events_Update(object sender, EventArgs e)
-        {
-            if (loadingNewLevel)
-            {
-                GameLocation location = Game1.currentLocation;
-                if (location is MineShaft)
+                // warp to warp level
+                else if (mine.mineLevel > 120 && mine.mineLevel < this.Config.LastMineLevel && !this.WarpingToSavedLevel)
                 {
-                    var ms = location as MineShaft;
-                    if (ms.mineLevel >= SkullCaveSaverConfig.LastMineLevel)
-                    {
-                        loadingNewLevel = false;
-                        GameEvents.UpdateTick -= Events_Update;
-                    }
+                    Game1.enterMine(false, this.Config.LastMineLevel, null);
+                    this.WarpingToSavedLevel = true;
+                }
+
+                // save mine level
+                else if (mine.mineLevel > this.Config.LastMineLevel && (mine.mineLevel - this.Config.LastMineLevel) >= this.Config.SaveLevelEveryXFloors)
+                {
+                    this.Config.LastMineLevel = mine.mineLevel - (mine.mineLevel % this.Config.SaveLevelEveryXFloors);
+                    this.Helper.WriteConfig(this.Config);
                 }
             }
         }
