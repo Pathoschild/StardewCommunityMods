@@ -1,21 +1,33 @@
-# TimeSpeed
-Slows game clock by a configurable amount in Stardew Valley.
+**TimeSpeed** is a [Stardew Valley](http://stardewvalley.net/) mod which lets you control the flow
+of time in the game: speed it up, slow it down, or freeze it altogether. This can happen
+automatically or when you press a key in the game.
 
-Adjusts the game clock speed by a configurable amount. Speed up, slow down, or completely freeze time.
+Compatible with Stardew Valley 1.11+ on Linux, Mac, and Windows. Originally written by cantorsdust,
+and now maintained by the community — pull requests are welcome!
 
-Json configuration documentation can be found [here](https://github.com/alexb5dh/TimeSpeed/blob/master/TimeSpeed/TimeSpeedConfig.json.cs).  
+## Contents
+* [Install](#install)
+* [Use](#use)
+* [Versions](#versions)
+* [See also](#see-also)
 
-## Usage
-Default key bindings:
+## Install
+1. [Install the latest version of SMAPI](http://canimod.com/for-players/install-smapi).
+2. Install [this mod from Nexus mods](http://www.nexusmods.com/stardewvalley/mods/169).
+3. Run the game using SMAPI.
+
+## Use
+You can press these keys in-game (configurable):
 
 key | effect
 :-- | :-----
-Press `N` | Freezes or unfreezes time. Freezing time will stay in effect until you unfreeze it; unfreezing time will stay in effect until you enter a new location with time settings.
-Press `,` | Slow down time by one second per 10-game-minutes. Combine with `Control` to increase by 100 seconds, `Shift` to increase by 10 seconds, or `Alt` to increase by 0.1 seconds.
-Press `.` | Speed up time by one second per 10-game-minutes. Combine with Control to decrease by 100 seconds, Shift to decrease by 10 seconds, or Alt to decrease by 0.1 seconds.
-Press `B` | Reload the config settings from file.
+`N` | Freeze or unfreeze time. Freezing time will stay in effect until you unfreeze it; unfreezing time will stay in effect until you enter a new location with time settings.
+`,` | Slow down time by one second per 10-game-minutes. Combine with `Control` to increase by 100 seconds, `Shift` to increase by 10 seconds, or `Alt` to increase by 0.1 seconds.
+`.` | Speed up time by one second per 10-game-minutes. Combine with Control to decrease by 100 seconds, Shift to decrease by 10 seconds, or Alt to decrease by 0.1 seconds.
+`B` | Reload the config settings from file.
 
-The mod creates a `config.json` the first time you run it, where you can configure the mod.
+The mod creates a `config.json` file the first time you run it. You can open the file in a text
+editor to configure the mod:
 
 setting | effect
 :------ | :-----
@@ -26,28 +38,86 @@ setting | effect
 `LocationNotify` | Whether to show a message about the time settings when you enter a location.
 `Keys` | The keyboard bindings used to control the flow of time. See [available keys](https://msdn.microsoft.com/en-us/library/microsoft.xna.framework.input.keys.aspx). Set a key to `null` to disable it.
 
-## Compiling the mod
-Installing the stable release is recommended for most users. If you really want to compile the mod
-yourself, read on.
+## Versions
+### 1.0
+* Initial release.
 
-These mods use the [crossplatform build config](https://github.com/Pathoschild/Stardew.ModBuildConfig#readme)
-so they can be built on Linux, Mac, and Windows without changes. See [the build config documentation](https://github.com/Pathoschild/Stardew.ModBuildConfig#readme)
-for troubleshooting.
+### 1.1
+* Added support for speeding up and slowing down time.
 
-### Compiling a mod for testing
-To compile a mod and add it to your game's `Mods` directory:
+### 1.2
+* Renamed config setting for clarity.
 
-1. Rebuild the project in [Visual Studio](https://www.visualstudio.com/vs/community/) or [MonoDevelop](http://www.monodevelop.com/).  
-   <small>This will compile the code and package it into the mod directory.</small>
-2. Launch the project with debugging.  
-   <small>This will start the game through SMAPI and attach the Visual Studio debugger.</small>
+### 1.3
+* Updated for SMAPI 0.37.
+* Fixed config being autocreated with the wrong field name.
 
-### Compiling a mod for release
-To package a mod for release:
+### 1.4
+* _(Test release.)_
 
-1. Delete the mod's directory in `Mods`.  
-   <small>(This ensures the package is clean and has default configuration.)</small>
-2. Recompile the mod per the previous section.
-3. Launch the game with SMAPI to generate the default `config.json`.
-4. Create a zip file of the mod's folder in the `Mods` folder. The zip name should include the
-   mod name and version (like `TimeSpeed-1.0.zip`).
+### 1.4.1
+* Fixed config being read from wrong path in some cases.
+
+### 1.4.2
+* Fixed fast time bug if user updated from 1.2 without updating config.
+
+### 1.5
+* _(Storm API release.)_
+
+### 1.6
+* Added options to freeze time automatically based on location.
+* Added smoother time slowing.
+* Fixed overflow bug for long tick lengths.
+
+### 1.7
+* Updated for SMAPI 0.38.
+* Migrated ini file to `config.json`.
+* Added hotkeys to freeze/unfreeze/speed up/slow down time, and reset settings.
+* Added support for holding `Shift` to change time flow by 10-second intervals.
+
+### 1.8
+* Updated for SMAPI 0.39.
+
+### 1.9
+* _(Lost to the sands of time.)_
+
+### 1.9.1
+* Added notifications when time is frozen or unfrozen.
+
+### 1.9.2
+* Added option to disable time changes on festival days.
+* Added support for holding `Alt` to change time flow by 0.1-second intervals.
+
+### 1.9.3
+* Added smoother time flow changes.
+* Added validation to prevent invalid time flow changes.
+
+### 1.9.4
+* Internal refactoring.
+* Added hotkey to reload settings from `config.json`.
+
+### 1.9.5
+* Fixed time scaling in game areas that have a different clock rate.
+* Fixed an issue with festival time scaling.
+
+### 2.0
+* Internal refactoring.
+
+### 2.0.1
+* Added Linux/Mac support.
+* Fixed config resetting & parsing.
+
+### 2.0.2
+* Fixed hotkeys being processed before game is loaded.
+* Fixed an issue when time is frozen between ticks.
+
+### 2.0.3
+* Fixed hotkeys being processed when a menu is open.
+
+### 2.1
+* Updated for SMAPI 1.9 and Stardew Valley 1.2.
+* Internal refactoring.
+
+## See also
+* [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/169)
+* [Discussion thread](http://community.playstarbound.com/threads/storm-and-smapi-timespeed-mod-configurable-day-lengths.107876/)
