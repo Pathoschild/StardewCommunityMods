@@ -1,5 +1,5 @@
 ﻿**Skull Cave Saver** is a [Stardew Valley](http://stardewvalley.net/) mod which saves your progress
-in the Skyll Cave every 5th floor (configurable). When you return, it will warp you to the saved
+in the Skull Cave every 5th floor (configurable). When you return, it will warp you to the saved
 level.
 
 Compatible with Stardew Valley 1.11+ on Linux, Mac, and Windows. Originally written by cantorsdust,
@@ -30,6 +30,9 @@ setting | effect
 ## Versions
 ### 1.0
 * Initial release.
+
+### 1.1
+* Updated for SMAPI 1.9+ and Stardew Valley 1.2.
 
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/175)

@@ -1,14 +1,13 @@
 ﻿{
-  "Name": "AllProfessions Mod",
-  "Authour": "cantorsdust",
+  "Name": "All Professions",
+  "Author": "cantorsdust & community",
   "Version": {
     "MajorVersion": 1,
-    "MinorVersion": 1,
+    "MinorVersion": 2,
     "PatchVersion": 0,
-    "Build": ""
+    "Build": null
   },
-  "Description": "When reaching levels 5 and 10 for skills, adds all professions to the player, instead of just the one chosen.",
-  "UniqueID": "8c37b1a7-4bfb-4916-9d8a-9533e6363ea3",
-  "PerSaveConfigs": false,
+  "Description": "Gives you all possible professions when you level up, instead of just the one chosen.",
+  "UniqueID": "community.AllProfessions",
   "EntryDll": "AllProfessions.dll"
 }

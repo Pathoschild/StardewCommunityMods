@@ -1,14 +1,14 @@
 {
-  "Name": "SkullCaveSaver Mod",
-  "Authour": "cantorsdust",
+  "Name": "Skull Cave Saver",
+  "Author": "cantorsdust",
   "Version": {
     "MajorVersion": 1,
-    "MinorVersion": 0,
+    "MinorVersion": 1,
     "PatchVersion": 0,
-    "Build": ""
+    "Build": null
   },
-  "Description": "Allows you to save your Skull Cave progress like the elevator does in the mines.",
-  "UniqueID": "8ac06349-26f7-4394-806c-95d48fd35774",
+  "Description": "Saves your progress in the Skull Cave every 5th floor (configurable). When you return, warps you to the saved level.",
+  "UniqueID": "community.SkullCaveSaver",
   "PerSaveConfigs": true,
   "EntryDll": "SkullCaveSaver.dll"
 }

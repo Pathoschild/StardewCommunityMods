@@ -33,6 +33,9 @@ only buy crop seeds during their usual seasons.
 * Updated for SMAPI 1.0+ and Stardew Valley 1.1.
 * Added support for new coffee plant.
 
+### 1.3
+* Updated for SMAPI 1.9+ and Stardew Valley 1.2.
+
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/170)
 * [Discussion thread](http://community.playstarbound.com/threads/smapi-all-crops-all-seasons-plant-and-harvest-any-crop-in-any-season.108526/)

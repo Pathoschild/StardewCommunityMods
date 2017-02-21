@@ -29,6 +29,9 @@ Just install the mod and play the game. You'll be able to catch the legendary fi
 ### 1.2
 * Updated to SMAPI 0.39.
 
+### 1.3
+* Updated for SMAPI 1.9+ and Stardew Valley 1.2.
+
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/172)
 * [Discussion thread](http://community.playstarbound.com/threads/storm-and-smapi-recatchlegendaryfish.110140/)

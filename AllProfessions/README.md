@@ -27,6 +27,9 @@ your farmer already leveled up, any profession they're eligible for will be adde
 ### 1.1
 * Updated to SMAPI 0.39.
 
+### 1.2
+* Updated for SMAPI 1.9+ and Stardew Valley 1.2.
+
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/174)
 * [Discussion thread](http://community.playstarbound.com/threads/smapi-allprofessions-dont-choose-get-every-profession-leveling-up.111396/)

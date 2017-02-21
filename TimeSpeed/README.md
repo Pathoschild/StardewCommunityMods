@@ -115,7 +115,7 @@ setting | effect
 * Fixed hotkeys being processed when a menu is open.
 
 ### 2.1
-* Updated for SMAPI 1.9 and Stardew Valley 1.2.
+* Updated for SMAPI 1.9+ and Stardew Valley 1.2.
 * Internal refactoring.
 
 ## See also

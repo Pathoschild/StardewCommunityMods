@@ -1,14 +1,13 @@
 ﻿{
-  "Name": "InstantGrowTrees Mod",
-  "Authour": "cantorsdust",
+  "Name": "Instant Grow Trees",
+  "Author": "cantorsdust & community",
   "Version": {
     "MajorVersion": 1,
-    "MinorVersion": 1,
+    "MinorVersion": 2,
     "PatchVersion": 0,
-    "Build": ""
+    "Build": null
   },
-  "Description": "Makes any tree that is able to grow, grow fully in one day.",
-  "UniqueID": "dc50c58b-c7d8-4e60-86cc-e27b5d95ee59",
-  "PerSaveConfigs": false,
+  "Description": "Makes trees grow instantly overnight if they have enough space.",
+  "UniqueID": "community.InstantGrowTrees",
   "EntryDll": "InstantGrowTrees.dll"
 }

@@ -1,13 +1,13 @@
 {
-  "Name": "TimeSpeed Mod (unofficial)",
-  "Author": "cantorsdust and Syndlig (patched by alexb5dh)",
+  "Name": "TimeSpeed",
+  "Author": "cantorsdust & community",
   "Version": {
     "MajorVersion": 2,
-    "MinorVersion": 0,
-    "PatchVersion": 3,
+    "MinorVersion": 1,
+    "PatchVersion": 0,
     "Build": null
   },
-  "Description": "Allows for a configurable ten minute tick length.",
-  "UniqueID": "4108e859-333c-4fec-a1a7-d2e18c1019fe",
+  "Description": "Lets you control the flow of time in the game: speed it up, slow it down, or freeze it altogether.",
+  "UniqueID": "community.TimeSpeed",
   "EntryDll": "TimeSpeed.dll"
 }
