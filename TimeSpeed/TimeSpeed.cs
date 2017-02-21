@@ -1,246 +1,265 @@
-﻿/*
-    Copyright 2016 cantorsdust
-
-    TimeSpeed is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    TimeSpeed is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with TimeSpeed.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-//using System.Dynamic;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using System.Threading;
-using System.IO;
 using StardewValley;
-//using System.Configuration;
-//using System.Web.Script.Serialization;
+using TimeSpeed.Framework;
 
 namespace TimeSpeed
 {
-    public class TimeSpeed : Mod
+    /// <summary>The entry class called by SMAPI.</summary>
+    public sealed class TimeSpeed : Mod
     {
-        public static ModConfig TimeSpeedConfig { get; private set; }
+        /*********
+        ** Properties
+        *********/
+        /// <summary>Displays messages to the user.</summary>
+        private readonly Notifier Notifier = new Notifier();
 
-        public bool TimeFreezeOverride = false;
-        public bool oldFreezeTimeOutdoors = false;
-        public bool oldFreezeTimeIndoors = false;
-        public bool oldFreezeTimeInMines = false;
+        /// <summary>Provides helper methods for tracking time flow.</summary>
+        private readonly TimeHelper TimeHelper = new TimeHelper();
 
+        /// <summary>The mod configuration.</summary>
+        private TimeSpeedConfig Config;
 
-        public double timeCounter = 0;
-        public double lastGameTimeInterval = 0;
-        public int lasttime = 600;
+        /// <summary>Whether time should be frozen everywhere.</summary>
+        private bool FrozenGlobally;
 
-        public override void Entry(params object[] objects)
+        /// <summary>Whether time should be frozen at the current location.</summary>
+        private bool FrozenAtLocation;
+
+        /// <summary>Whether time should be frozen.</summary>
+        private bool Frozen
         {
-            runConfig();
-            Console.WriteLine("TimeSpeed Has Loaded");
-            ControlEvents.KeyPressed += Events_KeyPressed;
-            TimeEvents.DayOfMonthChanged += Events_NewDay;
-            TimeEvents.TimeOfDayChanged += Events_TimeChanged;
-            GameEvents.UpdateTick += Events_UpdateTick;
-
-
+            get { return this.FrozenGlobally || this.FrozenAtLocation; }
+            set { this.FrozenGlobally = this.FrozenAtLocation = value; }
         }
 
-        void runConfig()
+        /// <summary>Whether the flow of time should be adjusted.</summary>
+        private bool AdjustTime;
+
+        /// <summary>Backing field for <see cref="TickInterval"/>.</summary>
+        private int _tickInterval;
+
+        /// <summary>The number of seconds per 10-game-minutes to apply.</summary>
+        private int TickInterval
         {
-            TimeSpeedConfig = new ModConfig().InitializeConfig(BaseConfigPath);
+            get { return _tickInterval; }
+            set { _tickInterval = Math.Max(value, 0); }
         }
 
-        public void Events_NewDay(object sender, EventArgs e)
-        {
-            Game1.gameTimeInterval = 0;
-            timeCounter = 0;
-            lastGameTimeInterval = 0;
-        }
 
-        void Events_UpdateTick(object sender, EventArgs e)
+        /*********
+        ** Public methods
+        *********/
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides simplified APIs for writing mods.</param>
+        public override void Entry(IModHelper helper)
         {
-            GameLocation location = Game1.currentLocation;
-            int time = Game1.timeOfDay;
+            // read config
+            Config = helper.ReadConfig<TimeSpeedConfig>();
 
-            if (!TimeSpeedConfig.LetMachinesRunWhileTimeFrozen &&
-            (location != null) &&
-            ((location.isOutdoors && TimeSpeedConfig.FreezeTimeOutdoors) ||
-            (!location.isOutdoors && !location.name.Equals("UndergroundMine") && TimeSpeedConfig.FreezeTimeIndoors) ||
-            (!location.isOutdoors && location.name.Equals("UndergroundMine") && TimeSpeedConfig.FreezeTimeInMines) ||
-            (time >= 2430 && TimeSpeedConfig.FreezeTimeAt1230AM)))
+            // add time events
+            this.TimeHelper.WhenTickProgressChanged(this.ReceiveTickProgress);
+            ControlEvents.KeyPressed += this.ReceiveKeyPressed;
+            LocationEvents.CurrentLocationChanged += this.ReceiveCurrentLocationChanged;
+            TimeEvents.TimeOfDayChanged += this.ReceiveTimeOfDayChanged;
+            TimeEvents.DayOfMonthChanged += this.ReceiveDayChanged;
+
+            // add time freeze/unfreeze notification
             {
-                Game1.gameTimeInterval = 0;
-                //Console.WriteLine("Freeze Time without machines requirements met");
+                bool wasPaused = false;
+                GraphicsEvents.OnPreRenderHudEvent += (sender, args) =>
+                {
+                    wasPaused = Game1.paused;
+                    if (this.Frozen) Game1.paused = true;
+                };
+
+                GraphicsEvents.OnPostRenderHudEvent += (sender, args) =>
+                {
+                    Game1.paused = wasPaused;
+                };
             }
-            else if (Game1.currentSeason != null &&
-            Game1.currentLocation != null &&
-            (!Utility.isFestivalDay(Game1.dayOfMonth, Game1.currentSeason) || TimeSpeedConfig.ChangeTimeSpeedOnFestivalDays))
-            {
-                //Console.WriteLine("Freeze Time without machines requirements NOT met");
-                timeCounter += Math.Abs((Game1.gameTimeInterval - lastGameTimeInterval));
-                double proportion;
+        }
 
-                if (Game1.currentLocation.isOutdoors)
-                {
-                    proportion = Math.Abs(7 * timeCounter / TimeSpeedConfig.OutdoorTickLength);
-                }
-                else if (Game1.currentLocation.name == "UndergroundMine")
-                {
-                    proportion = Math.Abs(7 * timeCounter / TimeSpeedConfig.MineTickLength);
-                }
+
+        /*********
+        ** Private methods
+        *********/
+        /****
+        ** Event handlers
+        ****/
+        /// <summary>The method called when the player presses a keyboard button.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void ReceiveKeyPressed(object sender, EventArgsKeyPressed e)
+        {
+            if (!Game1.hasLoadedGame || Game1.activeClickableMenu != null)
+                return;
+
+            var key = e.KeyPressed;
+
+            if (key == this.Config.Keys.FreezeTime)
+                this.ToogleFreeze();
+            else if (key == this.Config.Keys.IncreaseTickInterval || key == this.Config.Keys.DecreaseTickInterval)
+                this.ChangeTickInterval(increase: key == Config.Keys.IncreaseTickInterval);
+            else if (key == this.Config.Keys.ReloadConfig)
+                this.ReloadConfig();
+        }
+
+        /// <summary>The method called when the player moves to a new location.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void ReceiveCurrentLocationChanged(object sender, EventArgsCurrentLocationChanged e)
+        {
+            this.UpdateSettingsForLocation(Game1.currentLocation);
+        }
+
+        /// <summary>The method called when the time of day changes.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void ReceiveTimeOfDayChanged(object sender, EventArgsIntChanged e)
+        {
+            this.UpdateFreezeForTime(Game1.timeOfDay);
+        }
+
+        /// <summary>The method called when the day changes.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void ReceiveDayChanged(object sender, EventArgsIntChanged e)
+        {
+            this.UpdateScaleForDay(Game1.currentSeason, Game1.dayOfMonth);
+        }
+
+        /// <summary>The method called when the <see cref="Framework.TimeHelper.TickProgress"/> value changes.</summary>
+        /// <param name="e">The event arguments.</param>
+        private void ReceiveTickProgress(TickProgressChangedEventArgs e)
+        {
+            if (this.Frozen)
+                this.TimeHelper.TickProgress = e.TimeChanged ? 0 : e.PreviousProgress;
+            else
+            {
+                if (!this.AdjustTime)
+                    return;
+                if (this.TickInterval == 0)
+                    this.TickInterval = 1000;
+
+                if (e.TimeChanged)
+                    this.TimeHelper.TickProgress = this.ScaleTickProgress(this.TimeHelper.TickProgress, this.TickInterval);
                 else
-                {
-                    proportion = Math.Abs(7 * timeCounter / TimeSpeedConfig.IndoorTickLength);
-                }
-
-
-                Game1.gameTimeInterval = Convert.ToInt32(proportion);
-                lastGameTimeInterval = Game1.gameTimeInterval;
-                /*
-                Console.WriteLine(Game1.gameTimeInterval.ToString("g"));
-                Console.WriteLine(lastGameTimeInterval.ToString("g"));
-                Console.WriteLine(timeCounter.ToString("g"));
-                Console.WriteLine(proportion.ToString("g"));
-                */
+                    this.TimeHelper.TickProgress = e.PreviousProgress + this.ScaleTickProgress(e.NewProgress - e.PreviousProgress, this.TickInterval);
             }
         }
 
-        void Events_TimeChanged(object sender, EventArgsIntChanged e)
+        /****
+        ** Methods
+        ****/
+        /// <summary>Reload <see cref="Config"/> from the config file.</summary>
+        private void ReloadConfig()
         {
-            //Console.WriteLine("Firing Pre10MinuteClockUpdateCallback");
-            var location = Game1.currentLocation;
-            timeCounter = 0;
-            lastGameTimeInterval = 0;
-            Game1.gameTimeInterval = 0;
-            int time = Game1.timeOfDay;
+            this.UpdateScaleForDay(Game1.currentSeason, Game1.dayOfMonth);
+            this.UpdateSettingsForLocation(Game1.currentLocation);
+            this.Config = this.Helper.ReadConfig<TimeSpeedConfig>();
+            this.Notifier.ShortNotify("Time feels differently now...");
+        }
 
-            if (location != null)
+        /// <summary>Increment or decrement the tick interval, taking into account the held modifier key if applicable.</summary>
+        /// <param name="increase">Whether to increment the tick interval; else decrement.</param>
+        private void ChangeTickInterval(bool increase)
+        {
+            // get offset to apply
+            int change = 1000;
             {
-                //Console.WriteLine("Location name is: " + location.name);
-                //Console.WriteLine("Location is outdoors is: " + location.isOutdoors.ToString());
+                KeyboardState state = Keyboard.GetState();
+                if (state.IsKeyDown(Keys.LeftControl))
+                    change *= 100;
+                else if (state.IsKeyDown(Keys.LeftShift))
+                    change *= 10;
+                else if (state.IsKeyDown(Keys.LeftAlt))
+                    change /= 10;
             }
-            //Console.WriteLine("time is " + time.ToString("G"));
-            /*  REQUIREMENTS FOR FREEZING TIME
-                IF (location is not null), AND,
-                IF the difference between time and lasttime is not more than 10 minutes, 
-                AND one of the following is true:
-                    IF location is outdoors and FreezeTimeOutdoors == true, OR
-                    IF location is not outdoors, not named "UndergroundMine", and FreezeTimeIndoors == true, OR
-                    IF location is not outdoors, named "UndergroundMine", and FreezeTimeInMines == true, OR
-                    IF the time is 12:30 AM and FreezeTimeAt1230AM == true
-            */
-            if (TimeSpeedConfig.LetMachinesRunWhileTimeFrozen &&
-                (location != null) &&
-                (Math.Abs(time - lasttime) <= 10) &&
-                ((location.isOutdoors && TimeSpeedConfig.FreezeTimeOutdoors) ||
-                (!location.isOutdoors && !location.name.Equals("UndergroundMine") && TimeSpeedConfig.FreezeTimeIndoors) ||
-                (!location.isOutdoors && location.name.Equals("UndergroundMine") && TimeSpeedConfig.FreezeTimeInMines) ||
-                (time >= 2430 && TimeSpeedConfig.FreezeTimeAt1230AM)))
+
+            // update tick interval
+            if (!increase)
             {
-                //Console.WriteLine("location requirements met, resetting time");
-                Game1.timeOfDay -= (time % 100 == 0) ? 50 : 10;
-                //Console.WriteLine("resetting time to: " + time.ToString("G"));
+                int minAllowed = Math.Min(this.TickInterval, change);
+                this.TickInterval = Math.Max(minAllowed, this.TickInterval - change);
+            }
+            else
+                this.TickInterval = this.TickInterval + change;
+
+            // log change
+            this.Notifier.QuickNotify($"10 minutes feels like {TickInterval / 1000} seconds.");
+            this.Monitor.Log($"Tick length set to {TickInterval / 1000d: 0.##} seconds.", LogLevel.Info);
+        }
+
+        /// <summary>Toggle whether time is frozen.</summary>
+        private void ToogleFreeze()
+        {
+            if (!this.Frozen)
+            {
+                this.FrozenGlobally = true;
+                this.Notifier.QuickNotify("Hey, you stopped the time!");
+                this.Monitor.Log("Time is frozen globally.", LogLevel.Info);
             }
             else
             {
-                lasttime = time;
-                //Console.WriteLine("location requirements not met, time advancing normally");
-                //Thread.Sleep(5000);
+                this.Frozen = false;
+                this.Notifier.QuickNotify("Time feels as usual now...");
+                this.Monitor.Log($"Time is temporarily unfrozen at \"{Game1.currentLocation.name}\".", LogLevel.Info);
             }
         }
 
-        void Events_KeyPressed(object sender, EventArgsKeyPressed e)
+        /// <summary>Update the time freeze settings for the given time of day.</summary>
+        /// <param name="time">The time of day in 24-hour military format (e.g. 1600 for 8pm).</param>
+        private void UpdateFreezeForTime(int time)
         {
-            //Console.WriteLine("Key Pressed: " + e.KeyPressed.ToString());
-
-            // N toggles freeze time override, freezing time everywhere.  hitting it again restores old values.
-            if (e.KeyPressed.ToString().Equals("N"))
+            if (this.Config.ShouldFreeze(time))
             {
-                if (!TimeFreezeOverride)
-                {
-                    TimeFreezeOverride = true;
-                    oldFreezeTimeIndoors = TimeSpeedConfig.FreezeTimeIndoors;
-                    oldFreezeTimeInMines = TimeSpeedConfig.FreezeTimeInMines;
-                    oldFreezeTimeOutdoors = TimeSpeedConfig.FreezeTimeOutdoors;
-                    TimeSpeedConfig.FreezeTimeOutdoors = true;
-                    TimeSpeedConfig.FreezeTimeIndoors = true;
-                    TimeSpeedConfig.FreezeTimeInMines = true;
-                }
+                this.FrozenGlobally = true;
+                this.Notifier.ShortNotify("Time suddenly stops...");
+                this.Monitor.Log($"Time automatically set to frozen at {Game1.timeOfDay}.", LogLevel.Info);
+            }
+        }
+
+        /// <summary>Update the time settings for the given location.</summary>
+        /// <param name="location">The game location.</param>
+        private void UpdateSettingsForLocation(GameLocation location)
+        {
+            if (location == null)
+                return;
+
+            // update time settings
+            this.FrozenAtLocation = this.FrozenGlobally || this.Config.ShouldFreeze(location);
+            if (this.Config.GetTickInterval(location) != null)
+                this.TickInterval = this.Config.GetTickInterval(Game1.currentLocation) ?? this.TickInterval;
+
+            // notify player
+            if (this.Config.LocationNotify)
+            {
+                if (this.FrozenGlobally)
+                    this.Notifier.ShortNotify("Looks like time stopped everywhere...");
+                else if (this.FrozenAtLocation)
+                    this.Notifier.ShortNotify("It feels like time is frozen here...");
                 else
-                {
-                    TimeFreezeOverride = false;
-                    TimeSpeedConfig.FreezeTimeOutdoors = oldFreezeTimeOutdoors;
-                    TimeSpeedConfig.FreezeTimeIndoors = oldFreezeTimeIndoors;
-                    TimeSpeedConfig.FreezeTimeInMines = oldFreezeTimeInMines;
-                }
-            }
-            // , halves current tick lengths
-            else if (e.KeyPressed.ToString().Equals("OemComma"))
-            {
-                TimeSpeedConfig.OutdoorTickLength = (TimeSpeedConfig.OutdoorTickLength / 2);
-                TimeSpeedConfig.IndoorTickLength = (TimeSpeedConfig.IndoorTickLength / 2);
-                TimeSpeedConfig.MineTickLength = (TimeSpeedConfig.MineTickLength / 2);
-            }
-            // . doubles current tick lengths
-            else if (e.KeyPressed.ToString().Equals("OemPeriod"))
-            {
-                TimeSpeedConfig.OutdoorTickLength = (TimeSpeedConfig.OutdoorTickLength * 2);
-                TimeSpeedConfig.IndoorTickLength = (TimeSpeedConfig.IndoorTickLength * 2);
-                TimeSpeedConfig.MineTickLength = (TimeSpeedConfig.MineTickLength * 2);
-            }
-            // / restores tick lengths to the original ini values
-            else if (e.KeyPressed.ToString().Equals("B"))
-            {
-                TimeSpeedConfig = TimeSpeedConfig.ReloadConfig();
+                    this.Notifier.ShortNotify($"10 minutes feels more like {TickInterval / 1000} seconds here...");
             }
         }
-    }
 
-    public class ModConfig : Config
-    {
-        public float OutdoorTickLength { get; set; }
-        public float IndoorTickLength { get; set; }
-        public float MineTickLength { get; set; }
-        public bool ChangeTimeSpeedOnFestivalDays { get; set; }
-        public bool FreezeTimeOutdoors { get; set; }
-        public bool FreezeTimeIndoors { get; set; }
-        public bool FreezeTimeInMines { get; set; }
-        public bool LetMachinesRunWhileTimeFrozen { get; set; }
-        public bool FreezeTimeAt1230AM { get; set; }
-
-        public override T GenerateDefaultConfig<T>()
+        /// <summary>Update the time settings for the given date.</summary>
+        /// <param name="season">The current season.</param>
+        /// <param name="dayOfMonth">The current day of month.</param>
+        private void UpdateScaleForDay(string season, int dayOfMonth)
         {
-            OutdoorTickLength = 14;
-            IndoorTickLength = 14;
-            MineTickLength = 14;
-            ChangeTimeSpeedOnFestivalDays = false;
-            FreezeTimeOutdoors = false;
-            FreezeTimeIndoors = false;
-            FreezeTimeInMines = false;
-            LetMachinesRunWhileTimeFrozen = false;
-            FreezeTimeAt1230AM = false;
+            this.AdjustTime = this.Config.ShouldScale(season, dayOfMonth);
+        }
 
-            return this as T;
+        /// <summary>Get the adjusted progress towards the next 10-game-minute tick.</summary>
+        /// <param name="progress">The current progress.</param>
+        /// <param name="newTickInterval">The new tick interval.</param>
+        private double ScaleTickProgress(double progress, int newTickInterval)
+        {
+            return progress * this.TimeHelper.CurrentDefaultTickInterval / newTickInterval;
         }
     }
 }
