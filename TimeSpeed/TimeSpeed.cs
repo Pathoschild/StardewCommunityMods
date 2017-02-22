@@ -157,9 +157,9 @@ namespace TimeSpeed
         /// <summary>Reload <see cref="Config"/> from the config file.</summary>
         private void ReloadConfig()
         {
+            this.Config = this.Helper.ReadConfig<TimeSpeedConfig>();
             this.UpdateScaleForDay(Game1.currentSeason, Game1.dayOfMonth);
             this.UpdateSettingsForLocation(Game1.currentLocation);
-            this.Config = this.Helper.ReadConfig<TimeSpeedConfig>();
             this.Notifier.ShortNotify("Time feels differently now...");
         }
 
