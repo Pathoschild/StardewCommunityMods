@@ -6,7 +6,7 @@ The following mods are maintained by the community:
 
 mod | original author | maintainers | license
 :-- | :-------------- | :---------- | :------
-[All Crops All Seasons](AllProfessions) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/170)) | cantorsdust | _none_ | GPL
+[All Crops All Seasons](AllCropsAllSeasons) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/170)) | cantorsdust | _none_ | GPL
 [All Professions](AllProfessions) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/174)) | cantorsdust | _none_ | GPL
 [Instant Grow Trees](InstantGrowTrees) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/173)) | cantorsdust | _none_ | GPL
 [Recatch Legendary Fish](RecatchLegendaryFish) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/172)) | cantorsdust | _none_ | GPL
