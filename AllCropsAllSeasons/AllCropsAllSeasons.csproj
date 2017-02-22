@@ -39,6 +39,7 @@
     </Compile>
     <Compile Include="ModEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Framework\TileState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Crops.xnb">

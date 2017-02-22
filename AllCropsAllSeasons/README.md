@@ -35,6 +35,8 @@ only buy crop seeds during their usual seasons.
 
 ### 1.3
 * Updated for SMAPI 1.9+ and Stardew Valley 1.2.
+* Internal refactoring.
+* Fixed issue where crops don't grow if you go to bed without leaving the farmhouse.
 
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/170)
