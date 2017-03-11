@@ -4,7 +4,14 @@ by the community.
 ## Community mods
 The following mods are maintained by the community:
 
-* _TBD_
+mod | original author | maintainers | license
+:-- | :-------------- | :---------- | :------
+[All Crops All Seasons](AllCropsAllSeasons) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/170)) | cantorsdust | _none_ | GPL
+[All Professions](AllProfessions) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/174)) | cantorsdust | _none_ | GPL
+[Instant Grow Trees](InstantGrowTrees) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/173)) | cantorsdust | _none_ | GPL
+[Recatch Legendary Fish](RecatchLegendaryFish) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/172)) | cantorsdust | _none_ | GPL
+[Skull Cave Saver](SkullCaveSaver) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/175)) | cantorsdust | _none_ | GPL
+[TimeSpeed](TimeSpeed) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/169)) | cantorsdust (1.0–1.8),<br />alexb5dh (1.9–2.03) | _none_ | GPL
 
 ## FAQs
 ### What is a 'community mod'?
