@@ -26,7 +26,7 @@ namespace InstantGrowTrees
         public override void Entry(IModHelper helper)
         {
             this.Config = helper.ReadConfig<ModConfig>();
-            TimeEvents.DayOfMonthChanged += this.ReceiveDayOfMonthChanged;
+            TimeEvents.AfterDayStarted += this.ReceiveAfterDayStarted;
         }
 
 
@@ -39,8 +39,10 @@ namespace InstantGrowTrees
         /// <summary>The method called when the current day changes.</summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void ReceiveDayOfMonthChanged(object sender, EventArgs e)
+        private void ReceiveAfterDayStarted(object sender, EventArgs e)
         {
+            // When the player loads a saved game, or after the overnight save,
+            // check for any trees that should be grown.
             this.GrowTrees();
         }
 
