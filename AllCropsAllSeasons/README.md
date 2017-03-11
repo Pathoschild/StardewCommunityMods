@@ -14,7 +14,7 @@ and now maintained by the community — pull requests are welcome!
 ## Install
 1. [Install the latest version of SMAPI](http://canimod.com/for-players/install-smapi).
 2. Install [this mod from Nexus mods](http://www.nexusmods.com/stardewvalley/mods/170).
-3. Replace `Content\Data\Crops.xnb` with the included `Crops.xnb` file.
+3. Replace `Content\Data\Crops.xnb` in your game folder with the included `Content\Data\Crops.xnb` file.
 4. Run the game using SMAPI.
 
 ## Use

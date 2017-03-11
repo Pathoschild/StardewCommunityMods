@@ -42,7 +42,7 @@
     <Compile Include="Framework\TileState.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Crops.xnb">
+    <None Include="Content\Data\Crops.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="manifest.json">
