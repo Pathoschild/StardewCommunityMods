@@ -13,19 +13,19 @@ namespace AllProfessions
         /*********
         ** Properties
         *********/
-        /// <summary>Professions to gain for each level.</summary>
-        private readonly IDictionary<string, int[]> ProfessionsToGain = new Dictionary<string, int[]>
+        /// <summary>Professions to gain for each level. Each entry represents the skill, level requirement, and profession IDs.</summary>
+        private readonly Tuple<Skill, int, int[]>[] ProfessionsToGain =
         {
-            ["Farmer:5"] = new[] { 0, 1 },
-            ["Farmer:10"] = new[] { 2, 3, 4, 5 },
-            ["Fishing:5"] = new[] { 6, 7 },
-            ["Fishing:10"] = new[] { 8, 9, 10, 11 },
-            ["Foraging:5"] = new[] { 12, 13 },
-            ["Foraging:10"] = new[] { 14, 15, 16, 17 },
-            ["Mining:5"] = new[] { 18, 19 },
-            ["Mining:10"] = new[] { 20, 21, 22, 23 },
-            ["Combat:5"] = new[] { 24, 25 },
-            ["Combat:10"] = new[] { 26, 27, 28, 29 }
+            Tuple.Create(Skill.Farming, 5, new[] { 0, 1 }),
+            Tuple.Create(Skill.Farming, 10, new[] { 2, 3, 4, 5 }),
+            Tuple.Create(Skill.Fishing, 5, new[] { 6, 7 }),
+            Tuple.Create(Skill.Fishing, 10, new[] { 8, 9, 10, 11 }),
+            Tuple.Create(Skill.Foraging, 5, new[] { 12, 13 }),
+            Tuple.Create(Skill.Foraging, 10, new[] { 14, 15, 16, 17 }),
+            Tuple.Create(Skill.Mining, 5, new[] { 18, 19 }),
+            Tuple.Create(Skill.Mining, 10, new[] { 20, 21, 22, 23 }),
+            Tuple.Create(Skill.Combat, 5, new[] { 24, 25 }),
+            Tuple.Create(Skill.Combat, 10, new[] { 26, 27, 28, 29 })
         };
 
 
@@ -58,25 +58,38 @@ namespace AllProfessions
         ** Methods
         ****/
         /// <summary>Add all missing professions.</summary>
-        public void AddMissingProfessions()
+        private void AddMissingProfessions()
         {
-            int[] missingProfessions = this.ProfessionsToGain.Values
-                .SelectMany(p => p)
-                .Except(Game1.player.professions)
-                .ToArray();
-
-            foreach (int professionID in missingProfessions)
+            // get missing professions
+            List<int> expectedProfessions = new List<int>();
+            foreach (var entry in this.ProfessionsToGain)
             {
-                if (!Game1.player.professions.Contains(professionID))
-                {
-                    // add profession
-                    Game1.player.professions.Add(professionID);
+                Skill skill = entry.Item1;
+                int level = entry.Item2;
+                int[] professions = entry.Item3;
 
-                    // add health bonuses that are a special case of LevelUpMenu.getImmediateProfessionPerk
-                    if (professionID == 24)
+                if (Game1.player.getEffectiveSkillLevel((int)skill) >= level)
+                    expectedProfessions.AddRange(professions);
+            }
+
+            // add professions
+            foreach (int professionID in expectedProfessions.Distinct().Except(Game1.player.professions))
+            {
+                // add profession
+                Game1.player.professions.Add(professionID);
+
+                // add health bonuses that are a special case of LevelUpMenu.getImmediateProfessionPerk
+                switch (professionID)
+                {
+                    // fighter
+                    case 24:
                         Game1.player.maxHealth += 15;
-                    else if (professionID == 27)
+                        break;
+
+                    // defender
+                    case 27:
                         Game1.player.maxHealth += 25;
+                        break;
                 }
             }
         }
