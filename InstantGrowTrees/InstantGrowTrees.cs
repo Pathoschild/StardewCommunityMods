@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -54,12 +53,15 @@ namespace InstantGrowTrees
         {
             foreach (GameLocation location in Game1.locations)
             {
-                foreach (KeyValuePair<Vector2, TerrainFeature> feature in location.terrainFeatures)
+                foreach (var entry in location.terrainFeatures)
                 {
-                    if (this.Config.RegularTreesInstantGrow && feature.Value is Tree)
-                        this.GrowTree((Tree)feature.Value, location, feature.Key);
-                    if (this.Config.FruitTreesInstantGrow && feature.Value is FruitTree)
-                        GrowFruitTree((FruitTree)feature.Value, location, feature.Key);
+                    Vector2 tile = entry.Key;
+                    TerrainFeature feature = entry.Value;
+
+                    if (this.Config.RegularTreesInstantGrow && feature is Tree)
+                        this.GrowTree((Tree)feature, location, tile);
+                    if (this.Config.FruitTreesInstantGrow && feature is FruitTree)
+                        GrowFruitTree((FruitTree)feature, location, tile);
                 }
             }
         }
@@ -85,19 +87,24 @@ namespace InstantGrowTrees
                 if (tree.growthStage == Tree.seedStage && location.objects.ContainsKey(tile))
                     return;
 
-                // grow blocked trees to max
-                Rectangle freeArea = new Rectangle((int)((tile.X - 1.0) * Game1.tileSize), (int)((tile.Y - 1.0) * Game1.tileSize), Game1.tileSize * 3, Game1.tileSize * 3);
-                foreach (KeyValuePair<Vector2, TerrainFeature> pair in location.terrainFeatures)
+                // get max growth stage
+                int maxStage = Tree.treeStage;
+                foreach (Vector2 surroundingTile in Utility.getSurroundingTileLocationsArray(tile))
                 {
-                    if (pair.Value is Tree && !pair.Value.Equals(this) && ((Tree)pair.Value).growthStage >= 5 && pair.Value.getBoundingBox(pair.Key).Intersects(freeArea))
+                    // get tree on this tile
+                    if (!location.terrainFeatures.TryGetValue(surroundingTile, out TerrainFeature feature) || !(feature is Tree otherTree))
+                        continue;
+
+                    // check if blocking growth
+                    if (otherTree.growthStage >= Tree.treeStage)
                     {
-                        tree.growthStage = Tree.treeStage - 1;
-                        return;
+                        maxStage = Tree.treeStage - 1;
+                        break;
                     }
                 }
 
-                // grow tree
-                tree.growthStage = Tree.treeStage;
+                // grow tree to max allowed
+                tree.growthStage = maxStage;
             }
         }
 
