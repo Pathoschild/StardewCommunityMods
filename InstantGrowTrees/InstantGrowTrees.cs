@@ -70,19 +70,19 @@ namespace InstantGrowTrees
         /// <param name="tile">The tree's tile position.</param>
         private void GrowTree(Tree tree, GameLocation location, Vector2 tile)
         {
-            if (this.Config.RegularTreesGrowInWinter || !Game1.currentSeason.Equals("winter") || tree.treeType == 6)
+            if (this.Config.RegularTreesGrowInWinter || !Game1.currentSeason.Equals("winter") || tree.treeType == Tree.palmTree)
             {
                 // ignore trees on nospawn tiles
                 string isNoSpawn = location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "NoSpawn", "Back");
-                if (isNoSpawn != null && (isNoSpawn.Equals("All") || isNoSpawn.Equals("Tree")))
+                if (isNoSpawn != null && (isNoSpawn == "All" || isNoSpawn == "Tree"))
                     return;
 
                 // ignore fully-grown trees
-                if (tree.growthStage >= 5)
+                if (tree.growthStage >= Tree.treeStage)
                     return;
 
                 // ignore blocked seeds
-                if (tree.growthStage == 0 && location.objects.ContainsKey(tile))
+                if (tree.growthStage == Tree.seedStage && location.objects.ContainsKey(tile))
                     return;
 
                 // grow blocked trees to max
@@ -91,13 +91,13 @@ namespace InstantGrowTrees
                 {
                     if (pair.Value is Tree && !pair.Value.Equals(this) && ((Tree)pair.Value).growthStage >= 5 && pair.Value.getBoundingBox(pair.Key).Intersects(freeArea))
                     {
-                        tree.growthStage = 4;
+                        tree.growthStage = Tree.treeStage - 1;
                         return;
                     }
                 }
 
                 // grow tree
-                tree.growthStage = 5;
+                tree.growthStage = Tree.treeStage;
             }
         }
 
