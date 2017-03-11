@@ -36,7 +36,7 @@ namespace AllProfessions
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            LocationEvents.CurrentLocationChanged += this.ReceiveCurrentLocationChanged;
+            TimeEvents.AfterDayStarted += this.ReceiveAfterDayStarted;
         }
 
 
@@ -46,11 +46,13 @@ namespace AllProfessions
         /****
         ** Event handlers
         ****/
-        /// <summary>The method called when the player warps to a new location.</summary>
+        /// <summary>The method called after a new day starts.</summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        public void ReceiveCurrentLocationChanged(object sender, EventArgs e)
+        private void ReceiveAfterDayStarted(object sender, EventArgs e)
         {
+            // When the player loads a saved game, or after the overnight level screen,
+            // add any professions the player should have but doesn't.
             this.AddMissingProfessions();
         }
 
