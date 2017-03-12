@@ -37,6 +37,7 @@ setting | effect
 
 ### 1.2
 * Updated for SMAPI 1.9+ and Stardew Valley 1.2.
+* Fixed fruit tree quality not progressing after growth.
 
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/173)

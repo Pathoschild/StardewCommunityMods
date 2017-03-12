@@ -74,13 +74,13 @@ namespace InstantGrowTrees
         {
             if (this.Config.RegularTreesGrowInWinter || !Game1.currentSeason.Equals("winter") || tree.treeType == Tree.palmTree)
             {
+                // ignore fully-grown trees
+                if (tree.growthStage >= Tree.treeStage)
+                    return;
+
                 // ignore trees on nospawn tiles
                 string isNoSpawn = location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "NoSpawn", "Back");
                 if (isNoSpawn != null && (isNoSpawn == "All" || isNoSpawn == "Tree"))
-                    return;
-
-                // ignore fully-grown trees
-                if (tree.growthStage >= Tree.treeStage)
                     return;
 
                 // ignore blocked seeds
@@ -114,6 +114,10 @@ namespace InstantGrowTrees
         /// <param name="tile">The tree's tile position.</param>
         private void GrowFruitTree(FruitTree tree, GameLocation location, Vector2 tile)
         {
+            // ignore fully-grown trees
+            if (tree.growthStage >= FruitTree.treeStage)
+                return;
+
             // ignore if tree blocked
             foreach (Vector2 adjacentTile in Utility.getSurroundingTileLocationsArray(tile))
             {
@@ -123,7 +127,7 @@ namespace InstantGrowTrees
 
             // grow tree
             tree.daysUntilMature = 0;
-            tree.growthStage = 4;
+            tree.growthStage = FruitTree.treeStage;
         }
     }
 }
