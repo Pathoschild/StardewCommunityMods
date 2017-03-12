@@ -4,6 +4,7 @@ using System.Linq;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using SFarmer = StardewValley.Farmer;
 
 namespace AllProfessions
 {
@@ -16,16 +17,16 @@ namespace AllProfessions
         /// <summary>Professions to gain for each level. Each entry represents the skill, level requirement, and profession IDs.</summary>
         private readonly Tuple<Skill, int, int[]>[] ProfessionsToGain =
         {
-            Tuple.Create(Skill.Farming, 5, new[] { 0, 1 }),
-            Tuple.Create(Skill.Farming, 10, new[] { 2, 3, 4, 5 }),
-            Tuple.Create(Skill.Fishing, 5, new[] { 6, 7 }),
-            Tuple.Create(Skill.Fishing, 10, new[] { 8, 9, 10, 11 }),
-            Tuple.Create(Skill.Foraging, 5, new[] { 12, 13 }),
-            Tuple.Create(Skill.Foraging, 10, new[] { 14, 15, 16, 17 }),
-            Tuple.Create(Skill.Mining, 5, new[] { 18, 19 }),
-            Tuple.Create(Skill.Mining, 10, new[] { 20, 21, 22, 23 }),
-            Tuple.Create(Skill.Combat, 5, new[] { 24, 25 }),
-            Tuple.Create(Skill.Combat, 10, new[] { 26, 27, 28, 29 })
+            Tuple.Create(Skill.Farming, 5, new[] { SFarmer.rancher, SFarmer.tiller }),
+            Tuple.Create(Skill.Farming, 10, new[] { SFarmer.butcher/*actually coopmaster*/, SFarmer.shepherd, SFarmer.artisan, SFarmer.agriculturist }),
+            Tuple.Create(Skill.Fishing, 5, new[] { SFarmer.fisher, SFarmer.trapper }),
+            Tuple.Create(Skill.Fishing, 10, new[] { SFarmer.angler, SFarmer.pirate, SFarmer.baitmaster, SFarmer.mariner }),
+            Tuple.Create(Skill.Foraging, 5, new[] { SFarmer.forester, SFarmer.gatherer }),
+            Tuple.Create(Skill.Foraging, 10, new[] { SFarmer.lumberjack, SFarmer.tapper, SFarmer.botanist, SFarmer.tracker }),
+            Tuple.Create(Skill.Mining, 5, new[] { SFarmer.miner, SFarmer.geologist }),
+            Tuple.Create(Skill.Mining, 10, new[] { SFarmer.blacksmith, SFarmer.burrower/*actually prospector*/, SFarmer.excavator, SFarmer.gemologist }),
+            Tuple.Create(Skill.Combat, 5, new[] { SFarmer.fighter, SFarmer.scout }),
+            Tuple.Create(Skill.Combat, 10, new[] { SFarmer.brute, SFarmer.defender, SFarmer.acrobat, SFarmer.desperado })
         };
 
 
