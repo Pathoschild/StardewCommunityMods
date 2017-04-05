@@ -5,9 +5,9 @@
     "MajorVersion": 1,
     "MinorVersion": 2,
     "PatchVersion": 0,
-    "Build": "beta"
+    "Build": null
   },
-  "MinimumApiVersion": "1.9-beta.7",
+  "MinimumApiVersion": "1.9",
   "Description": "Makes trees grow instantly overnight if they have enough space.",
   "UniqueID": "community.InstantGrowTrees",
   "EntryDll": "InstantGrowTrees.dll"

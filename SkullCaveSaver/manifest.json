@@ -5,9 +5,9 @@
     "MajorVersion": 1,
     "MinorVersion": 1,
     "PatchVersion": 0,
-    "Build": "beta"
+    "Build": null
   },
-  "MinimumApiVersion": "1.9-beta.7",
+  "MinimumApiVersion": "1.9",
   "Description": "Saves your progress in the Skull Cave every 5th floor (configurable). When you return, warps you to the saved level.",
   "UniqueID": "community.SkullCaveSaver",
   "EntryDll": "SkullCaveSaver.dll"

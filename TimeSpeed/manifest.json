@@ -5,9 +5,9 @@
     "MajorVersion": 2,
     "MinorVersion": 1,
     "PatchVersion": 0,
-    "Build": "beta"
+    "Build": null
   },
-  "MinimumApiVersion": "1.9-beta.7",
+  "MinimumApiVersion": "1.9",
   "Description": "Lets you control the flow of time in the game: speed it up, slow it down, or freeze it altogether.",
   "UniqueID": "community.TimeSpeed",
   "EntryDll": "TimeSpeed.dll"

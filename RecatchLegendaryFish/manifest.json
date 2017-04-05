@@ -5,9 +5,9 @@
     "MajorVersion": 1,
     "MinorVersion": 3,
     "PatchVersion": 0,
-    "Build": "beta"
+    "Build": null
   },
-  "MinimumApiVersion": "1.9-beta.7",
+  "MinimumApiVersion": "1.9",
   "Description": "Lets you catch legendary fish again and again.",
   "UniqueID": "community.RecatchLegendaryFish",
   "EntryDll": "RecatchLegendaryFish.dll"
