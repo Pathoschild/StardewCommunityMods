@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "~metadata", "~metadata", "{F5587F0D-F334-41FB-8399-73D1EA59D810}"
 	ProjectSection(SolutionItems) = preProject
@@ -9,11 +9,53 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "~metadata", "~metadata", "{
 		.gitignore = .gitignore
 		deploy-mod.targets = deploy-mod.targets
 		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
-		LICENSE.txt = LICENSE.txt
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllCropsAllSeasons", "AllCropsAllSeasons\AllCropsAllSeasons.csproj", "{32464438-69F8-4F22-8F3A-5A5A1F30C563}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllProfessions", "AllProfessions\AllProfessions.csproj", "{46408933-3246-407C-B1B6-4914C69A0CDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantGrowTrees", "InstantGrowTrees\InstantGrowTrees.csproj", "{6C0BC797-B2EE-44C1-BB9D-2ABD8CB2955F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecatchLegendaryFish", "RecatchLegendaryFish\RecatchLegendaryFish.csproj", "{61762BCD-161E-478D-9E1D-DECD67103749}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkullCaveSaver", "SkullCaveSaver\SkullCaveSaver.csproj", "{8EBDCD9D-0C6D-4C0C-A907-496AD0E09B16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeSpeed", "TimeSpeed\TimeSpeed.csproj", "{49914CEC-FF9E-4D6F-9E8F-D40466B5D9C7}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32464438-69F8-4F22-8F3A-5A5A1F30C563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32464438-69F8-4F22-8F3A-5A5A1F30C563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32464438-69F8-4F22-8F3A-5A5A1F30C563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32464438-69F8-4F22-8F3A-5A5A1F30C563}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46408933-3246-407C-B1B6-4914C69A0CDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46408933-3246-407C-B1B6-4914C69A0CDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46408933-3246-407C-B1B6-4914C69A0CDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46408933-3246-407C-B1B6-4914C69A0CDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C0BC797-B2EE-44C1-BB9D-2ABD8CB2955F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C0BC797-B2EE-44C1-BB9D-2ABD8CB2955F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C0BC797-B2EE-44C1-BB9D-2ABD8CB2955F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C0BC797-B2EE-44C1-BB9D-2ABD8CB2955F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61762BCD-161E-478D-9E1D-DECD67103749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61762BCD-161E-478D-9E1D-DECD67103749}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61762BCD-161E-478D-9E1D-DECD67103749}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61762BCD-161E-478D-9E1D-DECD67103749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EBDCD9D-0C6D-4C0C-A907-496AD0E09B16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EBDCD9D-0C6D-4C0C-A907-496AD0E09B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EBDCD9D-0C6D-4C0C-A907-496AD0E09B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EBDCD9D-0C6D-4C0C-A907-496AD0E09B16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49914CEC-FF9E-4D6F-9E8F-D40466B5D9C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49914CEC-FF9E-4D6F-9E8F-D40466B5D9C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49914CEC-FF9E-4D6F-9E8F-D40466B5D9C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49914CEC-FF9E-4D6F-9E8F-D40466B5D9C7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
