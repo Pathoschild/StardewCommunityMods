@@ -1,6 +1,5 @@
 ﻿**Recatch Legendary Fish** is a [Stardew Valley](http://stardewvalley.net/) mod which lets you
-catch legendary fish again and again. **Warning:** this will prevent you from getting the
-achievement for catching all legendary fish.
+catch legendary fish again and again.
 
 Compatible with Stardew Valley 1.11+ on Linux, Mac, and Windows. Originally written by cantorsdust,
 and now maintained by the community — pull requests are welcome!
@@ -31,6 +30,9 @@ Just install the mod and play the game. You'll be able to catch the legendary fi
 
 ### 1.3
 * Updated for SMAPI 1.9+ and Stardew Valley 1.2.
+
+### 1.4
+* Fishing achievements are no longer disabled.
 
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/172)
