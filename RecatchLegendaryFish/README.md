@@ -29,10 +29,13 @@ Just install the mod and play the game. You'll be able to catch the legendary fi
 * Updated to SMAPI 0.39.
 
 ### 1.3
-* Updated for SMAPI 1.9+ and Stardew Valley 1.2.
+* Updated to SMAPI 1.9.
 
 ### 1.4
 * Fishing achievements are no longer disabled.
+
+### 1.5
+* Updated for Stardew Valley 1.2.
 
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/172)

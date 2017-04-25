@@ -115,8 +115,11 @@ setting | effect
 * Fixed hotkeys being processed when a menu is open.
 
 ### 2.1
-* Updated for SMAPI 1.9+ and Stardew Valley 1.2.
+* Updated to SMAPI 1.9.
 * Internal refactoring.
+
+### 2.2
+* Updated for Stardew Valley 1.2.
 
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/169)

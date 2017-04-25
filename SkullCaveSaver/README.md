@@ -33,7 +33,10 @@ setting | effect
 * Initial release.
 
 ### 1.1
-* Updated for SMAPI 1.9+ and Stardew Valley 1.2.
+* Updated to SMAPI 1.9.
+
+### 1.2
+* Updated for Stardew Valley 1.2.
 
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/175)
