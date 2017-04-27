@@ -38,7 +38,7 @@ setting | effect
 ### 1.2
 * Updated for Stardew Valley 1.2.
 
-### 1.3
+### 1.2.1
 * Fixed progress not being saved correctly.
 
 ## See also
