@@ -16,6 +16,9 @@ namespace SkullCaveSaver
         /// <summary>The mod configuration.</summary>
         private ModConfig Config;
 
+        /// <summary>The mod configuration file path.</summary>
+        private string ConfigPath;
+
         /// <summary>Whether the mod is warping to the saved mine level.</summary>
         private bool WarpingToSavedLevel;
 
@@ -44,9 +47,9 @@ namespace SkullCaveSaver
         private void ReceiveAfterLoad(object sender, EventArgs e)
         {
             // read per-save config
-            string path = Path.Combine("config", $"{Constants.SaveFolderName}.json");
-            this.Config = this.Helper.ReadJsonFile<ModConfig>(path) ?? new ModConfig();
-            this.Helper.WriteJsonFile(path, this.Config);
+            this.ConfigPath = Path.Combine("config", $"{Constants.SaveFolderName}.json");
+            this.Config = this.Helper.ReadJsonFile<ModConfig>(this.ConfigPath) ?? new ModConfig();
+            this.Helper.WriteJsonFile(this.ConfigPath, this.Config);
         }
 
         /// <summary>The method called roughly twice per second.</summary>
@@ -75,7 +78,7 @@ namespace SkullCaveSaver
                 else if (mine.mineLevel > this.Config.LastMineLevel && (mine.mineLevel - this.Config.LastMineLevel) >= this.Config.SaveLevelEveryXFloors)
                 {
                     this.Config.LastMineLevel = mine.mineLevel - (mine.mineLevel % this.Config.SaveLevelEveryXFloors);
-                    this.Helper.WriteConfig(this.Config);
+                    this.Helper.WriteJsonFile(this.ConfigPath, this.Config);
                 }
             }
         }
