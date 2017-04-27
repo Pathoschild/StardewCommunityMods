@@ -38,6 +38,9 @@ setting | effect
 ### 1.2
 * Updated for Stardew Valley 1.2.
 
+### 1.2.1
+* Fixed progress not being saved correctly.
+
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/175)
 * [Discussion thread](http://community.playstarbound.com/threads/smapi-skullcavesaver.111429/)
