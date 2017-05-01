@@ -12,6 +12,7 @@ mod | original author | maintainers | license
 [Recatch Legendary Fish](RecatchLegendaryFish) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/172)) | cantorsdust | _none_ | GPL
 [Skull Cave Saver](SkullCaveSaver) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/175)) | cantorsdust | _none_ | GPL
 [TimeSpeed](TimeSpeed) ([Nexus](http://www.nexusmods.com/stardewvalley/mods/169)) | cantorsdust (1.0–1.8),<br />alexb5dh (1.9–2.03) | alexb5dh | GPL
+[TractorMod](TractorMod) (<s>Nexus</s>) | PhthaloBlue | _none_ | MIT
 
 ## FAQs
 ### What is a 'community mod'?
