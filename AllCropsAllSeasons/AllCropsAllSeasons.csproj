@@ -52,7 +52,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LICENSE.txt" />
+    <None Include="LICENSE" />
     <Content Include="screenshot.png" />
     <Content Include="TODO.txt" />
   </ItemGroup>
