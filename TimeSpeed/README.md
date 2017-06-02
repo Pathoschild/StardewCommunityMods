@@ -119,7 +119,7 @@ setting | effect
 * Internal refactoring.
 
 ### 2.2
-* Updated for Stardew Valley 1.2.
+* Updated to SMAPI 1.13 and Stardew Valley 1.2.
 
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/169)
