@@ -29,18 +29,7 @@ setting | effect
 `RegularTreesGrowInWinter` | Whether non-fruit trees grow instantly in winter. Default `false`.
 
 ## Versions
-### 1.0
-* Initial release.
-
-### 1.1
-* Updated to SMAPI 0.39.
-
-### 1.2
-* Updated to SMAPI 1.9.
-* Fixed fruit tree quality not progressing after growth.
-
-### 1.3
-* Updated for Stardew Valley 1.2.
+See [release notes](release-notes.md).
 
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/173)

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{46408933-3246-407C-B1B6-4914C69A0CDA}</ProjectGuid>
+    <ProjectGuid>{0510E2AC-EC06-4211-B733-FAF9D3A069EA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AllProfessions</RootNamespace>
-    <AssemblyName>AllProfessions</AssemblyName>
+    <RootNamespace>TractorMod</RootNamespace>
+    <AssemblyName>TractorMod</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,25 +31,41 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AllProfessions.cs" />
+    <Compile Include="Framework\CustomSaveBuilding.cs" />
+    <Compile Include="Framework\CustomSaveData.cs" />
+    <Compile Include="Framework\LegacySaveData.cs" />
+    <Compile Include="Framework\Tractor.cs" />
+    <Compile Include="Framework\TractorConfig.cs" />
+    <Compile Include="Framework\TractorGarage.cs" />
+    <Compile Include="TractorMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Skill.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="release-notes.md" />
+    <None Include="LICENSE" />
     <None Include="manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="README.md" />
-    <None Include="release-notes.md" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="LICENSE" />
+    <Content Include="assets\tractor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\TractorHouse.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="screenshots\build-garage.png" />
+    <Content Include="screenshots\buy-garage.png" />
+    <Content Include="screenshots\final-garage.png" />
+    <Content Include="screenshots\tractor.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Pathoschild.Stardew.ModBuildConfig.1.5.0\build\Pathoschild.Stardew.ModBuildConfig.targets" Condition="Exists('..\packages\Pathoschild.Stardew.ModBuildConfig.1.5.0\build\Pathoschild.Stardew.ModBuildConfig.targets')" />

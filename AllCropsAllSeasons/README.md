@@ -23,20 +23,7 @@ and your crops will be saved each night. This mod does _not_ change store invent
 only buy crop seeds during their usual seasons.
 
 ## Versions
-### 1.0
-* Initial release.
-
-### 1.1
-* Updated to SMAPI 0.39.
-
-### 1.2
-* Updated to SMAPI 1.0 and Stardew Valley 1.1.
-* Added support for new coffee plant.
-
-### 1.3
-* Updated to SMAPI 1.9.
-* Internal refactoring.
-* Fixed issue where crops don't grow if you go to bed without leaving the farmhouse.
+See [release notes](release-notes.md).
 
 ### 1.4
 * Updated for Stardew Valley 1.2.

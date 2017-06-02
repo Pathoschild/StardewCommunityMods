@@ -16,8 +16,8 @@ namespace TimeSpeed.Framework
         /// <summary>The percentage of the <see cref="CurrentDefaultTickInterval"/> that's elapsed since the last tick.</summary>
         public double TickProgress
         {
-            get { return (double)Game1.gameTimeInterval / this.CurrentDefaultTickInterval; }
-            set { Game1.gameTimeInterval = (int)(value * this.CurrentDefaultTickInterval); }
+            get => (double)Game1.gameTimeInterval / this.CurrentDefaultTickInterval;
+            set => Game1.gameTimeInterval = (int)(value * this.CurrentDefaultTickInterval);
         }
 
 
@@ -30,16 +30,17 @@ namespace TimeSpeed.Framework
         public Action WhenTickProgressChanged(Action<TickProgressChangedEventArgs> handler)
         {
             double previousProgress = 0;
-            EventHandler wrapper = (sender, args) =>
+
+            void Wrapper(object sender, EventArgs args)
             {
                 // ReSharper disable once CompareOfFloatsByEqualityOperator - intended
                 if (previousProgress != this.TickProgress)
                     handler(new TickProgressChangedEventArgs(previousProgress, this.TickProgress));
                 previousProgress = this.TickProgress;
-            };
+            }
 
-            GameEvents.UpdateTick += wrapper;
-            return () => GameEvents.UpdateTick -= wrapper;
+            GameEvents.UpdateTick += Wrapper;
+            return () => GameEvents.UpdateTick -= Wrapper;
         }
     }
 }

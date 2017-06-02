@@ -31,8 +31,8 @@ namespace TimeSpeed
         /// <summary>Whether time should be frozen.</summary>
         private bool Frozen
         {
-            get { return this.FrozenGlobally || this.FrozenAtLocation; }
-            set { this.FrozenGlobally = this.FrozenAtLocation = value; }
+            get => this.FrozenGlobally || this.FrozenAtLocation;
+            set => this.FrozenGlobally = this.FrozenAtLocation = value;
         }
 
         /// <summary>Whether the flow of time should be adjusted.</summary>
@@ -44,8 +44,8 @@ namespace TimeSpeed
         /// <summary>The number of seconds per 10-game-minutes to apply.</summary>
         private int TickInterval
         {
-            get { return _tickInterval; }
-            set { _tickInterval = Math.Max(value, 0); }
+            get => _tickInterval;
+            set => _tickInterval = Math.Max(value, 0);
         }
 
 
@@ -64,7 +64,7 @@ namespace TimeSpeed
             ControlEvents.KeyPressed += this.ReceiveKeyPressed;
             LocationEvents.CurrentLocationChanged += this.ReceiveCurrentLocationChanged;
             TimeEvents.TimeOfDayChanged += this.ReceiveTimeOfDayChanged;
-            TimeEvents.DayOfMonthChanged += this.ReceiveDayChanged;
+            TimeEvents.AfterDayStarted += this.ReceiveDayStarted;
 
             // add time freeze/unfreeze notification
             {
@@ -126,7 +126,7 @@ namespace TimeSpeed
         /// <summary>The method called when the day changes.</summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void ReceiveDayChanged(object sender, EventArgsIntChanged e)
+        private void ReceiveDayStarted(object sender, EventArgs e)
         {
             this.UpdateScaleForDay(Game1.currentSeason, Game1.dayOfMonth);
         }

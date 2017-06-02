@@ -50,9 +50,10 @@
     </None>
     <None Include="packages.config" />
     <None Include="README.md" />
+    <None Include="release-notes.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LICENSE.txt" />
+    <None Include="LICENSE" />
     <Content Include="screenshot.png" />
     <Content Include="TODO.txt" />
   </ItemGroup>

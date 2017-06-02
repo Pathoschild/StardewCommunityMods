@@ -29,17 +29,7 @@ setting | effect
 `LastMineLevel` | The last saved Skull Cave floor. This is updated automatically, but you can set it manually to skip to that floor.
 
 ## Versions
-### 1.0
-* Initial release.
-
-### 1.1
-* Updated to SMAPI 1.9.
-
-### 1.2
-* Updated for Stardew Valley 1.2.
-
-### 1.2.1
-* Fixed progress not being saved correctly.
+See [release notes](release-notes.md).
 
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/175)
