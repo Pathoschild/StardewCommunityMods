@@ -51,6 +51,7 @@
     </None>
     <None Include="packages.config" />
     <None Include="README.md" />
+    <None Include="release-notes.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE" />

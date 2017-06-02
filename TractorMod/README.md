@@ -59,8 +59,6 @@ setting | default | effect
 `BuildPrice` | 150000 | The gold price to buy a tractor garage.
 `BuildUsesResources` | `true` | Whether you need to provide resources to build a tractor garage.
 
-
-
 ## Versions
 See [release notes](release-notes.md).
 

@@ -21,17 +21,7 @@ farmer instead of just your chosen one (e.g. both Rancher and Tiller instead of 
 your farmer already leveled up, any profession they're eligible for will be added automatically.
 
 ## Versions
-### 1.0
-* Initial release.
-
-### 1.1
-* Updated to SMAPI 0.39.
-
-### 1.2
-* Updated to SMAPI 1.9.
-
-### 1.3
-* Updated for Stardew Valley 1.2.
+See [release notes](release-notes.md).
 
 ## See also
 * [Nexus mod](http://www.nexusmods.com/stardewvalley/mods/174)
