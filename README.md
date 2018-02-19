@@ -1,4 +1,10 @@
-﻿This repository contains mods for [Stardew Valley](http://stardewvalley.net/) that are maintained
+﻿**This repository is no longer maintained.**   
+This was an experiment that didn't really work out ([see context](https://www.patreon.com/posts/16593507)).
+All changes have been merged back into the original repositories.
+
+----
+
+This repository contains mods for [Stardew Valley](http://stardewvalley.net/) that are maintained
 by the community.
 
 ## Community mods
